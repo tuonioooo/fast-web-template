@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Web Template - 模板合集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 
+                         'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .template-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            border-color: #667eea;
+        }
+
+        .template-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .template-card p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .template-card a {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .template-card a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #666;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Fast Web Template</h1>
+        <p class="subtitle">精选 Web 模板合集 - 包含各种卡片、网站、小程序等静态模板</p>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 搜索模板...">
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📊 后台管理模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="meta风格后台管理面板">
+                    <h3>Meta风格后台管理面板</h3>
+                    <p>现代化的后台管理界面，采用Meta设计风格，适合企业级应用</p>
+                    <a href="./web/admin_dashboard/meta_admin_dashboard.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🎨 艺术卡片模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="沟通艺术卡片">
+                    <h3>沟通艺术卡片</h3>
+                    <p>沟通主题的艺术字卡片，适合社交媒体分享</p>
+                    <a href="./web/art_card/沟通艺术卡片.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="艺术卡片字体103">
+                    <h3>柔和色调艺术字体卡片</h3>
+                    <p>采用柔和色调设计的艺术字体卡片，温馨雅致</p>
+                    <a href="./web/art_card/艺术卡片字体_103.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="艺术卡片字体104">
+                    <h3>现代风格艺术字体卡片</h3>
+                    <p>现代简约风格的艺术字体卡片，时尚大气</p>
+                    <a href="./web/art_card/艺术卡片字体_104.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="艺术字体卡片105">
+                    <h3>3D效果艺术字体卡片</h3>
+                    <p>带有3D效果的艺术字体卡片，立体感强</p>
+                    <a href="./web/art_card/艺术字体卡片_105.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📇 通用卡片模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="左右分割卡片">
+                    <h3>左右分割通用卡片</h3>
+                    <p>采用左右分割布局的通用卡片，适合信息展示</p>
+                    <a href="./web/common_card/101.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="上下分割卡片">
+                    <h3>上下分割通用卡片</h3>
+                    <p>采用上下分割布局的通用卡片，层次清晰</p>
+                    <a href="./web/common_card/102.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📈 数据排行模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="彩礼排行榜">
+                    <h3>2025年彩礼数据排行榜</h3>
+                    <p>展示2025年彩礼前十排行数据，可视化设计</p>
+                    <a href="./web/rank/2025彩礼前十排行-83bd859755.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="婚礼数据展示">
+                    <h3>婚礼相关数据展示</h3>
+                    <p>婚礼相关数据的可视化展示模板</p>
+                    <a href="./web/rank/hunli.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🎬 视频封面模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="视频封面生成器">
+                    <h3>视频封面生成器</h3>
+                    <p>在线视频封面生成工具，可自定义文字和样式</p>
+                    <a href="./web/video_cover/video_cover_generator.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="视频封面模板1">
+                    <h3>视频封面模板 1</h3>
+                    <p>精美的视频封面设计模板</p>
+                    <a href="./web/video_cover/video_cover_1.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="视频封面模板2">
+                    <h3>视频封面模板 2</h3>
+                    <p>简约风格的视频封面模板</p>
+                    <a href="./web/video_cover/video_cover_2.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="基础视频封面">
+                    <h3>基础视频封面模板</h3>
+                    <p>通用的基础视频封面模板</p>
+                    <a href="./web/video_cover/video_cover.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🌐 网站模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="基础网站模板1">
+                    <h3>基础网站模板 1</h3>
+                    <p>简洁的基础网站模板，适合快速搭建</p>
+                    <a href="./web/video_cover/web1.html" target="_blank">查看演示 →</a>
+                </div>
+                <div class="template-card" data-name="基础网站模板2">
+                    <h3>基础网站模板 2</h3>
+                    <p>另一款简洁的网站模板</p>
+                    <a href="./web/video_cover/website.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📝 博客模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="个人博客模板">
+                    <h3>个人博客模板</h3>
+                    <p>优雅的个人博客页面设计</p>
+                    <a href="./web/website/blog_1.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📱 应用模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="掌控习惯应用">
+                    <h3>掌控习惯应用</h3>
+                    <p>习惯养成类应用界面设计</p>
+                    <a href="./app/掌控习惯_106.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">☁️ Cloudflare 模板</h2>
+            <div class="template-grid">
+                <div class="template-card" data-name="cloudflare模板">
+                    <h3>Cloudflare 相关模板</h3>
+                    <p>Cloudflare 相关的页面模板</p>
+                    <a href="./web/cloudflare/1.html" target="_blank">查看演示 →</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>💡 所有模板均为纯前端静态页面，可直接使用</p>
+            <p>📦 项目地址: <a href="https://github.com/YOUR_USERNAME/fast-web-template" target="_blank">GitHub</a></p>
+            <p>⭐ 如果觉得不错，请给个 Star 支持一下！</p>
+        </footer>
+    </div>
+
+    <script>
+        // 搜索功能
+        const searchInput = document.getElementById('searchInput');
+        const templateCards = document.querySelectorAll('.template-card');
+        const categories = document.querySelectorAll('.category');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+
+            templateCards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const text = card.textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || text.includes(searchTerm)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // 隐藏空分类
+            categories.forEach(category => {
+                const visibleCards = category.querySelectorAll('.template-card:not(.hidden)');
+                if (visibleCards.length === 0 && searchTerm !== '') {
+                    category.classList.add('hidden');
+                } else {
+                    category.classList.remove('hidden');
+                }
+            });
+        });
+
+        // 添加页面加载动画
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.template-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>
+

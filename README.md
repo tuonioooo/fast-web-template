@@ -79,7 +79,44 @@ web模版合集，包含各种卡片、网站、小程序、app等静态模版�
 | 网站模板 | [website.html](./web/video_cover/website.html) | 基础网站模板2 |
 | 博客模板 | [blog_1.html](./web/website/blog_1.html) | 个人博客模板1 |
 
+#### 在线访问
+
+🌐 在线演示地址：`https://tuonioooo.github.io/fast-web-template/`
+
+所有模板都已部署到 GitHub Pages，可以直接在线浏览和使用。
+
+#### 部署说明
+
+本项目已配置 GitHub Actions 自动部署到 GitHub Pages。
+
+**首次部署步骤：**
+
+1. **启用 GitHub Pages**
+   - 进入仓库的 Settings → Pages
+   - 在 "Source" 下选择 "GitHub Actions"
+   - 保存设置
+
+2. **推送代码触发部署**
+   ```bash
+   git add .
+   git commit -m "配置 GitHub Pages 部署"
+   git push origin main
+   ```
+
+3. **等待部署完成**
+   - 在仓库的 Actions 标签页查看部署进度
+   - 部署成功后，即可通过 `https://tuonioooo.github.io/fast-web-template/` 访问
+
+**自动部署：**
+- 每次推送到 main 分支时，会自动触发部署
+- 也可以在 Actions 标签页手动触发部署
+
+**访问页面：**
+- 主页：`https://tuonioooo.github.io/fast-web-template/`
+- 任意模板：`https://tuonioooo.github.io/fast-web-template/web/xxx/xxx.html`
+
 #### 其他
 
-* [指令](./docs/指令.md)
+* [指令](./docs/指令/指令.md)
+* [部署指南](./docs/部署指南.md) - 详细的 GitHub Pages 部署教程
 
