@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>习惯养成 App 原型</title>
+    <meta name="referrer" content="never">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .prototype-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .screen {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen-title {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        /* 状态栏样式 */
+        .status-bar {
+            height: 24px;
+            background: #f8f8f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+        }
+
+        /* 导航栏样式 */
+        .nav-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* 底部导航栏 */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #eee;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .bottom-nav-item i {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .bottom-nav-item.active {
+            color: #4CAF50;
+        }
+
+        /* 内容区域 */
+        .content {
+            height: calc(100% - 118px);
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        /* 习惯卡片样式 */
+        .habit-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .habit-card h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .habit-progress {
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin-top: 10px;
+        }
+
+        .habit-progress-bar {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 3px;
+            width: 75%;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+
+        /* 表单样式 */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* 统计图表样式 */
+        .chart {
+            height: 200px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-end;
+            padding: 15px;
+            gap: 10px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: #4CAF50;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /* 社区帖子样式 */
+        .post-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background: #ddd;
+            margin-right: 10px;
+        }
+
+        .post-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="prototype-container">
+        <!-- 引导页 -->
+        <div class="screen">
+            <div class="screen-title">引导页</div>
+            <div class="content" style="text-align: center; padding-top: 100px;">
+                <i class="fas fa-leaf" style="font-size: 80px; color: #4CAF50; margin-bottom: 30px;"></i>
+                <h1 style="margin-bottom: 20px;">掌控好习惯</h1>
+                <p style="color: #666; margin-bottom: 40px;">基于《掌控习惯》四大定律，<br>帮助你轻松培养好习惯</p>
+                <button class="btn">开始使用</button>
+                <button class="btn btn-outline" style="margin-top: 15px;">已有账号登录</button>
+            </div>
+        </div>
+
+        <!-- 首页 -->
+        <div class="screen">
+            <div class="screen-title">首页</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="nav-bar">
+                <h2>我的习惯</h2>
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="content">
+                <div class="habit-card">
+                    <h3>每天阅读30分钟</h3>
+                    <p style="color: #666;">连续打卡：12天</p>
+                    <div class="habit-progress">
+                        <div class="habit-progress-bar"></div>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>晨跑5公里</h3>
+                    <p style="color: #666;">连续打卡：7天</p>
+                    <div class="habit-progress">
+                        <div class="habit-progress-bar" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>冥想15分钟</h3>
+                    <p style="color: #666;">连续打卡：5天</p>
+                    <div class="habit-progress">
+                        <div class="habit-progress-bar" style="width: 40%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>社区</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 添加习惯页 -->
+        <div class="screen">
+            <div class="screen-title">添加习惯</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="nav-bar">
+                <i class="fas fa-arrow-left"></i>
+                <h2>添加新习惯</h2>
+                <span style="color: #4CAF50;">保存</span>
+            </div>
+            <div class="content">
+                <div class="form-group">
+                    <label>习惯名称</label>
+                    <input type="text" placeholder="输入习惯名称">
+                </div>
+                <div class="form-group">
+                    <label>目标</label>
+                    <input type="text" placeholder="设定具体目标">
+                </div>
+                <div class="form-group">
+                    <label>提醒时间</label>
+                    <input type="time" value="08:00">
+                </div>
+                <div class="form-group">
+                    <label>重复</label>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #4CAF50; color: white; border-radius: 5px;">一</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #4CAF50; color: white; border-radius: 5px;">二</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #4CAF50; color: white; border-radius: 5px;">三</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #4CAF50; color: white; border-radius: 5px;">四</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #4CAF50; color: white; border-radius: 5px;">五</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #eee; color: #666; border-radius: 5px;">六</span>
+                        <span style="flex: 1; text-align: center; padding: 8px; background: #eee; color: #666; border-radius: 5px;">日</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计页面 -->
+        <div class="screen">
+            <div class="screen-title">数据统计</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="nav-bar">
+                <h2>数据统计</h2>
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="content">
+                <div class="chart">
+                    <div class="chart-bar" style="height: 60%;"></div>
+                    <div class="chart-bar" style="height: 80%;"></div>
+                    <div class="chart-bar" style="height: 40%;"></div>
+                    <div class="chart-bar" style="height: 90%;"></div>
+                    <div class="chart-bar" style="height: 70%;"></div>
+                    <div class="chart-bar" style="height: 50%;"></div>
+                    <div class="chart-bar" style="height: 85%;"></div>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">本周数据</h3>
+                    <p style="color: #666;">完成率：85%</p>
+                    <p style="color: #666;">连续打卡：12天</p>
+                    <p style="color: #666;">累计时长：8小时</p>
+                </div>
+                <div>
+                    <h3 style="margin-bottom: 10px;">习惯分析</h3>
+                    <div class="habit-card">
+                        <h3>最佳表现</h3>
+                        <p style="color: #666;">晨跑5公里 - 连续21天</p>
+                    </div>
+                    <div class="habit-card">
+                        <h3>需要改进</h3>
+                        <p style="color: #666;">冥想 - 完成率低于50%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="bottom-nav-item active">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>社区</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社区页面 -->
+        <div class="screen">
+            <div class="screen-title">社区</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="nav-bar">
+                <h2>发现</h2>
+                <i class="fas fa-edit"></i>
+            </div>
+            <div class="content">
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar"></div>
+                        <div>
+                            <h4>张三</h4>
+                            <small style="color: #666;">5分钟前</small>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        今天是第21天坚持晨跑，感觉整个人都充满能量！💪
+                        <div style="margin-top: 10px;">
+                            <span style="color: #666;"><i class="far fa-heart"></i> 12</span>
+                            <span style="color: #666; margin-left: 15px;"><i class="far fa-comment"></i> 3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar"></div>
+                        <div>
+                            <h4>李四</h4>
+                            <small style="color: #666;">10分钟前</small>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        分享一个养成习惯的小技巧：把想要培养的习惯和已有的习惯绑定在一起...
+                        <div style="margin-top: 10px;">
+                            <span style="color: #666;"><i class="far fa-heart"></i> 8</span>
+                            <span style="color: #666; margin-left: 15px;"><i class="far fa-comment"></i> 5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计</span>
+                </div>
+                <div class="bottom-nav-item active">
+                    <i class="fas fa-users"></i>
+                    <span>社区</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 个人中心 -->
+        <div class="screen">
+            <div class="screen-title">个人中心</div>
+            <div class="status-bar">
+                <span>9:41</span>
+                <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+            </div>
+            <div class="content">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="width: 80px; height: 80px; border-radius: 40px; background: #ddd; margin: 0 auto 10px;"></div>
+                    <h3>张三</h3>
+                    <p style="color: #666;">已坚持21天</p>
+                </div>
+                <div style="background: white; border-radius: 10px; margin-bottom: 20px;">
+                    <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee;">
+                        <span><i class="fas fa-medal" style="margin-right: 10px; color: #4CAF50;"></i>我的成就</span>
+                        <i class="fas fa-chevron-right" style="color: #666;"></i>
+                    </div>
+                    <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee;">
+                        <span><i class="fas fa-bell" style="margin-right: 10px; color: #4CAF50;"></i>提醒设置</span>
+                        <i class="fas fa-chevron-right" style="color: #666;"></i>
+                    </div>
+                    <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <span><i class="fas fa-cog" style="margin-right: 10px; color: #4CAF50;"></i>系统设置</span>
+                        <i class="fas fa-chevron-right" style="color: #666;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom-nav">
+                <div class="bottom-nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>统计</span>
+                </div>
+                <div class="bottom-nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>社区</span>
+                </div>
+                <div class="bottom-nav-item active">
+                    <i class="fas fa-user"></i>
+                    <span>我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>短视频封面生成器 - 9:16</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .controls {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        input, select {
+            padding: 10px 14px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .cover-card {
+            width: 100%;
+            height: 600px; /* 9:16 ratio for mobile */
+            background: #000;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 18px 18px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .cover-card:hover {
+            transform: scale(1.02);
+        }
+
+        .number-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            z-index: 10;
+        }
+
+        .number-label {
+            color: #f7931e;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .number-value {
+            color: #f7931e;
+            font-size: 52px;
+            font-weight: 900;
+            line-height: 1;
+            text-shadow: 0 2px 8px rgba(247, 147, 30, 0.3);
+        }
+
+        .main-title {
+            position: absolute;
+            top: 120px;
+            left: 25px;
+            right: 25px;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 1.3;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            z-index: 10;
+        }
+
+        .title-line {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            color: #f7931e;
+            position: relative;
+            display: inline-block;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            border-radius: 2px;
+        }
+
+        .website-preview {
+            position: absolute;
+            bottom: 30px;
+            left: 25px;
+            right: 25px;
+            height: 200px;
+            background: linear-gradient(135deg, #4a5568, #2d3748);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .browser-bar {
+            background: #f7f7f7;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            gap: 6px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .browser-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27ca3f; }
+
+        .browser-url {
+            margin-left: 15px;
+            font-size: 10px;
+            color: #666;
+            font-family: monospace;
+        }
+
+        .website-content {
+            flex: 1;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .website-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .website-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .website-desc {
+            font-size: 12px;
+            opacity: 0.9;
+            z-index: 1;
+            position: relative;
+        }
+
+        .download-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .download-btn {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #2d3748;
+        }
+
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .cover-card {
+                height: 500px;
+            }
+            
+            .main-title {
+                font-size: 24px;
+                top: 100px;
+            }
+            
+            .number-value {
+                font-size: 44px;
+            }
+            
+            .website-preview {
+                height: 160px;
+            }
+            
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <div class="controls-grid">
+                <div class="input-group">
+                    <label for="titleInput">主标题</label>
+                    <input type="text" id="titleInput" placeholder="每天认识一个" value="每天认识一个">
+                </div>
+                
+                <div class="input-group">
+                    <label for="numberInput">期数</label>
+                    <input type="number" id="numberInput" placeholder="10" value="10" min="1">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label for="subtitleInput">副标题（高亮显示）</label>
+                <input type="text" id="subtitleInput" placeholder="硬核网站" value="硬核网站">
+            </div>
+            
+            <div class="input-group">
+                <label for="websiteInput">网站名称</label>
+                <input type="text" id="websiteInput" placeholder="GitHub" value="GitHub">
+            </div>
+            
+            <div class="input-group">
+                <label for="descInput">网站描述</label>
+                <input type="text" id="descInput" placeholder="全球最大的代码托管平台" value="全球最大的代码托管平台">
+            </div>
+            
+            <div class="input-group">
+                <label for="colorSelect">主题色调</label>
+                <select id="colorSelect">
+                    <option value="#f7931e">橙黄色 (默认)</option>
+                    <option value="#22c55e">翠绿色</option>
+                    <option value="#3b82f6">蓝色</option>
+                    <option value="#ef4444">红色</option>
+                    <option value="#8b5cf6">紫色</option>
+                </select>
+            </div>
+            
+            <button class="generate-btn" onclick="generateCover()">生成封面</button>
+        </div>
+        
+        <div class="cover-card" id="coverCard">
+            <div class="number-badge">
+                <span class="number-label">No.</span>
+                <span class="number-value" id="displayNumber">10</span>
+            </div>
+            
+            <div class="main-title" id="displayTitle">
+                <span class="title-line">每天认识一个</span>
+                <span class="highlight">硬核网站</span>
+            </div>
+            
+            <div class="website-preview">
+                <div class="browser-bar">
+                    <div class="browser-dot dot-red"></div>
+                    <div class="browser-dot dot-yellow"></div>
+                    <div class="browser-dot dot-green"></div>
+                    <div class="browser-url">https://github.com</div>
+                </div>
+                <div class="website-content">
+                    <div class="website-name" id="websiteName">GitHub</div>
+                    <div class="website-desc" id="websiteDesc">全球最大的代码托管平台</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <button class="download-btn" onclick="downloadCover()">下载封面图片</button>
+        </div>
+    </div>
+
+    <script>
+        function generateCover() {
+            const title = document.getElementById('titleInput').value || '每天认识一个';
+            const subtitle = document.getElementById('subtitleInput').value || '硬核网站';
+            const number = document.getElementById('numberInput').value || '10';
+            const website = document.getElementById('websiteInput').value || 'GitHub';
+            const desc = document.getElementById('descInput').value || '全球最大的代码托管平台';
+            const color = document.getElementById('colorSelect').value;
+            
+            // 更新显示内容
+            document.getElementById('displayNumber').textContent = number;
+            document.getElementById('websiteName').textContent = website;
+            document.getElementById('websiteDesc').textContent = desc;
+            
+            // 更新标题
+            document.getElementById('displayTitle').innerHTML = 
+                `<span class="title-line">${title}</span><span class="highlight">${subtitle}</span>`;
+            
+            // 更新主题色
+            const highlights = document.querySelectorAll('.highlight');
+            const numberValue = document.getElementById('displayNumber');
+            const numberLabel = document.querySelector('.number-label');
+            
+            highlights.forEach(el => {
+                el.style.color = color;
+            });
+            
+            numberValue.style.color = color;
+            numberLabel.style.color = color;
+            
+            // 更新高亮下划线
+            const style = document.createElement('style');
+            style.textContent = `
+                .highlight::after {
+                    background: linear-gradient(90deg, ${color}, ${adjustBrightness(color, 20)}) !important;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // 更新按钮渐变
+            const generateBtn = document.querySelector('.generate-btn');
+            generateBtn.style.background = `linear-gradient(135deg, ${color}, ${adjustBrightness(color, -20)})`;
+            
+            // 更新浏览器地址栏
+            const browserUrl = document.querySelector('.browser-url');
+            const websiteName = website.toLowerCase();
+            if (websiteName.includes('github')) {
+                browserUrl.textContent = 'https://github.com';
+            } else if (websiteName.includes('google')) {
+                browserUrl.textContent = 'https://google.com';
+            } else if (websiteName.includes('stackoverflow')) {
+                browserUrl.textContent = 'https://stackoverflow.com';
+            } else {
+                browserUrl.textContent = `https://${websiteName}.com`;
+            }
+        }
+        
+        function adjustBrightness(hex, percent) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            
+            const newR = Math.max(0, Math.min(255, r + percent));
+            const newG = Math.max(0, Math.min(255, g + percent));
+            const newB = Math.max(0, Math.min(255, b + percent));
+            
+            return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+        }
+        
+        function downloadCover() {
+            alert('下载功能提示：\n\n在实际项目中，可以集成以下库实现下载功能：\n\n1. html2canvas - 将DOM转换为图片\n2. dom-to-image - 另一个DOM转图片库\n3. canvas API - 手动绘制\n\n示例代码：\nhtml2canvas(document.getElementById(\'coverCard\'))\n  .then(canvas => {\n    const link = document.createElement(\'a\');\n    link.download = \'cover.png\';\n    link.href = canvas.toDataURL();\n    link.click();\n  });');
+        }
+        
+        // 初始化
+        generateCover();
+        
+        // 添加实时预览
+        document.getElementById('titleInput').addEventListener('input', generateCover);
+        document.getElementById('subtitleInput').addEventListener('input', generateCover);
+        document.getElementById('numberInput').addEventListener('input', generateCover);
+        document.getElementById('websiteInput').addEventListener('input', generateCover);
+        document.getElementById('descInput').addEventListener('input', generateCover);
+        document.getElementById('colorSelect').addEventListener('change', generateCover);
+    </script>
+</body>
+</html>

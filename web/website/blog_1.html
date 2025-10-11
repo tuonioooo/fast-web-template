@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的博客笔记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), 
+                        url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            color: white;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            animation: bounce 2s infinite;
+        }
+
+        .cards-section {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: #764ba2;
+            transform: translateX(5px);
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* 不同主题的卡片颜色 */
+        .card:nth-child(1) .card-icon { background: linear-gradient(135deg, #ff6b6b, #ff8e8e); }
+        .card:nth-child(2) .card-icon { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .card:nth-child(3) .card-icon { background: linear-gradient(135deg, #45b7d1, #96c93d); }
+        .card:nth-child(4) .card-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .card:nth-child(5) .card-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .card:nth-child(6) .card-icon { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 主页英雄区域 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">我的知识花园</h1>
+            <p class="hero-subtitle">记录思考，分享知识，探索无限可能的学习之旅</p>
+        </div>
+        <div class="scroll-indicator">
+            <div style="font-size: 2rem;">↓</div>
+            <div>探索更多</div>
+        </div>
+    </section>
+
+    <!-- 卡片内容区域 -->
+    <section class="cards-section">
+        <div class="container">
+            <h2 class="section-title">笔记主题</h2>
+            
+            <div class="cards-grid">
+                <div class="card" onclick="navigateToTheme('frontend')">
+                    <div class="card-icon">💻</div>
+                    <h3 class="card-title">前端开发</h3>
+                    <p class="card-description">JavaScript、React、Vue、CSS等前端技术的学习笔记和实践经验分享</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+
+                <div class="card" onclick="navigateToTheme('backend')">
+                    <div class="card-icon">⚙️</div>
+                    <h3 class="card-title">后端技术</h3>
+                    <p class="card-description">Node.js、Python、数据库设计、API开发等后端技术深度解析</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+
+                <div class="card" onclick="navigateToTheme('algorithms')">
+                    <div class="card-icon">🧮</div>
+                    <h3 class="card-title">算法与数据结构</h3>
+                    <p class="card-description">经典算法解析，数据结构原理，编程题解和思路分享</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+
+                <div class="card" onclick="navigateToTheme('design')">
+                    <div class="card-icon">🎨</div>
+                    <h3 class="card-title">设计思维</h3>
+                    <p class="card-description">UI/UX设计原则，产品思维，用户体验优化的心得体会</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+
+                <div class="card" onclick="navigateToTheme('tools')">
+                    <div class="card-icon">🛠️</div>
+                    <h3 class="card-title">开发工具</h3>
+                    <p class="card-description">Git、Docker、编辑器配置、开发环境搭建等工具使用技巧</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+
+                <div class="card" onclick="navigateToTheme('thoughts')">
+                    <div class="card-icon">💭</div>
+                    <h3 class="card-title">思考感悟</h3>
+                    <p class="card-description">学习方法论，职业发展思考，技术趋势分析和个人成长记录</p>
+                    <a href="#" class="card-link">查看笔记</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 导航到对应主题
+        function navigateToTheme(theme) {
+            // 这里可以根据实际需要修改跳转逻辑
+            const themeUrls = {
+                'frontend': '/frontend',
+                'backend': '/backend',
+                'algorithms': '/algorithms',
+                'design': '/design',
+                'tools': '/tools',
+                'thoughts': '/thoughts'
+            };
+            
+            // 模拟导航（实际使用时替换为真实URL）
+            console.log(`导航到: ${theme}`);
+            alert(`即将跳转到: ${theme} 主题页面\n实际URL: ${themeUrls[theme]}`);
+            
+            // 取消注释下面的代码以实现真正的导航
+            // window.location.href = themeUrls[theme];
+        }
+
+        // 平滑滚动效果
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.cards-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // 卡片进入视口动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 初始化卡片动画
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

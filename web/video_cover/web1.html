@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>强大的网站推荐</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: white;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+    .header-left {
+      border-left: 6px solid #f5b200;
+      padding-left: 10px;
+    }
+    .header-right {
+      color: #f5b200;
+      font-size: 20px;
+      transform: rotate(15deg);
+    }
+    .macbook-frame {
+      position: relative;
+      margin: 40px auto;
+      width: 600px;
+      height: 400px;
+      background: #ccc;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      padding: 40px 30px 60px 30px;
+      box-sizing: border-box;
+    }
+    .macbook-frame::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 6px;
+      background: #999;
+      border-radius: 3px;
+    }
+    .video-container {
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAHgCAIAAADbnRQAAAEAAElEQVR4nOy9d6BdVZU/vtbe+5RbXu');
+      background-size: cover;
+      background-position: center;
+      border-radius: 6px;
+      position: relative;
+    }
+    .film-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 100px;
+      background-color: white;
+      mask: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Video-film.svg') no-repeat center;
+      -webkit-mask: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Video-film.svg') no-repeat center;
+      mask-size: contain;
+      -webkit-mask-size: contain;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">一天一个<br>强大的网站</div>
+    <div class="header-right">第74期</div>
+  </div>
+
+  <div class="macbook-frame">
+    <div class="video-container">
+      <div class="film-icon"></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频封面生成器 - 一天一个强大的网站</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #1a1a1a;
+    }
+    .header-line {
+      border-left: 6px solid #f5b200;
+    }
+    .macbook-frame {
+      background: linear-gradient(to bottom, #d1d1d1, #a8a8a8);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+      max-width: 600px;
+      height: 400px;
+      padding: 40px 30px 60px 30px;
+    }
+    .macbook-notch {
+      background: #999;
+      border-radius: 3px;
+      width: 60px;
+      height: 6px;
+      top: 15px;
+    }
+    .macbook-screen {
+      background-color: #000;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+    }
+    .rotate-text {
+      transform: rotate(15deg);
+    }
+    .film-icon {
+      width: 80px;
+      height: 100px;
+      background-color: white;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19.5 3.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5zM19 19.09H5V4.91h14v14.18zM6 15h12v2H6zm0-4h12v2H6zm0-4h12v2H6z'/%3E%3C/svg%3E") no-repeat center;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19.5 3.5L18 2l-1.5 1.5L15 2l-1.5 1.5L12 2l-1.5 1.5L9 2 7.5 3.5 6 2 4.5 3.5 3 2v20l1.5-1.5L6 22l1.5-1.5L9 22l1.5-1.5L12 22l1.5-1.5L15 22l1.5-1.5L18 22l1.5-1.5L21 22V2l-1.5 1.5zM19 19.09H5V4.91h14v14.18zM6 15h12v2H6zm0-4h12v2H6zm0-4h12v2H6z'/%3E%3C/svg%3E") no-repeat center;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .custom-input:focus {
+      outline: none;
+      border-color: #f5b200;
+      box-shadow: 0 0 0 2px rgba(245, 178, 0, 0.2);
+    }
+    .custom-button {
+      background: linear-gradient(135deg, #f5b200, #e09900);
+      transition: all 0.3s ease;
+    }
+    .custom-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(245, 178, 0, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6 md:p-10">
+  <div class="w-full max-w-4xl">
+    <h1 class="text-white text-3xl font-bold mb-8 text-center">视频封面生成器</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- 左侧控制面板 -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow-lg">
+        <h2 class="text-white text-xl font-bold mb-6">封面设置</h2>
+        
+        <div class="space-y-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-300 text-sm font-medium mb-2" for="titleInput">主标题</label>
+              <input type="text" id="titleInput" value="一天一个" placeholder="输入主标题" 
+                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+            </div>
+            
+            <div>
+              <label class="block text-gray-300 text-sm font-medium mb-2" for="numberInput">期数</label>
+              <input type="number" id="numberInput" value="74" min="1" 
+                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+            </div>
+          </div>
+          
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2" for="subtitleInput">副标题</label>
+            <input type="text" id="subtitleInput" value="强大的网站" placeholder="输入副标题" 
+              class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+          </div>
+          
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2" for="websiteInput">网站名称</label>
+            <input type="text" id="websiteInput" value="GitHub" placeholder="输入网站名称" 
+              class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+          </div>
+          
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2" for="descInput">网站描述</label>
+            <input type="text" id="descInput" value="全球最大的代码托管平台" placeholder="输入网站描述" 
+              class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+          </div>
+          
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2" for="colorSelect">主题颜色</label>
+            <select id="colorSelect" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white custom-input">
+              <option value="#f5b200">橙黄色 (默认)</option>
+              <option value="#22c55e">翠绿色</option>
+              <option value="#3b82f6">蓝色</option>
+              <option value="#ef4444">红色</option>
+              <option value="#8b5cf6">紫色</option>
+            </select>
+          </div>
+          
+          <button id="generateBtn" class="w-full custom-button text-white font-bold py-3 px-6 rounded-lg">
+            生成封面
+          </button>
+        </div>
+      </div>
+      
+      <!-- 右侧预览区域 -->
+      <div class="flex flex-col items-center">
+        <div id="coverPreview" class="mb-4">
+          <!-- 标题区域 -->
+          <div class="w-full flex justify-between items-start mb-6">
+            <div class="header-line pl-3">
+              <h1 id="displayTitle" class="text-white text-2xl font-bold leading-tight">一天一个<br>强大的网站</h1>
+            </div>
+            <div id="displayNumber" class="text-xl font-bold text-[#f5b200] rotate-text">第74期</div>
+          </div>
+
+          <!-- MacBook 框架 -->
+          <div class="macbook-frame relative w-full rounded-xl">
+            <!-- 顶部摄像头凹槽 -->
+            <div class="macbook-notch absolute left-1/2 transform -translate-x-1/2"></div>
+            
+            <!-- 屏幕内容 -->
+            <div class="macbook-screen relative">
+              <div id="websitePreview" class="absolute bottom-4 left-4 right-4 h-48 bg-gradient-to-br from-gray-700 to-gray-900 rounded-lg overflow-hidden">
+                <div class="h-6 bg-gray-200 flex items-center px-3 space-x-1.5">
+                  <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                  <div class="ml-4 text-xs text-gray-600 font-mono" id="websiteUrl">https://github.com</div>
+                </div>
+                <div class="h-full bg-gradient-to-br from-blue-600 to-purple-600 flex flex-col items-center justify-center p-4 text-white">
+                  <h3 id="websiteName" class="text-xl font-bold mb-2">GitHub</h3>
+                  <p id="websiteDesc" class="text-sm opacity-90">全球最大的代码托管平台</p>
+                </div>
+              </div>
+              
+              <!-- 视频播放图标 -->
+              <div class="film-icon"></div>
+            </div>
+          </div>
+        </div>
+        
+        <button id="downloadBtn" class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-lg transition-all">
+          下载封面图片
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 生成封面函数
+    function generateCover() {
+      const title = document.getElementById('titleInput').value || '一天一个';
+      const subtitle = document.getElementById('subtitleInput').value || '强大的网站';
+      const number = document.getElementById('numberInput').value || '74';
+      const website = document.getElementById('websiteInput').value || 'GitHub';
+      const desc = document.getElementById('descInput').value || '全球最大的代码托管平台';
+      const color = document.getElementById('colorSelect').value;
+      
+      // 更新标题
+      document.getElementById('displayTitle').innerHTML = `${title}<br>${subtitle}`;
+      
+      // 更新期数
+      document.getElementById('displayNumber').textContent = `第${number}期`;
+      document.getElementById('displayNumber').style.color = color;
+      
+      // 更新网站信息
+      document.getElementById('websiteName').textContent = website;
+      document.getElementById('websiteDesc').textContent = desc;
+      
+      // 更新网址
+      const websiteLower = website.toLowerCase();
+      let url = `https://${websiteLower}.com`;
+      if (websiteLower.includes('github')) {
+        url = 'https://github.com';
+      } else if (websiteLower.includes('google')) {
+        url = 'https://google.com';
+      } else if (websiteLower.includes('youtube')) {
+        url = 'https://youtube.com';
+      }
+      document.getElementById('websiteUrl').textContent = url;
+      
+      // 更新主题颜色
+      document.querySelector('.header-line').style.borderColor = color;
+      document.getElementById('generateBtn').style.background = `linear-gradient(135deg, ${color}, ${adjustColor(color, -20)})`;
+      
+      // 更新网站预览背景
+      document.querySelector('#websitePreview > div:last-child').style.background = 
+        `linear-gradient(135deg, ${color}, ${adjustColor(color, -50)})`;
+    }
+    
+    // 调整颜色明暗度
+    function adjustColor(hex, percent) {
+      let r = parseInt(hex.slice(1, 3), 16);
+      let g = parseInt(hex.slice(3, 5), 16);
+      let b = parseInt(hex.slice(5, 7), 16);
+      
+      r = Math.max(0, Math.min(255, r + percent));
+      g = Math.max(0, Math.min(255, g + percent));
+      b = Math.max(0, Math.min(255, b + percent));
+      
+      return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    }
+    
+    // 下载封面图片
+    function downloadCover() {
+      alert('下载功能提示：\n\n在实际项目中，可以集成html2canvas库实现下载功能：\n\nhtml2canvas(document.getElementById(\'coverPreview\')).then(canvas => {\n  const link = document.createElement(\'a\');\n  link.download = \'视频封面.png\';\n  link.href = canvas.toDataURL();\n  link.click();\n});');
+    }
+    
+    // 事件监听
+    document.getElementById('generateBtn').addEventListener('click', generateCover);
+    document.getElementById('downloadBtn').addEventListener('click', downloadCover);
+    
+    // 实时预览
+    const inputs = ['titleInput', 'subtitleInput', 'numberInput', 'websiteInput', 'descInput'];
+    inputs.forEach(id => {
+      document.getElementById(id).addEventListener('input', generateCover);
+    });
+    document.getElementById('colorSelect').addEventListener('change', generateCover);
+    
+    // 初始化
+    generateCover();
+  </script>
+</body>
+</html> 

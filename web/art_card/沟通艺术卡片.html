@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沟通步骤</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .step {
+            border-radius: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .step-content {
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+
+        /* Step specific styles */
+        .step-1 {
+            background-color: #cce7ff;
+            text-align: right;
+        }
+        .step-1 .step-number {
+            right: 15px;
+        }
+
+        .step-2 {
+            background-color: #ffd9df;
+            text-align: left;
+        }
+        .step-2 .step-number {
+            left: 15px;
+        }
+
+        .step-3 {
+            background-color: #d4f5d4;
+            text-align: right;
+        }
+        .step-3 .step-number {
+            right: 15px;
+        }
+
+        .step-4 {
+            background-color: #e5d4ff;
+            text-align: left;
+        }
+        .step-4 .step-number {
+            left: 15px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* SVG Animation Styles */
+        .svg-animation {
+            position: absolute;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .step-1 .svg-animation {
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .step-2 .svg-animation {
+            top: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .step-3 .svg-animation {
+            bottom: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .step-4 .svg-animation {
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .step-content {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">沟通步骤</h1>
+    
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="step step-1">
+            <div class="svg-animation">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#3a7bd5" stroke-width="2">
+                        <animate attributeName="r" values="40;45;40" dur="4s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="50" cy="50" r="30" fill="none" stroke="#3a7bd5" stroke-width="2">
+                        <animate attributeName="r" values="30;35;30" dur="4s" repeatCount="indefinite" begin="1s" />
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite" begin="1s" />
+                    </circle>
+                </svg>
+            </div>
+            <div class="step-number">1</div>
+            <h2 class="step-title">先讲对方想听的</h2>
+            <p class="step-content">
+                就像温暖的阳光照进心扉，<br>
+                用对方喜欢听的话开启对话，<br>
+                建立舒适的氛围。
+            </p>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="step step-2">
+            <div class="svg-animation">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="#ff758c" stroke-width="2">
+                        <animate attributeName="d" values="M20,50 Q50,20 80,50 Q50,80 20,50; M20,50 Q50,30 80,50 Q50,70 20,50; M20,50 Q50,20 80,50 Q50,80 20,50" dur="5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="#ff758c" stroke-width="2">
+                        <animate attributeName="d" values="M30,50 Q50,30 70,50 Q50,70 30,50; M30,50 Q50,40 70,50 Q50,60 30,50; M30,50 Q50,30 70,50 Q50,70 30,50" dur="5s" repeatCount="indefinite" begin="1s" />
+                    </path>
+                </svg>
+            </div>
+            <!-- <div class="step-number">2</div> -->
+            <!-- <h2 class="step-title">再讲对方听得进的</h2>
+            <p class="step-content">
+                用轻柔如微风的方式表达，<br>
+                选择对方最容易接受的语言和方式传递信息。
+            </p> -->
+            <h2 class="step-title">小程序升级注意事项</h2>
+            <p class="step-content">
+                1.如遇到收藏功能无效的用户，请重新添加<br>
+                2.工具资源持续更新<br>
+                3.方便你我他<br>
+                4.当前功能对于我个人而言足以，如有关于使用或新功能的建议，评论区留言
+            </p>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="step step-3">
+            <div class="svg-animation">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30,70 L50,30 L70,70" fill="none" stroke="#38ef7d" stroke-width="2">
+                        <animate attributeName="d" values="M30,70 L50,30 L70,70; M30,70 L50,40 L70,70; M30,70 L50,30 L70,70" dur="3s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M40,60 L50,40 L60,60" fill="none" stroke="#38ef7d" stroke-width="2">
+                        <animate attributeName="d" values="M40,60 L50,40 L60,60; M40,60 L50,50 L60,60; M40,60 L50,40 L60,60" dur="3s" repeatCount="indefinite" begin="0.5s" />
+                    </path>
+                    <circle cx="50" cy="30" r="2" fill="#38ef7d">
+                        <animate attributeName="cy" values="30;35;30" dur="3s" repeatCount="indefinite" />
+                    </circle>
+                </svg>
+            </div>
+            <!-- <div class="step-number">3</div>
+            <h2 class="step-title">再讲你该讲的</h2>
+            <p class="step-content">
+                像春雨滋润大地般，<br>
+                温和但清晰地表达你的核心想法和必要信息。
+            </p> -->
+            
+            <h2 class="step-title">说明</h2>
+            <p class="step-content">
+                 目前已收集6k多数据，涵盖各种 工具、资源、效率工具归纳 <br/>
+                 搜索资源时，直接按分类或者内容，精准搜索，一键直达！！！
+            </p>
+
+        </div>
+        
+        <!-- Step 4 -->
+        <div class="step step-4">
+            <div class="svg-animation">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40,70 Q50,50 60,70 Q50,90 40,70" fill="none" stroke="#a18cd1" stroke-width="2">
+                        <animate attributeName="d" values="M40,70 Q50,50 60,70 Q50,90 40,70; M40,70 Q50,60 60,70 Q50,80 40,70; M40,70 Q50,50 60,70 Q50,90 40,70" dur="4s" repeatCount="indefinite" />
+                    </path>
+                    <circle cx="50" cy="50" r="5" fill="#a18cd1">
+                        <animate attributeName="r" values="5;8;5" dur="4s" repeatCount="indefinite" />
+                    </circle>
+                    <path d="M50,50 L50,30" stroke="#a18cd1" stroke-width="2">
+                        <animate attributeName="d" values="M50,50 L50,30; M50,50 L50,35; M50,50 L50,30" dur="4s" repeatCount="indefinite" begin="1s" />
+                    </path>
+                </svg>
+            </div>
+            <div class="step-number">4</div>
+            <h2 class="step-title">最后讲你想讲的</h2>
+            <p class="step-content">
+                如同分享一杯温暖的茶，<br>
+                自然地表达你的个人感受和想法，<br>
+                完成愉快的交流。
+            </p>
+        </div>
+        
+        <div class="footer">让每一次沟通都如沐春风</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025全国彩礼前十排行榜</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #2d3748;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px 0 rgba(31, 38, 135, 0.2);
+        }
+        .chart-container {
+            height: 320px;
+            width: 100%;
+            position: relative;
+        }
+        .highlight-text {
+            position: relative;
+            display: inline-block;
+        }
+        .highlight-text::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background-color: rgba(99, 102, 241, 0.2);
+            z-index: -1;
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .shadow-glow {
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.5);
+        }
+        .data-pill {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(99, 102, 241, 0.1);
+            color: #4f46e5;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- 导航条 -->
+    <nav class="glassmorphism sticky top-0 z-50 p-4 mb-8">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
+                <i class="fas fa-heart mr-2"></i>2025全国彩礼排行榜
+            </div>
+        </div>
+    </nav>
+
+    <!-- 头部横幅 -->
+    <header class="container mx-auto py-12 px-4 md:px-8 relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                2025全国彩礼前十排行榜
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-8">中国各地区彩礼金额对比分析</p>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <section class="container mx-auto py-8 px-4 md:px-8">
+        <div class="glassmorphism p-8 mb-16">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white mr-3">
+                    <i class="fas fa-list-ol"></i>
+                </div>
+                彩礼金额排行榜
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center mr-4">1</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">江西</h3>
+                                <p class="text-gray-600">38万元</p>
+                            </div>
+                            <div class="text-red-500 font-bold">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-purple-500 text-white flex items-center justify-center mr-4">2</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">福建</h3>
+                                <p class="text-gray-600">30万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 text-white flex items-center justify-center mr-4">3</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">浙江</h3>
+                                <p class="text-gray-600">25万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-green-50 to-teal-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center mr-4">4</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">辽宁</h3>
+                                <p class="text-gray-600">20万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-yellow-500 text-white flex items-center justify-center mr-4">5</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">江苏</h3>
+                                <p class="text-gray-600">20万元</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center mr-4">6</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">上海</h3>
+                                <p class="text-gray-600">18万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center mr-4">7</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">山东</h3>
+                                <p class="text-gray-600">17万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-cyan-50 to-sky-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-cyan-500 text-white flex items-center justify-center mr-4">8</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">天津</h3>
+                                <p class="text-gray-600">16万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center mr-4">9</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">安徽</h3>
+                                <p class="text-gray-600">16万元</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg">
+                            <div class="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center mr-4">10</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">河北</h3>
+                                <p class="text-gray-600">15万元</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="glassmorphism p-8">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+                <div class="w-10 h-10 rounded-full bg-gradient-primary flex items-center justify-center text-white mr-3">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                数据可视化分析
+            </h2>
+            
+            <div class="chart-container">
+                <canvas id="dowryChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="container mx-auto py-8 px-4 text-center text-gray-500 text-sm">
+        <p>页面内容均由 AI 生成，仅供参考</p>
+        <p>created by <a href="https://space.coze.cn" class="text-indigo-500 hover:underline">coze space</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 彩礼数据图表
+            const dowryCtx = document.getElementById('dowryChart').getContext('2d');
+            new Chart(dowryCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['江西', '福建', '浙江', '辽宁', '江苏', '上海', '山东', '天津', '安徽', '河北'],
+                    datasets: [{
+                        label: '彩礼金额(万元)',
+                        data: [38, 30, 25, 20, 20, 18, 17, 16, 16, 15],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.6)',
+                            'rgba(168, 85, 247, 0.6)',
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(234, 179, 8, 0.6)',
+                            'rgba(99, 102, 241, 0.6)',
+                            'rgba(236, 72, 153, 0.6)',
+                            'rgba(6, 182, 212, 0.6)',
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(245, 158, 11, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(168, 85, 247, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(234, 179, 8, 1)',
+                            'rgba(99, 102, 241, 1)',
+                            'rgba(236, 72, 153, 1)',
+                            'rgba(6, 182, 212, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            title: {
+                                display: true,
+                                text: '金额(万元)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: '2025年全国各省彩礼金额对比'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

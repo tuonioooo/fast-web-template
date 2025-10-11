@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>艺术字卡片</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #f5f3ee, #dcdbe0);
+      font-family: 'Zhi Mang Xing', cursive;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      width: 80%;
+      max-width: 500px;
+      padding: 60px 30px;
+      background: linear-gradient(to bottom right, #f4f1ea, #e0e2e7);
+      border-radius: 32px;
+      border: 2px solid rgba(200, 200, 200, 0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .title {
+      font-size: 46px;
+      color: #6b5e52;
+      text-align: center;
+      text-shadow: 1px 1px 0 #ddd;
+      position: relative;
+    }
+
+    .title::before, .title::after {
+      content: '✿';
+      color: #c3b9d6;
+      position: absolute;
+      font-size: 18px;
+    }
+
+    .title::before {
+      left: -30px;
+      top: 10px;
+    }
+
+    .title::after {
+      right: -30px;
+      top: 10px;
+    }
+
+    .decor {
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 10px;
+      background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="title">温柔的力量</div>
+    <div class="decor"></div>
+  </div>
+</body>
+</html>

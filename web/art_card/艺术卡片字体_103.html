@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>艺术字卡片展示</title>
+  <!-- 引入艺术手写字体 -->
+  <link href="https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f6f3;
+      font-family: 'Zhi Mang Xing', cursive;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .card {
+      width: 320px;
+      padding: 24px;
+      border-radius: 32px;
+      background: linear-gradient(145deg, #f0ece8, #fdfbfa);
+      box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      border: 2px dashed rgba(200, 200, 200, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .art-text {
+      font-size: 40px;
+      font-weight: bold;
+      color: #6b5e52;
+      margin-bottom: 12px;
+      text-shadow: 1px 1px 0 #ddd;
+    }
+
+    .description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #7e7265;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .badge {
+      font-size: 18px;
+      margin-top: 14px;
+      color: #d88fa1;
+      display: inline-block;
+    }
+
+    .decoration {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 100px;
+      height: 100px;
+      background: url('https://cdn-icons-png.flaticon.com/512/3500/3500443.png') no-repeat center;
+      background-size: contain;
+      opacity: 0.2;
+      transform: rotate(-15deg);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="art-text">梦的边界</div>
+    <div class="description">
+      每一个梦境的线条<br/>
+      都是内心流淌的诗行。<br/>
+      ✿ 柔和与自由的交汇
+    </div>
+    <div class="badge">♡ 灵感之语</div>
+    <div class="decoration"></div>
+  </div>
+
+  <div class="card">
+    <div class="art-text">温柔以待</div>
+    <div class="description">
+      温柔不是软弱，<br/>
+      是内心强大后的包容。<br/>
+      ✦ 每一个字，都是爱
+    </div>
+    <div class="badge">✿ 艺术触感</div>
+    <div class="decoration"></div>
+  </div>
+
+</body>
+</html>

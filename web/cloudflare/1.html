@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare ProxyIP 技术原理图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(30, 42, 66, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            color: #fff;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #b8c5db;
+        }
+
+        .section-title {
+            color: #fff;
+            font-size: 22px;
+            margin: 40px 0 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '🔧';
+            font-size: 24px;
+        }
+
+        .warning-box {
+            background: #fff8dc;
+            border-left: 5px solid #ff9800;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: '⚠';
+            position: absolute;
+            left: -2px;
+            top: 18px;
+            font-size: 24px;
+            color: #ff9800;
+        }
+
+        .warning-box p {
+            color: #856404;
+            line-height: 1.8;
+            font-size: 15px;
+            padding-left: 15px;
+        }
+
+        .warning-box code {
+            background: rgba(255, 152, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #2c5aa0;
+        }
+
+        .explanation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            color: #b8c5db;
+            line-height: 1.8;
+        }
+
+        .flow-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .flow-box {
+            padding: 30px 40px;
+            border-radius: 15px;
+            min-width: 220px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .flow-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .box-workers {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .box-proxy {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #fff;
+        }
+
+        .box-target {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #fff;
+        }
+
+        .box-optimal {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff;
+            position: relative;
+        }
+
+        .box-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .box-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .arrow {
+            font-size: 40px;
+            color: #4facfe;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .optimal-badge {
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            background: #ff6b6b;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .connection-line {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(180deg, #43e97b 0%, rgba(67, 233, 123, 0.2) 100%);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .vertical-arrow {
+            font-size: 30px;
+            color: #43e97b;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .flow-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-note {
+            background: rgba(79, 172, 254, 0.1);
+            border: 2px solid #4facfe;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .bottom-note strong {
+            color: #4facfe;
+        }
+
+        .link-style {
+            color: #4facfe;
+            text-decoration: none;
+            border-bottom: 1px dashed #4facfe;
+        }
+
+        .link-style:hover {
+            border-bottom-style: solid;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+            border: 2px solid #43e97b;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            color: #fff;
+        }
+
+        .info-card h3 {
+            color: #43e97b;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-card li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #43e97b;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .main-flow {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📡 Cloudflare ProxyIP 技术原理</h1>
+            <p>在 Cloudflare 开发环境中，ProxyIP 特指那些能够成功代理连接到 Cloudflare 服务的第三方 IP 地址。</p>
+        </div>
+
+        <div class="section-title">技术原理</div>
+        
+        <p class="explanation">
+            根据 Cloudflare 开发文档的 <a href="#" class="link-style">TCP Sockets 官方文档</a> 说明，存在以下技术限制：
+        </p>
+
+        <div class="warning-box">
+            <p>
+                <strong>Outbound TCP sockets to</strong> <code>Cloudflare IP ranges ↗</code> <strong>are temporarily blocked, but will be re-enabled shortly.</strong>
+            </p>
+        </div>
+
+        <p class="explanation">
+            这意味着 Cloudflare 开发环境无法直接连接到 Cloudflare 自有的 IP 地址段。为了解决这个限制，需要借助第三方云服务商的服务器作为"跳板"：
+        </p>
+
+        <div class="flow-wrapper">
+            <!-- 优选IP层 -->
+            <div class="flow-box box-optimal">
+                <span class="optimal-badge">优选</span>
+                <div class="box-title">CF 优选 IP</div>
+                <div class="box-subtitle">最优节点选择</div>
+            </div>
+
+            <div class="vertical-arrow">↓</div>
+
+            <!-- 主流程层 -->
+            <div class="main-flow">
+                <div class="flow-box box-workers">
+                    <div class="box-title">Cloudflare Workers</div>
+                    <div class="box-subtitle">发起请求</div>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-box box-proxy">
+                    <div class="box-title">ProxyIP 服务器</div>
+                    <div class="box-subtitle">第三方代理</div>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="flow-box box-target">
+                    <div class="box-title">Cloudflare 服务</div>
+                    <div class="box-subtitle">目标服务</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3>🌟 CF 优选 IP 的作用</h3>
+            <ul>
+                <li><strong>位置：</strong>位于整个代理链路的最顶层，作为入口节点</li>
+                <li><strong>功能：</strong>通过测速和延迟检测，筛选出速度最快、延迟最低的 Cloudflare IP</li>
+                <li><strong>目的：</strong>提升访问速度和连接稳定性，优化用户体验</li>
+                <li><strong>原理：</strong>优选 IP 指向的是 Cloudflare 边缘节点，确保从最佳节点接入网络</li>
+                <li><strong>配合：</strong>与 ProxyIP 结合使用，实现"优选节点入口 + 代理突破限制"的双重优化</li>
+            </ul>
+        </div>
+
+        <div class="bottom-note">
+            <strong>完整工作流程：</strong>首先通过 CF 优选 IP 选择最佳 Cloudflare 节点作为入口 → Cloudflare Workers 发起请求 → 通过第三方 ProxyIP 服务器反向代理 Cloudflare 的 443 端口 → 最终访问目标 Cloudflare 服务
+        </div>
+
+        <div class="explanation" style="margin-top: 30px;">
+            <h3 style="color: #4facfe; margin-bottom: 15px;">💡 关键要点</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 12px;">✓ <strong style="color: #43e97b;">CF 优选 IP：</strong>选择最快的 Cloudflare 边缘节点，优化接入速度</li>
+                <li style="margin-bottom: 12px;">✓ <strong style="color: #667eea;">Cloudflare Workers：</strong>无法直接访问 Cloudflare IP 段，需要代理</li>
+                <li style="margin-bottom: 12px;">✓ <strong style="color: #f5576c;">ProxyIP 服务器：</strong>充当中间代理角色，突破访问限制</li>
+                <li style="margin-bottom: 12px;">✓ <strong style="color: #4facfe;">Cloudflare 服务：</strong>最终目标服务，通过代理实现访问</li>
+                <li style="margin-bottom: 12px;">✓ 优选 IP + ProxyIP 双重优化，既保证速度又突破限制</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
