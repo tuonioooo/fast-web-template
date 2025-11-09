@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: rgba(30, 42, 66, 0.95);
             border-radius: 20px;
@@ -62,39 +62,6 @@
             font-size: 24px;
         }
 
-        .warning-box {
-            background: #fff8dc;
-            border-left: 5px solid #ff9800;
-            padding: 20px 25px;
-            border-radius: 8px;
-            margin: 25px 0;
-            position: relative;
-        }
-
-        .warning-box::before {
-            content: '⚠';
-            position: absolute;
-            left: -2px;
-            top: 18px;
-            font-size: 24px;
-            color: #ff9800;
-        }
-
-        .warning-box p {
-            color: #856404;
-            line-height: 1.8;
-            font-size: 15px;
-            padding-left: 15px;
-        }
-
-        .warning-box code {
-            background: rgba(255, 152, 0, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #2c5aa0;
-        }
-
         .explanation {
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
@@ -108,16 +75,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 20px;
             margin: 50px 0;
             flex-wrap: wrap;
-            position: relative;
         }
 
         .flow-box {
             padding: 30px 40px;
             border-radius: 15px;
-            min-width: 220px;
+            min-width: 200px;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
@@ -128,13 +94,23 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .box-workers {
+        .box-client {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
         }
 
-        .box-proxy {
+        .box-cf {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #fff;
+        }
+
+        .box-workers {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #fff;
+        }
+
+        .box-proxy {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             color: #fff;
         }
 
@@ -143,21 +119,16 @@
             color: #fff;
         }
 
-        .box-optimal {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: #fff;
-            position: relative;
-        }
-
         .box-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
         .box-subtitle {
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.9;
+            line-height: 1.5;
         }
 
         .arrow {
@@ -171,83 +142,10 @@
             50% { opacity: 0.6; transform: scale(1.1); }
         }
 
-        .optimal-badge {
-            position: absolute;
-            top: -15px;
-            right: -10px;
-            background: #ff6b6b;
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .connection-line {
-            position: absolute;
-            width: 2px;
-            background: linear-gradient(180deg, #43e97b 0%, rgba(67, 233, 123, 0.2) 100%);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .vertical-arrow {
-            font-size: 30px;
-            color: #43e97b;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .flow-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .main-flow {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .bottom-note {
-            background: rgba(79, 172, 254, 0.1);
-            border: 2px solid #4facfe;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            color: #fff;
-            margin-top: 40px;
-        }
-
-        .bottom-note strong {
-            color: #4facfe;
-        }
-
-        .link-style {
-            color: #4facfe;
-            text-decoration: none;
-            border-bottom: 1px dashed #4facfe;
-        }
-
-        .link-style:hover {
-            border-bottom-style: solid;
-        }
-
         .info-card {
             background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
             border: 2px solid #43e97b;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             margin: 25px 0;
             color: #fff;
@@ -265,9 +163,10 @@
         }
 
         .info-card li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             padding-left: 25px;
             position: relative;
+            line-height: 1.6;
         }
 
         .info-card li::before {
@@ -276,10 +175,98 @@
             left: 0;
             color: #43e97b;
             font-weight: bold;
+            font-size: 18px;
+        }
+
+        .warning-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+            border: 2px solid #ff6b6b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            color: #fff;
+        }
+
+        .warning-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #43e97b;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .scenario {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .scenario:hover {
+            border-color: #43e97b;
+            transform: translateY(-3px);
+        }
+
+        .scenario h4 {
+            color: #4facfe;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .scenario-content {
+            color: #b8c5db;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .highlight {
+            color: #43e97b;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .badge-primary {
+            background: #4facfe;
+            color: #fff;
+        }
+
+        .badge-warning {
+            background: #ff9800;
+            color: #fff;
+        }
+
+        .badge-success {
+            background: #43e97b;
+            color: #fff;
         }
 
         @media (max-width: 768px) {
-            .main-flow {
+            .flow-diagram {
                 flex-direction: column;
             }
             
@@ -290,88 +277,205 @@
             .container {
                 padding: 20px;
             }
+
+            .comparison-table {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📡 Cloudflare ProxyIP 技术原理</h1>
-            <p>在 Cloudflare 开发环境中，ProxyIP 特指那些能够成功代理连接到 Cloudflare 服务的第三方 IP 地址。</p>
+            <h1>📡 Cloudflare Workers ProxyIP 技术原理详解</h1>
+            <p>深入理解 VLESS 代理服务中 ProxyIP 和优选 IP 的真实作用与工作机制</p>
         </div>
 
-        <div class="section-title">技术原理</div>
+        <div class="section-title">核心概念澄清</div>
         
-        <p class="explanation">
-            根据 Cloudflare 开发文档的 <a href="#" class="link-style">TCP Sockets 官方文档</a> 说明，存在以下技术限制：
-        </p>
-
-        <div class="warning-box">
-            <p>
-                <strong>Outbound TCP sockets to</strong> <code>Cloudflare IP ranges ↗</code> <strong>are temporarily blocked, but will be re-enabled shortly.</strong>
-            </p>
+        <div class="warning-card">
+            <h3>⚠️ 常见误解</h3>
+            <ul>
+                <li><strong>误解：</strong>ProxyIP 是用来访问 Cloudflare 自身服务的代理</li>
+                <li><strong>真相：</strong>ProxyIP 是 Workers 用来访问<span class="highlight">被墙的目标网站</span>的中转服务器</li>
+                <li><strong>误解：</strong>优选 IP 是整个链路的顶层入口</li>
+                <li><strong>真相：</strong>优选 IP 是客户端用来<span class="highlight">快速连接到 Cloudflare 边缘节点</span>的优化手段</li>
+            </ul>
         </div>
 
-        <p class="explanation">
-            这意味着 Cloudflare 开发环境无法直接连接到 Cloudflare 自有的 IP 地址段。为了解决这个限制，需要借助第三方云服务商的服务器作为"跳板"：
-        </p>
+        <div class="section-title">完整数据流向</div>
 
-        <div class="flow-wrapper">
-            <!-- 优选IP层 -->
-            <div class="flow-box box-optimal">
-                <span class="optimal-badge">优选</span>
-                <div class="box-title">CF 优选 IP</div>
-                <div class="box-subtitle">最优节点选择</div>
+        <div class="flow-diagram">
+            <div class="flow-box box-client">
+                <div class="box-title">📱 用户客户端</div>
+                <div class="box-subtitle">VLESS 客户端<br/>发起请求</div>
             </div>
 
-            <div class="vertical-arrow">↓</div>
+            <div class="arrow">→</div>
 
-            <!-- 主流程层 -->
-            <div class="main-flow">
-                <div class="flow-box box-workers">
-                    <div class="box-title">Cloudflare Workers</div>
-                    <div class="box-subtitle">发起请求</div>
-                </div>
+            <div class="flow-box box-cf">
+                <div class="box-title">🌐 CF 优选 IP</div>
+                <div class="box-subtitle">Cloudflare 边缘节点<br/>（速度优化）</div>
+            </div>
 
-                <div class="arrow">→</div>
+            <div class="arrow">→</div>
 
-                <div class="flow-box box-proxy">
-                    <div class="box-title">ProxyIP 服务器</div>
-                    <div class="box-subtitle">第三方代理</div>
-                </div>
+            <div class="flow-box box-workers">
+                <div class="box-title">⚙️ CF Workers</div>
+                <div class="box-subtitle">运行代理脚本<br/>解析 VLESS 协议</div>
+            </div>
 
-                <div class="arrow">→</div>
+            <div class="arrow">→</div>
 
-                <div class="flow-box box-target">
-                    <div class="box-title">Cloudflare 服务</div>
-                    <div class="box-subtitle">目标服务</div>
-                </div>
+            <div class="flow-box box-proxy">
+                <div class="box-title">🔄 ProxyIP</div>
+                <div class="box-subtitle">第三方服务器<br/>中转请求</div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="flow-box box-target">
+                <div class="box-title">🎯 目标网站</div>
+                <div class="box-subtitle">被墙的网站<br/>（如 Google）</div>
             </div>
         </div>
 
         <div class="info-card">
-            <h3>🌟 CF 优选 IP 的作用</h3>
+            <h3>🌟 CF 优选 IP 的真实作用</h3>
             <ul>
-                <li><strong>位置：</strong>位于整个代理链路的最顶层，作为入口节点</li>
-                <li><strong>功能：</strong>通过测速和延迟检测，筛选出速度最快、延迟最低的 Cloudflare IP</li>
-                <li><strong>目的：</strong>提升访问速度和连接稳定性，优化用户体验</li>
-                <li><strong>原理：</strong>优选 IP 指向的是 Cloudflare 边缘节点，确保从最佳节点接入网络</li>
-                <li><strong>配合：</strong>与 ProxyIP 结合使用，实现"优选节点入口 + 代理突破限制"的双重优化</li>
+                <li><strong>位置：</strong>位于客户端和 Cloudflare Workers 之间</li>
+                <li><strong>目的：</strong>优化客户端到 CF 边缘节点的连接速度</li>
+                <li><strong>原理：</strong>通过测速选出延迟最低、速度最快的 CF IP</li>
+                <li><strong>作用域：</strong>只影响"客户端 ↔ CF"这一段的速度</li>
+                <li><strong>配置位置：</strong>在 VLESS 客户端配置中，而非 Workers 代码</li>
             </ul>
         </div>
 
-        <div class="bottom-note">
-            <strong>完整工作流程：</strong>首先通过 CF 优选 IP 选择最佳 Cloudflare 节点作为入口 → Cloudflare Workers 发起请求 → 通过第三方 ProxyIP 服务器反向代理 Cloudflare 的 443 端口 → 最终访问目标 Cloudflare 服务
+        <div class="info-card">
+            <h3>🔄 ProxyIP 的真实作用</h3>
+            <ul>
+                <li><strong>位置：</strong>位于 Cloudflare Workers 和目标网站之间</li>
+                <li><strong>目的：</strong>帮助 Workers 访问被墙或被限制的网站</li>
+                <li><strong>原理：</strong>Workers 不直连目标，而是通过 ProxyIP 中转</li>
+                <li><strong>作用域：</strong>影响"Workers ↔ 目标网站"这一段</li>
+                <li><strong>配置位置：</strong>在 Workers 脚本中配置（环境变量 PROXYIP）</li>
+            </ul>
         </div>
 
-        <div class="explanation" style="margin-top: 30px;">
-            <h3 style="color: #4facfe; margin-bottom: 15px;">💡 关键要点</h3>
+        <div class="section-title">两种应用场景对比</div>
+
+        <div class="comparison-table">
+            <div class="scenario">
+                <h4>场景一：不使用 ProxyIP <span class="badge badge-success">直连模式</span></h4>
+                <div class="code-block">
+客户端 → CF优选IP → Workers → 目标网站
+                </div>
+                <div class="scenario-content">
+                    <strong>适用情况：</strong><br/>
+                    • 目标网站没有被墙<br/>
+                    • CF 到目标网站的连接正常<br/>
+                    • 目标网站不限制 CF IP 访问<br/><br/>
+                    <strong>示例目标：</strong>GitHub、Stack Overflow 等
+                </div>
+            </div>
+
+            <div class="scenario">
+                <h4>场景二：使用 ProxyIP <span class="badge badge-warning">代理模式</span></h4>
+                <div class="code-block">
+客户端 → CF优选IP → Workers → ProxyIP → 目标网站
+                </div>
+                <div class="scenario-content">
+                    <strong>适用情况：</strong><br/>
+                    • 目标网站被墙（如 Google）<br/>
+                    • CF 直连失败或被限制<br/>
+                    • 需要隐藏 CF IP 地址<br/><br/>
+                    <strong>示例目标：</strong>Google、YouTube、Twitter 等
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">代码中的实现逻辑</div>
+
+        <div class="code-block">
+// 1. 首先尝试直连目标网站
+let tcpSocket = await connectAndWrite(addressRemote, portRemote);
+
+// 2. 如果直连失败，重试函数会启用 ProxyIP
+async function retry() {
+    if (enableSocks) {
+        // 使用 SOCKS5 代理
+        tcpSocket = await connectAndWrite(addressRemote, portRemote, true);
+    } else {
+        // 使用普通 ProxyIP
+        tcpSocket = await connectAndWrite(proxyIP || addressRemote, portRemote);
+    }
+}
+
+// 关键：proxyIP 是中转服务器的地址
+// 例如：proxyIP = 'proxy.example.com'
+        </div>
+
+        <div class="info-card">
+            <h3>💡 ProxyIP 的工作机制</h3>
+            <ul>
+                <li><strong>替换目标地址：</strong>将原本的目标网站地址替换为 ProxyIP 地址</li>
+                <li><strong>反向代理：</strong>ProxyIP 服务器充当反向代理，转发到真实目标</li>
+                <li><strong>SNI 欺骗：</strong>通过 TLS SNI 字段传递真实目标域名</li>
+                <li><strong>突破封锁：</strong>ProxyIP 通常位于境外，可访问被墙网站</li>
+                <li><strong>隐藏来源：</strong>目标网站看到的是 ProxyIP 的 IP，而非 CF IP</li>
+            </ul>
+        </div>
+
+        <div class="warning-card">
+            <h3>🚫 Cloudflare Workers 的限制</h3>
+            <ul>
+                <li><strong>不能直连 CF IP：</strong>Workers 无法访问 Cloudflare 自己的 IP 段</li>
+                <li><strong>不能用 ProxyIP 访问 CF：</strong>这在逻辑上也说不通</li>
+                <li><strong>ProxyIP 用途：</strong>只用于访问<span class="highlight">外部被墙网站</span></li>
+                <li><strong>优选 IP 用途：</strong>只用于<span class="highlight">客户端连接优化</span></li>
+            </ul>
+        </div>
+
+        <div class="section-title">完整的技术栈总结</div>
+
+        <div class="explanation">
+            <h3 style="color: #4facfe; margin-bottom: 15px;">🎯 三个核心组件</h3>
             <ul style="list-style: none; padding-left: 0;">
-                <li style="margin-bottom: 12px;">✓ <strong style="color: #43e97b;">CF 优选 IP：</strong>选择最快的 Cloudflare 边缘节点，优化接入速度</li>
-                <li style="margin-bottom: 12px;">✓ <strong style="color: #667eea;">Cloudflare Workers：</strong>无法直接访问 Cloudflare IP 段，需要代理</li>
-                <li style="margin-bottom: 12px;">✓ <strong style="color: #f5576c;">ProxyIP 服务器：</strong>充当中间代理角色，突破访问限制</li>
-                <li style="margin-bottom: 12px;">✓ <strong style="color: #4facfe;">Cloudflare 服务：</strong>最终目标服务，通过代理实现访问</li>
-                <li style="margin-bottom: 12px;">✓ 优选 IP + ProxyIP 双重优化，既保证速度又突破限制</li>
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: #667eea;">1. CF 优选 IP（客户端侧）</strong><br/>
+                    <span style="padding-left: 20px; display: block; margin-top: 5px;">
+                        • 加速客户端到 CF 的连接<br/>
+                        • 在客户端 VLESS 配置中设置<br/>
+                        • 不影响 Workers 的行为
+                    </span>
+                </li>
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: #43e97b;">2. Cloudflare Workers（中间层）</strong><br/>
+                    <span style="padding-left: 20px; display: block; margin-top: 5px;">
+                        • 解析 VLESS 协议<br/>
+                        • 决定是否使用 ProxyIP<br/>
+                        • 建立到目标的连接
+                    </span>
+                </li>
+                <li style="margin-bottom: 12px;">
+                    <strong style="color: #fa709a;">3. ProxyIP（Workers 侧）</strong><br/>
+                    <span style="padding-left: 20px; display: block; margin-top: 5px;">
+                        • 帮助 Workers 访问被墙网站<br/>
+                        • 在 Workers 环境变量中配置<br/>
+                        • 充当中转代理角色
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="info-card" style="margin-top: 30px;">
+            <h3>✅ 正确理解要点</h3>
+            <ul>
+                <li>优选 IP 在<span class="highlight">客户端配置</span>，优化接入速度</li>
+                <li>ProxyIP 在<span class="highlight">Workers 配置</span>，突破访问限制</li>
+                <li>两者作用于<span class="highlight">不同的网络段</span>，互不冲突</li>
+                <li>完整链路：客户端 → 优选IP → Workers → ProxyIP → 目标</li>
+                <li>ProxyIP 只在访问<span class="highlight">被墙网站时</span>才需要</li>
             </ul>
         </div>
     </div>
