@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多个 VMess/VLESS 节点映射为本地多个 SOCKS5 端口（适用于 Linux 无头系统）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input[type="number"] {
+            width: 200px;
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .node-list {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .node-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .node-info {
+            flex: 1;
+        }
+        
+        .node-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .node-details {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .node-port {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        
+        .output-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 600px;
+            overflow: auto;
+            white-space: pre;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 V2Ray 多端口配置生成器</h1>
+            <p>导入节点链接，自动生成多 SOCKS5 端口配置</p>
+        </div>
+
+
+
+
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-title">✅ 工作原理</div>
+                <div class="alert alert-info">
+                    • 输入：机场订阅链接或多个 VMess/VLESS 节点<br>
+                    • 处理：自动生成 V2Ray 配置文件，为每个节点分配独立的本地端口<br>
+                    • 输出：一个包含多个 inbounds 配置的 config.json 文件
+                </div>
+                
+            </div>
+            <div class="section">
+                <div class="section-title">📥 导入节点</div>
+                <div class="alert alert-info">
+                    支持格式：<br>
+                    • 单个节点：vmess:// 或 vless:// 链接，每行一个<br>
+                    • 订阅链接：直接粘贴 Base64 编码的订阅内容（自动解码）<br>
+                    • 混合导入：多个节点链接混合粘贴
+                </div>
+                <textarea id="nodeInput" rows="6" placeholder="支持三种方式导入：&#10;&#10;1. 单个节点（每行一个）&#10;vmess://eyJ2IjoiMiIsInBzIjoi6IqC54K5...&#10;vless://uuid@host:port?type=ws...&#10;&#10;2. Base64 订阅链接（整段粘贴）&#10;dm1lc3M6Ly9leUoySWpvaU1pSXNJb...&#10;&#10;3. 多个节点混合"></textarea>
+                
+                <div class="input-group">
+                    <label>起始端口号：</label>
+                    <input type="number" id="startPort" value="10808" min="1024" max="65535">
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="parseNodes()">解析节点</button>
+                    <button class="btn-secondary" onclick="clearAll()">清空</button>
+                </div>
+            </div>
+            
+            <div id="nodeListSection" class="section hidden">
+                <div class="section-title">📋 解析结果</div>
+                <div id="nodeList" class="node-list"></div>
+                <button class="btn-success" onclick="generateConfig()">生成配置文件</button>
+            </div>
+            
+            <div id="outputSection" class="section hidden">
+                <div class="section-title">⚙️ 配置文件</div>
+                <div class="alert alert-success">
+                    配置生成成功！点击下方按钮复制或下载
+                </div>
+                <div id="output" class="output-box"></div>
+                <div class="btn-group">
+                    <button class="btn-primary" onclick="copyConfig()">📋 复制配置</button>
+                    <button class="btn-success" onclick="downloadConfig()">💾 下载配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let parsedNodes = [];
+        
+        function parseNodes() {
+            const input = document.getElementById('nodeInput').value.trim();
+            const startPort = parseInt(document.getElementById('startPort').value);
+            
+            if (!input) {
+                alert('请输入节点链接！');
+                return;
+            }
+            
+            let lines = [];
+            
+            // 尝试解码 Base64 订阅链接
+            if (!input.includes('://') && input.length > 100) {
+                try {
+                    const decoded = atob(input);
+                    if (decoded.includes('://')) {
+                        lines = decoded.split('\n').filter(line => line.trim());
+                        console.log('检测到 Base64 编码的订阅链接，已自动解码');
+                    } else {
+                        lines = input.split('\n').filter(line => line.trim());
+                    }
+                } catch (e) {
+                    lines = input.split('\n').filter(line => line.trim());
+                }
+            } else {
+                lines = input.split('\n').filter(line => line.trim());
+            }
+            
+            parsedNodes = [];
+            let errors = [];
+            let currentPort = startPort;
+            
+            lines.forEach((line, index) => {
+                try {
+                    line = line.trim();
+                    if (!line) return;
+                    
+                    if (line.startsWith('vmess://')) {
+                        const node = parseVmess(line, currentPort);
+                        if (node) {
+                            parsedNodes.push(node);
+                            currentPort++;
+                        } else {
+                            errors.push(`第 ${index + 1} 行: VMess 格式错误`);
+                        }
+                    } else if (line.startsWith('vless://')) {
+                        const node = parseVless(line, currentPort);
+                        if (node) {
+                            parsedNodes.push(node);
+                            currentPort++;
+                        } else {
+                            errors.push(`第 ${index + 1} 行: VLESS 格式错误`);
+                        }
+                    } else if (line.startsWith('ss://')) {
+                        // Shadowsocks 暂不支持，跳过
+                        console.log('跳过 Shadowsocks 节点:', line.substring(0, 20));
+                    } else if (line.startsWith('trojan://')) {
+                        // Trojan 暂不支持，跳过
+                        console.log('跳过 Trojan 节点:', line.substring(0, 20));
+                    } else if (line) {
+                        errors.push(`第 ${index + 1} 行: 不支持的协议（仅支持 vmess:// 和 vless://）`);
+                    }
+                } catch (e) {
+                    console.error('解析失败:', e);
+                    errors.push(`第 ${index + 1} 行: ${e.message}`);
+                }
+            });
+            
+            if (parsedNodes.length === 0) {
+                const errorMsg = errors.length > 0 ? '\n\n错误详情：\n' + errors.join('\n') : '';
+                alert('没有成功解析任何节点，请检查链接格式！' + errorMsg);
+                return;
+            }
+            
+            if (errors.length > 0 && errors.length < 5) {
+                console.warn('部分节点解析失败:', errors);
+            }
+            
+            displayNodes();
+        }
+        
+        function parseVmess(link, port) {
+            try {
+                const base64 = link.replace('vmess://', '');
+                const json = JSON.parse(atob(base64));
+                
+                return {
+                    type: 'vmess',
+                    port: port,
+                    name: json.ps || `节点${port}`,
+                    address: json.add,
+                    serverPort: json.port || 443,
+                    id: json.id,
+                    alterId: json.aid || 0,
+                    security: json.scy || 'auto',
+                    network: json.net || 'tcp',
+                    tls: json.tls || '',
+                    sni: json.sni || json.add,
+                    path: json.path || '/',
+                    host: json.host || json.add
+                };
+            } catch (e) {
+                console.error('VMess 解析错误:', e);
+                return null;
+            }
+        }
+        
+        function parseVless(link, port) {
+            try {
+                // 移除 vless:// 前缀
+                let urlStr = link.replace('vless://', '');
+                
+                // 检查是否是 Base64 编码的（如果包含 vless:// 说明是双重编码）
+                try {
+                    const decoded = atob(urlStr);
+                    if (decoded.startsWith('vless://')) {
+                        urlStr = decoded.replace('vless://', '');
+                    }
+                } catch (e) {
+                    // 不是 Base64，继续正常解析
+                }
+                
+                // 分离 UUID 和其他部分
+                const atIndex = urlStr.indexOf('@');
+                if (atIndex === -1) return null;
+                
+                const uuid = urlStr.substring(0, atIndex);
+                const remaining = urlStr.substring(atIndex + 1);
+                
+                // 分离地址端口和参数
+                const questionIndex = remaining.indexOf('?');
+                const hashIndex = remaining.indexOf('#');
+                
+                let addressPart, paramPart, namePart;
+                
+                if (questionIndex !== -1) {
+                    addressPart = remaining.substring(0, questionIndex);
+                    if (hashIndex !== -1) {
+                        paramPart = remaining.substring(questionIndex + 1, hashIndex);
+                        namePart = remaining.substring(hashIndex + 1);
+                    } else {
+                        paramPart = remaining.substring(questionIndex + 1);
+                        namePart = '';
+                    }
+                } else if (hashIndex !== -1) {
+                    addressPart = remaining.substring(0, hashIndex);
+                    paramPart = '';
+                    namePart = remaining.substring(hashIndex + 1);
+                } else {
+                    addressPart = remaining;
+                    paramPart = '';
+                    namePart = '';
+                }
+                
+                // 解析地址和端口
+                const colonIndex = addressPart.lastIndexOf(':');
+                const address = colonIndex !== -1 ? addressPart.substring(0, colonIndex) : addressPart;
+                const serverPort = colonIndex !== -1 ? addressPart.substring(colonIndex + 1) : '443';
+                
+                // 解析参数
+                const params = new URLSearchParams(paramPart);
+                const name = namePart ? decodeURIComponent(namePart) : `VLESS-${port}`;
+                
+                const network = params.get('type') || 'tcp';
+                const security = params.get('security') || 'none';
+                
+                return {
+                    type: 'vless',
+                    port: port,
+                    name: name,
+                    address: address,
+                    serverPort: parseInt(serverPort) || 443,
+                    id: uuid,
+                    security: security,
+                    network: network,
+                    tls: security,
+                    sni: params.get('sni') || params.get('peer') || address,
+                    path: params.get('path') || '/',
+                    host: params.get('host') || address
+                };
+            } catch (e) {
+                console.error('VLESS 解析错误:', e);
+                return null;
+            }
+        }
+        
+        function displayNodes() {
+            const nodeList = document.getElementById('nodeList');
+            const section = document.getElementById('nodeListSection');
+            
+            nodeList.innerHTML = parsedNodes.map((node, index) => `
+                <div class="node-item">
+                    <div class="node-info">
+                        <div class="node-name">${node.name}</div>
+                        <div class="node-details">${node.address}:${node.serverPort} | ${node.network}+${node.tls}</div>
+                    </div>
+                    <div class="node-port">端口 ${node.port}</div>
+                </div>
+            `).join('');
+            
+            section.classList.remove('hidden');
+        }
+        
+        function generateConfig() {
+            const inbounds = parsedNodes.map((node, index) => ({
+                tag: `socks-${index + 1}`,
+                port: node.port,
+                listen: '127.0.0.1',
+                protocol: 'socks',
+                sniffing: {
+                    enabled: true,
+                    destOverride: ['http', 'tls'],
+                    routeOnly: false
+                },
+                settings: {
+                    auth: 'noauth',
+                    udp: true,
+                    allowTransparent: false
+                }
+            }));
+            
+            const outbounds = parsedNodes.map((node, index) => {
+                const outbound = {
+                    tag: `proxy-${index + 1}`,
+                    protocol: node.type,
+                    settings: {},
+                    streamSettings: {
+                        network: node.network,
+                        security: node.tls === 'tls' ? 'tls' : 'none'
+                    },
+                    mux: {
+                        enabled: false,
+                        concurrency: -1
+                    }
+                };
+                
+                if (node.type === 'vmess') {
+                    outbound.settings.vnext = [{
+                        address: node.address,
+                        port: parseInt(node.serverPort),
+                        users: [{
+                            id: node.id,
+                            alterId: parseInt(node.alterId),
+                            email: 't@t.tt',
+                            security: node.security
+                        }]
+                    }];
+                } else if (node.type === 'vless') {
+                    outbound.settings.vnext = [{
+                        address: node.address,
+                        port: parseInt(node.serverPort),
+                        users: [{
+                            id: node.id,
+                            encryption: 'none'
+                        }]
+                    }];
+                }
+                
+                if (node.tls === 'tls') {
+                    outbound.streamSettings.tlsSettings = {
+                        allowInsecure: false,
+                        serverName: node.sni
+                    };
+                }
+                
+                if (node.network === 'ws') {
+                    outbound.streamSettings.wsSettings = {
+                        path: node.path,
+                        headers: {
+                            Host: node.host
+                        }
+                    };
+                }
+                
+                return outbound;
+            });
+            
+            outbounds.push(
+                { tag: 'direct', protocol: 'freedom' },
+                { tag: 'block', protocol: 'blackhole' }
+            );
+            
+            const routingRules = parsedNodes.map((node, index) => ({
+                type: 'field',
+                inboundTag: [`socks-${index + 1}`],
+                outboundTag: `proxy-${index + 1}`
+            }));
+            
+            routingRules.push(
+                {
+                    type: 'field',
+                    outboundTag: 'block',
+                    domain: ['geosite:category-ads-all']
+                },
+                {
+                    type: 'field',
+                    outboundTag: 'direct',
+                    domain: ['geosite:cn']
+                },
+                {
+                    type: 'field',
+                    outboundTag: 'direct',
+                    ip: ['geoip:private', 'geoip:cn']
+                }
+            );
+            
+            const config = {
+                log: {
+                    loglevel: 'warning'
+                },
+                dns: {
+                    servers: [
+                        {
+                            address: '1.1.1.1',
+                            domains: ['geosite:geolocation-!cn'],
+                            expectIPs: ['geoip:!cn']
+                        },
+                        {
+                            address: '223.5.5.5',
+                            domains: ['geosite:cn'],
+                            expectIPs: ['geoip:cn']
+                        },
+                        '8.8.8.8'
+                    ]
+                },
+                inbounds: inbounds,
+                outbounds: outbounds,
+                routing: {
+                    domainStrategy: 'AsIs',
+                    rules: routingRules
+                }
+            };
+            
+            const output = document.getElementById('output');
+            const section = document.getElementById('outputSection');
+            
+            output.textContent = JSON.stringify(config, null, 2);
+            section.classList.remove('hidden');
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function copyConfig() {
+            const output = document.getElementById('output');
+            navigator.clipboard.writeText(output.textContent).then(() => {
+                alert('配置已复制到剪贴板！');
+            });
+        }
+        
+        function downloadConfig() {
+            const output = document.getElementById('output');
+            const blob = new Blob([output.textContent], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'v2ray-config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function clearAll() {
+            document.getElementById('nodeInput').value = '';
+            document.getElementById('nodeListSection').classList.add('hidden');
+            document.getElementById('outputSection').classList.add('hidden');
+            parsedNodes = [];
+        }
+    </script>
+</body>
+</html>
