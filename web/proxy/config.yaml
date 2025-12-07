@@ -1,0 +1,137 @@
+#---------------------------------------------------#
+## 通用的 Clash/Mihomo 配置示例
+## 包含：手动节点 + 订阅节点 + 策略组 + 规则集
+#---------------------------------------------------#
+
+#---------------------------------------------------#
+## 基本信息配置，不设置的话一般默认即可
+#---------------------------------------------------#
+# 是否允许来自局域网的连接（开启后，其他设备可以通过你的电脑上网）
+allow-lan: true
+# 监听地址，"*"表示监听所有地址，这样局域网内其他设备才能连接
+bind-address: "*"
+
+#---------------------------------------------------#
+## 面板信息配置
+#---------------------------------------------------#
+# 控制面板访问地址和端口，可以通过浏览器访问查看连接状态
+external-controller: 0.0.0.0:9090
+# MetaCubeX界面，比上面那个更漂亮（目前启用的是这个）
+external-ui: ui
+# 访问控制面板的密码，设置后别人就不能随意访问你的控制面板了
+secret: "your_password" # 请替换为你自己的密码
+
+#---------------------------------------------------#
+## DNS设置（处理域名解析的方式，很重要！）
+#---------------------------------------------------#
+dns:
+  enable: true
+  ipv6: false # 关闭IPv6，大多数情况下不需要
+  enhanced-mode: fake-ip # 加速DNS解析的模式
+  fake-ip-range: 198.18.0.0/16 # 虚拟IP地址池
+  # 默认 DNS, 用于解析 DNS 服务器 的域名
+  default-nameserver:
+    - 223.5.5.5  # 阿里DNS
+    - 119.29.29.29  # 114DNS
+  # 国内DNS服务器（加密连接，更安全）
+  nameserver:
+    - https://doh.pub/dns-query         # 腾讯DNS
+    - https://dns.alidns.com/dns-query  # 阿里DNS
+  # 国外DNS服务器，用于解析被污染的域名
+  fallback:
+     - https://dns.google/dns-query     # 谷歌DNS
+     - https://cloudflare-dns.com/dns-query  # Cloudflare DNS
+  # 哪些情况下会使用国外DNS
+  fallback-filter:
+    geoip: true
+    geoip-code: CN  # 如果解析结果不是CN(中国)，则使用fallback
+    # 这些网段的结果会被视为污染，nameserver解析出这些结果时将会采用 fallback的解析结果
+    ipcidr:
+      - 0.0.0.0/8
+      - 127.0.0.0/8
+      - 240.0.0.0/4
+    # 这些域名被视为已污染，匹配到这些域名，会直接使用 fallback解析，不去使用 nameserver
+    # 这些网站强制使用国外DNS解析，避免被污染
+    domain:
+      - '+.google.com'
+      - '+.google.com.hk'
+      - '+.googleapis.com'
+      - '+.googleusercontent.com'
+      - '+.gstatic.com'
+      - '+.facebook.com'
+      - '+.fbcdn.net'
+      - '+.youtube.com'
+      - '+.ytimg.com'
+      - '+.twitter.com'
+      - '+.twimg.com'
+      - '+.t.co'
+      - '+.github.com'
+      - '+.githubusercontent.com'
+      - '+.googlevideo.com'
+
+#---------------------------------------------------#
+## 监听端口设置（本地代理端口）
+#---------------------------------------------------#
+listeners:
+  - name: mixed0
+    type: mixed
+    port: 42000
+    proxy: LoadBalance
+  - name: mixed1
+    type: mixed
+    port: 42001
+    proxy: LoadBalance
+  - name: mixed2
+    type: mixed
+    port: 42002
+    proxy: LoadBalance
+  - name: mixed3
+    type: mixed
+    port: 42003
+    proxy: LoadBalance
+  - name: mixed4
+    type: mixed
+    port: 42004
+    proxy: LoadBalance
+
+#---------------------------------------------------#
+## 代理服务器定义
+#---------------------------------------------------#
+proxies:
+  - {name: vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.192.0, server: 104.16.192.0, port: 443, type: vmess, uuid: 6dd31d62-306d-446e-87d2-5f3f7e2eca95, alterId: 0, cipher: auto, tls: true, servername: berry-tion-boom-rounds.trycloudflare.com, network: ws, ws-opts: {path: "/6dd31d62-306d-446e-87d2-5f3f7e2eca95-vm?ed=2048", headers: {Host: berry-tion-boom-rounds.trycloudflare.com}}}
+  - {name: vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.64.0, server: 104.16.64.0, port: 443, type: vmess, uuid: 6dd31d62-306d-446e-87d2-5f3f7e2eca95, alterId: 0, cipher: auto, tls: true, servername: berry-tion-boom-rounds.trycloudflare.com, network: ws, ws-opts: {path: "/6dd31d62-306d-446e-87d2-5f3f7e2eca95-vm?ed=2048", headers: {Host: berry-tion-boom-rounds.trycloudflare.com}}}
+  - {name: vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.128.0, server: 104.18.128.0, port: 443, type: vmess, uuid: 6dd31d62-306d-446e-87d2-5f3f7e2eca95, alterId: 0, cipher: auto, tls: true, servername: berry-tion-boom-rounds.trycloudflare.com, network: ws, ws-opts: {path: "/6dd31d62-306d-446e-87d2-5f3f7e2eca95-vm?ed=2048", headers: {Host: berry-tion-boom-rounds.trycloudflare.com}}}
+  - {name: vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.17.160.0, server: 104.17.160.0, port: 443, type: vmess, uuid: 6dd31d62-306d-446e-87d2-5f3f7e2eca95, alterId: 0, cipher: auto, tls: true, servername: berry-tion-boom-rounds.trycloudflare.com, network: ws, ws-opts: {path: "/6dd31d62-306d-446e-87d2-5f3f7e2eca95-vm?ed=2048", headers: {Host: berry-tion-boom-rounds.trycloudflare.com}}}
+  - {name: vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.64.0, server: 104.18.64.0, port: 443, type: vmess, uuid: 6dd31d62-306d-446e-87d2-5f3f7e2eca95, alterId: 0, cipher: auto, tls: true, servername: berry-tion-boom-rounds.trycloudflare.com, network: ws, ws-opts: {path: "/6dd31d62-306d-446e-87d2-5f3f7e2eca95-vm?ed=2048", headers: {Host: berry-tion-boom-rounds.trycloudflare.com}}}
+
+# 代理分组（让你可以选择走直连还是代理）
+proxy-groups:
+  - name: 🔰 节点选择
+    type: select
+    proxies:
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.192.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.64.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.128.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.17.160.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.64.0
+  # 自动测速选择最快的代理
+  - name: ♻️ 自动选择
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    proxies:
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.192.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.64.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.128.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.17.160.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.64.0
+  # 负载均衡
+  - name: 🎥 LoadBalance
+    type: load-balance
+    strategy: consistent-hashing  # 同一目标用同一节点
+    proxies:
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.192.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.16.64.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.128.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.17.160.0
+      - vmess-ws-tls-argo-us-east-claw-tuonizhysg-1-78ddfc4f7c-2gdjk-443-优选IP-104.18.64.0
