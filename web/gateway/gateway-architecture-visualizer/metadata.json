@@ -1,0 +1,5 @@
+{
+  "name": "Gateway Architecture Visualizer",
+  "description": "A high-fidelity, interactive recreation of a Spring Cloud Gateway architecture diagram, featuring path highlighting and clean SVG graphics.",
+  "requestFramePermissions": []
+}

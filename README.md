@@ -79,6 +79,7 @@ web模版合集，包含各种卡片、网站、小程序、app等静态模版�
 | 网站模板 | [website.html](./web/video_cover/website.html) | 基础网站模板2 |
 | 博客模板 | [blog_1.html](./web/website/blog_1.html) | 个人博客模板1 |
 | 代理工具 | [v2ray.html](./web/proxy/v2ray.html) | 多个 VMess/VLESS 节点映射为本地多个 SOCKS5 端口（适用于 Linux 无头系统） |
+| 网关模板 | [gateway-architecture-visualizer/index.html](./web/gateway/gateway-architecture-visualizer/dist/index.html) | 网关架构可视化器：用于绘制和演示服务/网关拓扑 |
 
 #### 在线访问
 
