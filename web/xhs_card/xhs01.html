@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>温馨母婴知识卡片</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        
+        body {
+            background-color: #FFF5F7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Ma Shan Zheng', 'Microsoft YaHei', sans-serif;
+        }
+        
+        .baby-card {
+            width: 320px;
+            background: linear-gradient(135deg, #FFD6E0 0%, #E0F9FF 100%);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+        
+        .card-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 28px;
+            color: #FF6B8B;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+        }
+        
+        .card-subtitle {
+            font-size: 16px;
+            color: #88C9F1;
+            margin-top: 5px;
+        }
+        
+        .card-content {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .tip {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .important {
+            font-weight: bold;
+            color: #FF6B8B;
+        }
+        
+        .emoji {
+            font-size: 20px;
+            vertical-align: middle;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .baby-icon {
+            font-size: 24px;
+            color: #FF6B8B;
+        }
+        
+        .decorations {
+            position: absolute;
+        }
+        
+        .heart {
+            position: absolute;
+            color: #FFB6C1;
+            font-size: 18px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .star {
+            position: absolute;
+            color: #FFD700;
+            font-size: 16px;
+            animation: float 4s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .baby-image {
+            width: 80px;
+            height: 80px;
+            background-color: #FFD6E0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .baby-image img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="baby-card">
+        <!-- 装饰元素 -->
+        <div class="heart" style="top: 10px; right: 20px;">❤️</div>
+        <div class="star" style="top: 30px; left: 15px;">⭐</div>
+        <div class="heart" style="bottom: 40px; right: 30px;">❤️</div>
+        
+        <!-- 卡片头部 -->
+        <div class="card-header">
+            <h1 class="card-title">宝妈必看 <span class="emoji">👶</span></h1>
+            <p class="card-subtitle">新生儿护理小贴士</p>
+        </div>
+        
+        <!-- 卡片内容 -->
+        <div class="card-content">
+            <p class="tip">宝宝出生后，<span class="important">脐带护理</span>非常重要！每天用75%酒精消毒1-2次，保持干燥清洁❤️</p>
+            <p class="tip"><span class="important">母乳喂养</span>时，宝妈要注意饮食均衡，多喝水🍼 宝宝吃饱后会自然松开乳头~</p>
+            <p class="tip">新生儿<span class="important">睡眠时间</span>长达16-20小时，这是正常现象不必担心😴</p>
+        </div>
+        
+        <!-- 卡片底部 -->
+        <div class="card-footer">
+            <div class="baby-icon">
+                <span class="emoji">🧸</span> <span class="emoji">🛁</span> <span class="emoji">👕</span>
+            </div>
+            <div class="baby-image">
+                <img src="https://placeholder.pics/svg/70x70/DEDEDE/555555/宝宝" alt="宝宝头像">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

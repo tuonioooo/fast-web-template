@@ -66,6 +66,7 @@ web模版合集，包含各种卡片、网站、小程序、app等静态模版�
 | 艺术卡片 | [艺术卡片字体_103.html](./web/art_card/艺术卡片字体_103.html) | 柔和色调艺术字体卡片 |
 | 艺术卡片 | [艺术卡片字体_104.html](./web/art_card/艺术卡片字体_104.html) | 现代风格艺术字体卡片 |
 | 艺术卡片 | [艺术字体卡片_105.html](./web/art_card/艺术字体卡片_105.html) | 3D效果艺术字体卡片 |
+| 母婴卡片 | [xhs01.html](./web/xhs_card/xhs01.html) | 温馨母婴知识卡片 |
 | Cloudflare | [1.html](./web/cloudflare/1.html) | Cloudflare相关模板 |
 | 通用卡片 | [101.html](./web/common_card/101.html) | 左右分割通用卡片 |
 | 通用卡片 | [102.html](./web/common_card/102.html) | 上下分割通用卡片 |
