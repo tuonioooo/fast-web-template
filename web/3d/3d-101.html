@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D 卡片动画生成器</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #1e1e2e;
+    --accent: #7c6aff;
+    --accent2: #ff6a9c;
+    --text: #e8e8f0;
+    --muted: #5a5a7a;
+    --card-w: 680px;
+    --card-h: 420px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%;
+    left: -20%;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, rgba(124,106,255,0.07) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, rgba(255,106,156,0.05) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(124,106,255,0.12);
+    border: 1px solid rgba(124,106,255,0.3);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  /* Upload Zone */
+  .upload-zone {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 560px;
+    border: 1.5px dashed var(--border);
+    border-radius: 16px;
+    padding: 48px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--surface);
+    margin-bottom: 40px;
+  }
+
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(124,106,255,0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124,106,255,0.15);
+  }
+
+  .upload-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 16px;
+    background: rgba(124,106,255,0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .upload-zone h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .upload-zone p {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  #fileInput { display: none; }
+
+  /* Controls Panel */
+  .controls {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 840px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    display: none;
+  }
+
+  .controls.visible { display: block; }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .control-item label {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .control-item .value {
+    float: right;
+    color: var(--accent);
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(124,106,255,0.6);
+    transition: transform 0.2s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+
+  .preset-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .preset-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 7px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .preset-btn:hover, .preset-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(124,106,255,0.08);
+  }
+
+  /* Animation Stage */
+  .stage-wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 900px;
+    display: none;
+  }
+
+  .stage-wrap.visible { display: block; }
+
+  .stage-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stage-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .stage {
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+    background: radial-gradient(ellipse at 50% 50%, #0d0d18 0%, var(--bg) 100%);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Grid lines in stage */
+  .stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(124,106,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,106,255,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .card-container {
+    position: relative;
+    width: var(--card-w);
+    max-width: 90vw;
+    transform-style: preserve-3d;
+  }
+
+  .card {
+    width: 100%;
+    aspect-ratio: 16/10;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.4),
+      0 20px 60px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.07);
+    transform-origin: center center;
+    will-change: transform, opacity;
+  }
+
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Shine overlay */
+  .card-shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: linear-gradient(
+      135deg,
+      rgba(255,255,255,0.12) 0%,
+      transparent 50%,
+      rgba(0,0,0,0.2) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Vignette */
+  .card-vignette {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  /* Bottom controls */
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #9b6aff);
+    color: white;
+    box-shadow: 0 4px 20px rgba(124,106,255,0.4);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(124,106,255,0.5);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Easing selector */
+  .easing-select {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  /* Keyframe display */
+  .keyframe-preview {
+    margin-top: 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .kf-line { color: var(--text); }
+  .kf-prop { color: var(--accent); }
+  .kf-val { color: var(--accent2); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    :root { --card-w: 340px; }
+    .controls-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">✦ 3D ANIMATOR</div>
+  <h1>卡片 <span>3D 透视</span> 动画</h1>
+  <p class="sub">上传图片，实时生成高质感翻转入场效果</p>
+</header>
+
+<!-- Upload -->
+<div class="upload-zone" id="uploadZone">
+  <input type="file" id="fileInput" accept="image/*">
+  <div class="upload-icon">🖼</div>
+  <h3>点击或拖拽上传图片</h3>
+  <p>支持 JPG、PNG、WebP、GIF · 建议 16:9 比例</p>
+</div>
+
+<!-- Controls -->
+<div class="controls" id="controls">
+  <div class="preset-row">
+    <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);align-self:center;letter-spacing:0.08em">预设：</span>
+    <button class="preset-btn active" data-preset="gentle" onclick="applyPreset('gentle',this)">轻柔入场</button>
+    <button class="preset-btn" data-preset="dramatic" onclick="applyPreset('dramatic',this)">戏剧翻转</button>
+    <button class="preset-btn" data-preset="slide" onclick="applyPreset('slide',this)">侧滑展开</button>
+    <button class="preset-btn" data-preset="rise" onclick="applyPreset('rise',this)">向上升起</button>
+    <button class="preset-btn" data-preset="spring" onclick="applyPreset('spring',this)">弹性弹出</button>
+  </div>
+
+  <div class="controls-grid">
+    <div class="control-item">
+      <label>Y 轴旋转 <span class="value" id="rotYVal">-20°</span></label>
+      <input type="range" id="rotY" min="-60" max="60" value="-20" oninput="updateParam('rotY',this)">
+    </div>
+    <div class="control-item">
+      <label>X 轴旋转 <span class="value" id="rotXVal">3°</span></label>
+      <input type="range" id="rotX" min="-30" max="30" value="3" oninput="updateParam('rotX',this)">
+    </div>
+    <div class="control-item">
+      <label>初始缩放 <span class="value" id="scaleVal">92%</span></label>
+      <input type="range" id="scale" min="60" max="100" value="92" oninput="updateParam('scale',this)">
+    </div>
+    <div class="control-item">
+      <label>初始透明度 <span class="value" id="opacityVal">0%</span></label>
+      <input type="range" id="opacity" min="0" max="100" value="0" oninput="updateParam('opacity',this)">
+    </div>
+    <div class="control-item">
+      <label>动画时长 <span class="value" id="durVal">0.7s</span></label>
+      <input type="range" id="dur" min="2" max="30" value="7" oninput="updateParam('dur',this)">
+    </div>
+    <div class="control-item">
+      <label>透视距离 <span class="value" id="perspVal">900px</span></label>
+      <input type="range" id="persp" min="300" max="2000" value="900" oninput="updateParam('persp',this)">
+    </div>
+    <div class="control-item">
+      <label>缓动曲线</label>
+      <select class="easing-select" id="easing" onchange="replay()">
+        <option value="cubic-bezier(0.22,1,0.36,1)">Ease Out Expo</option>
+        <option value="cubic-bezier(0.34,1.56,0.64,1)">Spring</option>
+        <option value="cubic-bezier(0.65,0,0.35,1)">Ease In Out</option>
+        <option value="cubic-bezier(0.16,1,0.3,1)">Ease Out Quint</option>
+        <option value="ease-out">Ease Out</option>
+        <option value="linear">Linear</option>
+      </select>
+    </div>
+    <div class="control-item">
+      <label>暗角强度 <span class="value" id="vigVal">60%</span></label>
+      <input type="range" id="vig" min="0" max="100" value="60" oninput="updateParam('vig',this)">
+    </div>
+    <div class="control-item">
+      <label>停留时长 <span class="value" id="holdVal">2.0s</span></label>
+      <input type="range" id="hold" min="0" max="80" value="20" oninput="updateParam('hold',this)">
+    </div>
+    <div class="control-item">
+      <label>退出时长 <span class="value" id="exitDurVal">0.5s</span></label>
+      <input type="range" id="exitDur" min="1" max="20" value="5" oninput="updateParam('exitDur',this)">
+    </div>
+    <div class="control-item">
+      <label>退出方向</label>
+      <select class="easing-select" id="exitDir" onchange="replay()">
+        <option value="right">向右翻出</option>
+        <option value="left">向左翻出</option>
+        <option value="up">向上淡出</option>
+        <option value="down">向下淡出</option>
+        <option value="scale">缩小消失</option>
+        <option value="none">无退出</option>
+      </select>
+    </div>
+    <div class="control-item">
+      <label>循环播放</label>
+      <select class="easing-select" id="loopMode" onchange="replay()">
+        <option value="once">播放一次</option>
+        <option value="loop">自动循环</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="keyframe-preview" id="kfPreview"></div>
+</div>
+
+<!-- Stage -->
+<div class="stage-wrap" id="stageWrap">
+  <div class="stage-label">预览</div>
+  <div class="stage" id="stage">
+    <div class="card-container" id="cardContainer">
+      <div class="card" id="card">
+        <img id="preview" src="" alt="">
+        <div class="card-shine"></div>
+        <div class="card-vignette" id="vignette"></div>
+      </div>
+    </div>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-primary" onclick="replay()">▶ 重播动画</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('fileInput').click()">🔄 换图片</button>
+  </div>
+
+  <!-- Timeline bar -->
+  <div id="timeline" style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:none;">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">时间轴</div>
+    <div style="position:relative;height:6px;border-radius:6px;background:var(--border);overflow:hidden;">
+      <div id="tlBar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;transition:width 0.1s linear;"></div>
+    </div>
+    <div id="tlLabels" style="display:flex;justify-content:space-between;margin-top:8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);"></div>
+    <div id="tlPhase" style="text-align:center;margin-top:6px;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.06em;"></div>
+  </div>
+</div>
+
+<script>
+  // State
+  const params = {
+    rotY: -20, rotX: 3, scale: 92, opacity: 0,
+    dur: 0.7, persp: 900, easing: 'cubic-bezier(0.22,1,0.36,1)', vig: 60,
+    hold: 2.0, exitDur: 0.5, exitDir: 'right', loopMode: 'once'
+  };
+
+  let animTimeout = null;
+
+  // Presets
+  const presets = {
+    gentle:   { rotY:-20, rotX:3,  scale:92, opacity:0,  dur:0.7, persp:900,  easing:'cubic-bezier(0.22,1,0.36,1)', vig:60 },
+    dramatic: { rotY:-45, rotX:8,  scale:80, opacity:0,  dur:1.0, persp:600,  easing:'cubic-bezier(0.16,1,0.3,1)',  vig:80 },
+    slide:    { rotY:-15, rotX:0,  scale:88, opacity:0,  dur:0.6, persp:1200, easing:'cubic-bezier(0.22,1,0.36,1)', vig:40 },
+    rise:     { rotY:0,   rotX:20, scale:85, opacity:0,  dur:0.8, persp:800,  easing:'cubic-bezier(0.34,1.56,0.64,1)', vig:50 },
+    spring:   { rotY:-25, rotX:5,  scale:75, opacity:20, dur:0.9, persp:700,  easing:'cubic-bezier(0.34,1.56,0.64,1)', vig:70 }
+  };
+
+  function applyPreset(name, btn) {
+    const p = presets[name];
+    Object.assign(params, p);
+    // Update sliders
+    document.getElementById('rotY').value = p.rotY;
+    document.getElementById('rotX').value = p.rotX;
+    document.getElementById('scale').value = p.scale;
+    document.getElementById('opacity').value = p.opacity;
+    document.getElementById('dur').value = p.dur * 10;
+    document.getElementById('persp').value = p.persp;
+    document.getElementById('vig').value = p.vig;
+    document.getElementById('easing').value = p.easing;
+    // Update labels
+    document.getElementById('rotYVal').textContent = p.rotY + '°';
+    document.getElementById('rotXVal').textContent = p.rotX + '°';
+    document.getElementById('scaleVal').textContent = p.scale + '%';
+    document.getElementById('opacityVal').textContent = p.opacity + '%';
+    document.getElementById('durVal').textContent = p.dur.toFixed(1) + 's';
+    document.getElementById('perspVal').textContent = p.persp + 'px';
+    document.getElementById('vigVal').textContent = p.vig + '%';
+    // Active state
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    replay();
+  }
+
+  function updateParam(key, el) {
+    const v = parseFloat(el.value);
+    let display = v;
+    if (key === 'rotY') { params.rotY = v; display = v + '°'; document.getElementById('rotYVal').textContent = display; }
+    if (key === 'rotX') { params.rotX = v; display = v + '°'; document.getElementById('rotXVal').textContent = display; }
+    if (key === 'scale') { params.scale = v; display = v + '%'; document.getElementById('scaleVal').textContent = display; }
+    if (key === 'opacity') { params.opacity = v; display = v + '%'; document.getElementById('opacityVal').textContent = display; }
+    if (key === 'dur') { params.dur = v / 10; display = params.dur.toFixed(1) + 's'; document.getElementById('durVal').textContent = display; }
+    if (key === 'persp') { params.persp = v; display = v + 'px'; document.getElementById('perspVal').textContent = display; }
+    if (key === 'vig') { params.vig = v; display = v + '%'; document.getElementById('vigVal').textContent = display; }
+    if (key === 'hold') { params.hold = v / 10; display = params.hold.toFixed(1) + 's'; document.getElementById('holdVal').textContent = display; }
+    if (key === 'exitDur') { params.exitDur = v / 10; display = params.exitDur.toFixed(1) + 's'; document.getElementById('exitDurVal').textContent = display; }
+    updateKeyframePreview();
+    replay();
+  }
+
+  function updateKeyframePreview() {
+    const exitDir = document.getElementById('exitDir') ? document.getElementById('exitDir').value : 'right';
+    const loopMode = document.getElementById('loopMode') ? document.getElementById('loopMode').value : 'once';
+    const exitMap = { right:'rotateY(30deg) scale(0.9)', left:'rotateY(-30deg) scale(0.9)', up:'translateY(-40px) scale(0.9)', down:'translateY(40px) scale(0.9)', scale:'scale(0.7)', none:'none' };
+    const exitTransform = exitMap[exitDir] || 'none';
+    const total = params.dur + params.hold + (exitDir !== 'none' ? params.exitDur : 0);
+    const el = document.getElementById('kfPreview');
+    el.innerHTML = `
+<span style="color:var(--muted)">/* 完整动画序列 · 总时长 ${total.toFixed(1)}s */</span>
+<span class="kf-line">入场  <span class="kf-prop">0s → ${params.dur.toFixed(1)}s</span>  <span class="kf-val">3D 翻转入场</span></span>
+<span class="kf-line">停留  <span class="kf-prop">${params.dur.toFixed(1)}s → ${(params.dur+params.hold).toFixed(1)}s</span>  <span class="kf-val">静止展示 ${params.hold.toFixed(1)}s</span></span>${exitDir !== 'none' ? `
+<span class="kf-line">退出  <span class="kf-prop">${(params.dur+params.hold).toFixed(1)}s → ${total.toFixed(1)}s</span>  <span class="kf-val">${exitDir === 'right' ? '向右翻出' : exitDir === 'left' ? '向左翻出' : exitDir === 'up' ? '向上淡出' : exitDir === 'down' ? '向下淡出' : '缩小消失'}</span></span>` : ''}
+${loopMode === 'loop' ? `<span class="kf-line" style="color:var(--accent2)">↻ 循环 · 间隔 0.3s 重新播放</span>` : ''}
+<span style="color:var(--muted)">/* CSS 关键帧 */</span>
+<span class="kf-line"><span class="kf-prop">transform</span>: <span class="kf-val">perspective(${params.persp}px) rotateY(${params.rotY}deg) rotateX(${params.rotX}deg) scale(${params.scale/100})</span>;</span>
+<span class="kf-line"><span class="kf-prop">animation-duration</span>: <span class="kf-val">${params.dur}s</span>; <span class="kf-prop">hold</span>: <span class="kf-val">${params.hold}s</span>; <span class="kf-prop">exit</span>: <span class="kf-val">${params.exitDur}s</span>;</span>`;
+  }
+
+  let tlInterval = null;
+
+  function startTimeline(totalMs, enterMs, holdMs, exitMs, hasExit) {
+    const bar = document.getElementById('tlBar');
+    const phase = document.getElementById('tlPhase');
+    const labels = document.getElementById('tlLabels');
+    const tl = document.getElementById('timeline');
+    tl.style.display = 'block';
+    if (tlInterval) clearInterval(tlInterval);
+    bar.style.transition = 'none'; bar.style.width = '0%';
+    
+    // Labels
+    labels.innerHTML = `<span>0s</span><span>${(enterMs/1000).toFixed(1)}s 入场</span><span>${((enterMs+holdMs)/1000).toFixed(1)}s 停留</span>${hasExit ? `<span>${(totalMs/1000).toFixed(1)}s 退出</span>` : `<span>${(totalMs/1000).toFixed(1)}s</span>`}`;
+    
+    const start = Date.now();
+    tlInterval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const pct = Math.min(100, (elapsed / totalMs) * 100);
+      bar.style.transition = 'width 0.1s linear';
+      bar.style.width = pct + '%';
+      if (elapsed < enterMs) phase.textContent = '▶ 入场中...';
+      else if (elapsed < enterMs + holdMs) phase.textContent = '⏸ 停留中...';
+      else if (hasExit && elapsed < totalMs) phase.textContent = '◀ 退出中...';
+      else { phase.textContent = '✓ 完成'; clearInterval(tlInterval); }
+    }, 50);
+  }
+
+  let loopTimer = null;
+
+  function clearAllTimers() {
+    if (animTimeout) clearTimeout(animTimeout);
+    if (loopTimer) clearTimeout(loopTimer);
+    if (tlInterval) clearInterval(tlInterval);
+    animTimeout = null; loopTimer = null; tlInterval = null;
+  }
+
+  function getExitTransform() {
+    const dir = document.getElementById('exitDir') ? document.getElementById('exitDir').value : 'right';
+    const p = params.persp;
+    if (dir === 'right') return `perspective(${p}px) rotateY(30deg) scale(0.88)`;
+    if (dir === 'left')  return `perspective(${p}px) rotateY(-30deg) scale(0.88)`;
+    if (dir === 'up')    return `perspective(${p}px) rotateX(-15deg) translateY(-50px) scale(0.9)`;
+    if (dir === 'down')  return `perspective(${p}px) rotateX(15deg) translateY(50px) scale(0.9)`;
+    if (dir === 'scale') return `perspective(${p}px) scale(0.65)`;
+    return null;
+  }
+
+  function runSequence() {
+    const card = document.getElementById('card');
+    const vignette = document.getElementById('vignette');
+    const easing = document.getElementById('easing').value;
+    const exitDir = document.getElementById('exitDir') ? document.getElementById('exitDir').value : 'right';
+    const loopMode = document.getElementById('loopMode') ? document.getElementById('loopMode').value : 'once';
+    params.easing = easing;
+
+    const enterMs = params.dur * 1000;
+    const holdMs = params.hold * 1000;
+    const exitDurMs = exitDir !== 'none' ? params.exitDur * 1000 : 0;
+    const totalMs = enterMs + holdMs + exitDurMs;
+    const hasExit = exitDir !== 'none';
+
+    // Start timeline
+    startTimeline(totalMs, enterMs, holdMs, exitDurMs, hasExit);
+
+    // — PHASE 1: Reset —
+    card.style.transition = 'none';
+    card.style.transform = `perspective(${params.persp}px) rotateY(${params.rotY}deg) rotateX(${params.rotX}deg) scale(${params.scale/100})`;
+    card.style.opacity = params.opacity / 100;
+    vignette.style.opacity = params.vig / 100;
+
+    // — PHASE 2: Enter —
+    animTimeout = setTimeout(() => {
+      card.style.transition = `transform ${params.dur}s ${easing}, opacity ${params.dur * 0.8}s ${easing}`;
+      card.style.transform = `perspective(${params.persp}px) rotateY(0deg) rotateX(0deg) scale(1)`;
+      card.style.opacity = 1;
+
+      // — PHASE 3: Hold → Exit —
+      const exitTransform = getExitTransform();
+      if (hasExit) {
+        loopTimer = setTimeout(() => {
+          card.style.transition = `transform ${params.exitDur}s cubic-bezier(0.4,0,1,1), opacity ${params.exitDur * 0.8}s ease-in`;
+          card.style.transform = exitTransform;
+          card.style.opacity = 0;
+          if (loopMode === 'loop') loopTimer = setTimeout(runSequence, exitDurMs + 300);
+        }, enterMs + holdMs);
+      } else if (loopMode === 'loop') {
+        loopTimer = setTimeout(runSequence, enterMs + holdMs + 300);
+      }
+    }, 50);
+
+    updateKeyframePreview();
+  }
+
+  function replay() {
+    clearAllTimers();
+    runSequence();
+  }
+
+  // Upload handling
+  const uploadZone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+  const controls = document.getElementById('controls');
+  const stageWrap = document.getElementById('stageWrap');
+  const preview = document.getElementById('preview');
+
+  uploadZone.addEventListener('click', () => fileInput.click());
+
+  uploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+  });
+
+  uploadZone.addEventListener('dragleave', () => {
+    uploadZone.classList.remove('dragover');
+  });
+
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) loadImage(file);
+  });
+
+  fileInput.addEventListener('change', e => {
+    if (e.target.files[0]) loadImage(e.target.files[0]);
+  });
+
+  function loadImage(file) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      uploadZone.style.display = 'none';
+      controls.classList.add('visible');
+      stageWrap.classList.add('visible');
+      updateKeyframePreview();
+      setTimeout(replay, 300);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Init keyframe preview
+  updateKeyframePreview();
+</script>
+</body>
+</html>
