@@ -1,0 +1,1263 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国家验证码支持情况</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #151820;
+      --surface2: #1c2030;
+      --border: #252a3a;
+      --accent: #00e5ff;
+      --accent2: #7c6fff;
+      --success: #00e096;
+      --danger: #ff5370;
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-wrapper { position: relative; z-index: 1; }
+
+    /* Header */
+    .top-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .logo span { color: var(--text); }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      display: inline-block;
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Stats */
+    .stats-bar {
+      display: flex;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-item {
+      flex: 1;
+      background: var(--surface);
+      padding: 14px 24px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* Controls */
+    .controls-panel {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .form-control, .form-select {
+      background: var(--surface2) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .form-control::placeholder { color: var(--muted); }
+
+    .form-control:focus, .form-select:focus {
+      box-shadow: 0 0 0 2px rgba(0,229,255,0.2) !important;
+      border-color: var(--accent) !important;
+      outline: none;
+    }
+
+    .form-select option { background: #1c2030; }
+
+    .count-badge {
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      background: rgba(0,229,255,0.08);
+      border: 1px solid rgba(0,229,255,0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .action-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      padding: 7px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,255,0.08);
+    }
+
+    .platform-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 280px;
+    }
+
+    .platform-summary {
+      font-size: 0.7rem;
+      line-height: 1.5;
+      color: var(--text);
+      word-break: break-word;
+      white-space: normal;
+    }
+
+    .platform-summary.is-empty {
+      color: var(--muted);
+    }
+
+    .platform-editor {
+      display: grid;
+      grid-template-columns: minmax(76px, 90px) minmax(92px, 120px) minmax(88px, 104px);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .platform-editor.is-disabled {
+      opacity: 0.6;
+    }
+
+    .platform-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .platform-link:hover {
+      color: var(--text);
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      padding: 24px 32px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    thead th {
+      background: var(--surface2);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child  { border-radius: 0 8px 0 0; }
+
+    tbody tr {
+      transition: background 0.15s;
+      animation: rowIn 0.25s ease both;
+    }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    tbody tr:hover td { background: var(--surface2); }
+
+    tbody td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .country-name { font-weight: 600; color: var(--text); }
+    .dial-code    { color: var(--accent2); }
+    .row-num      { color: var(--muted); font-size: 0.65rem; }
+
+    /* Toggle switch */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .toggle input { display: none; }
+
+    .toggle-track {
+      width: 40px;
+      height: 22px;
+      border-radius: 11px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+      position: relative;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: all 0.25s;
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: rgba(0,224,150,0.15);
+      border-color: var(--success);
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      left: 21px;
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    .toggle-label {
+      font-size: 0.72rem;
+      font-family: 'Syne', sans-serif;
+      min-width: 36px;
+    }
+
+    .label-on  { color: var(--success); }
+    .label-off { color: var(--muted); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 32px;
+      color: var(--muted);
+    }
+
+    .empty-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.3; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast-msg {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      animation: toastIn 0.3s ease;
+      border-left: 3px solid var(--success);
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <div class="top-bar">
+    <div class="logo">Chatgpt<span>SMS收码平台</span></div>
+    <div style="font-size:0.78rem; color:var(--muted);">
+      <span class="status-dot"></span>国家验证码支持情况
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-label">国家总数</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="statSms">0</div>
+      <div class="stat-label">支持短信</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="statWa">0</div>
+      <div class="stat-label">支持 WhatsApp</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="statBoth">0</div>
+      <div class="stat-label">两者皆支持</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-panel">
+    <span class="ctrl-label">搜索</span>
+    <input type="text" id="search" class="form-control" placeholder="国家 / 区号..." style="width:180px;" oninput="applyFilter()">
+
+    <span class="ctrl-label" style="margin-left:8px;">短信</span>
+    <select id="smsFilter" class="form-select" style="width:130px;" onchange="applyFilter()">
+      <option value="">全部</option>
+      <option value="yes">支持</option>
+      <option value="no">不支持</option>
+    </select>
+
+    <span class="ctrl-label">WhatsApp</span>
+    <select id="waFilter" class="form-select" style="width:130px;" onchange="applyFilter()">
+      <option value="">全部</option>
+      <option value="yes">支持</option>
+      <option value="no">不支持</option>
+    </select>
+
+    <span class="ctrl-label">检查状态</span>
+    <select id="checkedFilter" class="form-select" style="width:130px;" onchange="applyFilter()">
+      <option value="">全部</option>
+      <option value="yes">已检查</option>
+      <option value="no">未检查</option>
+    </select>
+
+    <span class="ctrl-label">收码平台</span>
+    <select id="smsPlatformSelect" class="form-select" style="width:190px;" onchange="applyFilter()"></select>
+
+    <span class="ctrl-label">当前列过滤</span>
+    <select id="smsNumberFilter" class="form-select" style="width:130px;" onchange="applyFilter()">
+      <option value="">全部</option>
+      <option value="has">有号</option>
+      <option value="none">无号</option>
+    </select>
+
+    <button type="button" class="action-btn" id="smsNumberSortBtn" onclick="toggleSmsNumberSort()">
+      <i class="fas fa-sort-amount-down"></i> 当前列倒序：关
+    </button>
+    <a id="smsPlatformLink" class="platform-link" href="#" target="_blank" rel="noopener noreferrer">平台维护</a>
+
+    <button type="button" class="action-btn" onclick="exportTxt()">
+      <i class="fas fa-file-export"></i> 导出 TXT
+    </button>
+    <button type="button" class="action-btn" onclick="triggerImportTxt()">
+      <i class="fas fa-file-import"></i> 导入 TXT
+    </button>
+    <button type="button" class="action-btn" onclick="resetToInitialData()">
+      <i class="fas fa-rotate-left"></i> 恢复初始化数据
+    </button>
+    <input type="file" id="txtFileInput" accept=".txt,text/plain" style="display:none;" onchange="importTxt(event)">
+
+    <span id="countBadge" class="count-badge ms-auto">0 个国家</span>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <div id="tableArea"></div>
+  </div>
+
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ─── 数据 ────────────────────────────────────────────────
+const countries = [
+  // ── 亚洲 ──
+  {name:"中国",code:"CN",dial:"+86",sms:true,wa:false},
+  {name:"中国香港",code:"HK",dial:"+852",sms:true,wa:true},
+  {name:"中国台湾",code:"TW",dial:"+886",sms:true,wa:true},
+  {name:"中国澳门",code:"MO",dial:"+853",sms:true,wa:true},
+  {name:"日本",code:"JP",dial:"+81",sms:true,wa:true},
+  {name:"韩国",code:"KR",dial:"+82",sms:true,wa:true},
+  {name:"朝鲜",code:"KP",dial:"+850",sms:false,wa:false},
+  {name:"蒙古",code:"MN",dial:"+976",sms:true,wa:false},
+  {name:"印度",code:"IN",dial:"+91",sms:true,wa:true},
+  {name:"巴基斯坦",code:"PK",dial:"+92",sms:true,wa:true},
+  {name:"孟加拉国",code:"BD",dial:"+880",sms:true,wa:true},
+  {name:"斯里兰卡",code:"LK",dial:"+94",sms:true,wa:true},
+  {name:"尼泊尔",code:"NP",dial:"+977",sms:true,wa:true},
+  {name:"不丹",code:"BT",dial:"+975",sms:true,wa:false},
+  {name:"马尔代夫",code:"MV",dial:"+960",sms:true,wa:true},
+  {name:"阿富汗",code:"AF",dial:"+93",sms:true,wa:false},
+  {name:"新加坡",code:"SG",dial:"+65",sms:true,wa:true},
+  {name:"马来西亚",code:"MY",dial:"+60",sms:true,wa:true},
+  {name:"泰国",code:"TH",dial:"+66",sms:true,wa:true},
+  {name:"越南",code:"VN",dial:"+84",sms:true,wa:true},
+  {name:"菲律宾",code:"PH",dial:"+63",sms:true,wa:true},
+  {name:"印度尼西亚",code:"ID",dial:"+62",sms:true,wa:true},
+  {name:"缅甸",code:"MM",dial:"+95",sms:true,wa:false},
+  {name:"柬埔寨",code:"KH",dial:"+855",sms:true,wa:true},
+  {name:"老挝",code:"LA",dial:"+856",sms:true,wa:false},
+  {name:"东帝汶",code:"TL",dial:"+670",sms:true,wa:false},
+  {name:"文莱",code:"BN",dial:"+673",sms:true,wa:true},
+  {name:"哈萨克斯坦",code:"KZ",dial:"+7",sms:true,wa:true},
+  {name:"乌兹别克斯坦",code:"UZ",dial:"+998",sms:true,wa:false},
+  {name:"土库曼斯坦",code:"TM",dial:"+993",sms:true,wa:false},
+  {name:"塔吉克斯坦",code:"TJ",dial:"+992",sms:true,wa:false},
+  {name:"吉尔吉斯斯坦",code:"KG",dial:"+996",sms:true,wa:false},
+  {name:"阿塞拜疆",code:"AZ",dial:"+994",sms:true,wa:false},
+  {name:"亚美尼亚",code:"AM",dial:"+374",sms:true,wa:true},
+  {name:"格鲁吉亚",code:"GE",dial:"+995",sms:true,wa:true},
+  // ── 中东 ──
+  {name:"沙特阿拉伯",code:"SA",dial:"+966",sms:true,wa:true},
+  {name:"阿拉伯联合酋长国",code:"AE",dial:"+971",sms:true,wa:true},
+  {name:"卡塔尔",code:"QA",dial:"+974",sms:true,wa:true},
+  {name:"科威特",code:"KW",dial:"+965",sms:true,wa:true},
+  {name:"巴林",code:"BH",dial:"+973",sms:true,wa:true},
+  {name:"阿曼",code:"OM",dial:"+968",sms:true,wa:true},
+  {name:"也门",code:"YE",dial:"+967",sms:true,wa:false},
+  {name:"伊拉克",code:"IQ",dial:"+964",sms:true,wa:true},
+  {name:"伊朗",code:"IR",dial:"+98",sms:false,wa:false},
+  {name:"叙利亚",code:"SY",dial:"+963",sms:false,wa:false},
+  {name:"黎巴嫩",code:"LB",dial:"+961",sms:true,wa:true},
+  {name:"约旦",code:"JO",dial:"+962",sms:true,wa:true},
+  {name:"以色列",code:"IL",dial:"+972",sms:true,wa:true},
+  {name:"巴勒斯坦",code:"PS",dial:"+970",sms:true,wa:true},
+  {name:"土耳其",code:"TR",dial:"+90",sms:true,wa:true},
+  // ── 欧洲 ──
+  {name:"英国",code:"GB",dial:"+44",sms:true,wa:true},
+  {name:"德国",code:"DE",dial:"+49",sms:true,wa:true},
+  {name:"法国",code:"FR",dial:"+33",sms:true,wa:true},
+  {name:"意大利",code:"IT",dial:"+39",sms:true,wa:true},
+  {name:"西班牙",code:"ES",dial:"+34",sms:true,wa:true},
+  {name:"葡萄牙",code:"PT",dial:"+351",sms:true,wa:true},
+  {name:"荷兰",code:"NL",dial:"+31",sms:true,wa:true},
+  {name:"比利时",code:"BE",dial:"+32",sms:true,wa:true},
+  {name:"卢森堡",code:"LU",dial:"+352",sms:true,wa:true},
+  {name:"瑞士",code:"CH",dial:"+41",sms:true,wa:true},
+  {name:"奥地利",code:"AT",dial:"+43",sms:true,wa:true},
+  {name:"瑞典",code:"SE",dial:"+46",sms:true,wa:true},
+  {name:"挪威",code:"NO",dial:"+47",sms:true,wa:true},
+  {name:"丹麦",code:"DK",dial:"+45",sms:true,wa:true},
+  {name:"芬兰",code:"FI",dial:"+358",sms:true,wa:true},
+  {name:"冰岛",code:"IS",dial:"+354",sms:true,wa:true},
+  {name:"爱尔兰",code:"IE",dial:"+353",sms:true,wa:true},
+  {name:"波兰",code:"PL",dial:"+48",sms:true,wa:true},
+  {name:"捷克",code:"CZ",dial:"+420",sms:true,wa:true},
+  {name:"斯洛伐克",code:"SK",dial:"+421",sms:true,wa:true},
+  {name:"匈牙利",code:"HU",dial:"+36",sms:true,wa:true},
+  {name:"罗马尼亚",code:"RO",dial:"+40",sms:true,wa:true},
+  {name:"保加利亚",code:"BG",dial:"+359",sms:true,wa:true},
+  {name:"希腊",code:"GR",dial:"+30",sms:true,wa:true},
+  {name:"克罗地亚",code:"HR",dial:"+385",sms:true,wa:true},
+  {name:"斯洛文尼亚",code:"SI",dial:"+386",sms:true,wa:true},
+  {name:"塞尔维亚",code:"RS",dial:"+381",sms:true,wa:true},
+  {name:"波斯尼亚和黑塞哥维那",code:"BA",dial:"+387",sms:true,wa:true},
+  {name:"北马其顿",code:"MK",dial:"+389",sms:true,wa:true},
+  {name:"阿尔巴尼亚",code:"AL",dial:"+355",sms:true,wa:true},
+  {name:"黑山",code:"ME",dial:"+382",sms:true,wa:true},
+  {name:"科索沃",code:"XK",dial:"+383",sms:true,wa:false},
+  {name:"俄罗斯",code:"RU",dial:"+7",sms:true,wa:true},
+  {name:"乌克兰",code:"UA",dial:"+380",sms:true,wa:true},
+  {name:"白俄罗斯",code:"BY",dial:"+375",sms:true,wa:false},
+  {name:"摩尔多瓦",code:"MD",dial:"+373",sms:true,wa:true},
+  {name:"爱沙尼亚",code:"EE",dial:"+372",sms:true,wa:true},
+  {name:"拉脱维亚",code:"LV",dial:"+371",sms:true,wa:true},
+  {name:"立陶宛",code:"LT",dial:"+370",sms:true,wa:true},
+  {name:"安道尔",code:"AD",dial:"+376",sms:true,wa:true},
+  {name:"摩纳哥",code:"MC",dial:"+377",sms:true,wa:true},
+  {name:"圣马力诺",code:"SM",dial:"+378",sms:true,wa:true},
+  {name:"梵蒂冈",code:"VA",dial:"+39",sms:false,wa:false},
+  {name:"列支敦士登",code:"LI",dial:"+423",sms:true,wa:true},
+  {name:"马耳他",code:"MT",dial:"+356",sms:true,wa:true},
+  {name:"塞浦路斯",code:"CY",dial:"+357",sms:true,wa:true},
+  // ── 非洲 ──
+  {name:"南非",code:"ZA",dial:"+27",sms:true,wa:true},
+  {name:"尼日利亚",code:"NG",dial:"+234",sms:true,wa:true},
+  {name:"埃及",code:"EG",dial:"+20",sms:true,wa:true},
+  {name:"埃塞俄比亚",code:"ET",dial:"+251",sms:true,wa:false},
+  {name:"肯尼亚",code:"KE",dial:"+254",sms:true,wa:true},
+  {name:"加纳",code:"GH",dial:"+233",sms:true,wa:true},
+  {name:"坦桑尼亚",code:"TZ",dial:"+255",sms:true,wa:true},
+  {name:"乌干达",code:"UG",dial:"+256",sms:true,wa:true},
+  {name:"摩洛哥",code:"MA",dial:"+212",sms:true,wa:true},
+  {name:"阿尔及利亚",code:"DZ",dial:"+213",sms:true,wa:true},
+  {name:"突尼斯",code:"TN",dial:"+216",sms:true,wa:true},
+  {name:"利比亚",code:"LY",dial:"+218",sms:true,wa:false},
+  {name:"苏丹",code:"SD",dial:"+249",sms:true,wa:false},
+  {name:"南苏丹",code:"SS",dial:"+211",sms:true,wa:false},
+  {name:"索马里",code:"SO",dial:"+252",sms:true,wa:false},
+  {name:"厄立特里亚",code:"ER",dial:"+291",sms:false,wa:false},
+  {name:"吉布提",code:"DJ",dial:"+253",sms:true,wa:false},
+  {name:"卢旺达",code:"RW",dial:"+250",sms:true,wa:true},
+  {name:"布隆迪",code:"BI",dial:"+257",sms:true,wa:false},
+  {name:"刚果民主共和国",code:"CD",dial:"+243",sms:true,wa:true},
+  {name:"刚果共和国",code:"CG",dial:"+242",sms:true,wa:false},
+  {name:"喀麦隆",code:"CM",dial:"+237",sms:true,wa:true},
+  {name:"中非共和国",code:"CF",dial:"+236",sms:true,wa:false},
+  {name:"乍得",code:"TD",dial:"+235",sms:true,wa:false},
+  {name:"尼日尔",code:"NE",dial:"+227",sms:true,wa:false},
+  {name:"马里",code:"ML",dial:"+223",sms:true,wa:false},
+  {name:"布基纳法索",code:"BF",dial:"+226",sms:true,wa:false},
+  {name:"塞内加尔",code:"SN",dial:"+221",sms:true,wa:true},
+  {name:"冈比亚",code:"GM",dial:"+220",sms:true,wa:true},
+  {name:"几内亚比绍",code:"GW",dial:"+245",sms:true,wa:false},
+  {name:"几内亚",code:"GN",dial:"+224",sms:true,wa:false},
+  {name:"塞拉利昂",code:"SL",dial:"+232",sms:true,wa:true},
+  {name:"利比里亚",code:"LR",dial:"+231",sms:true,wa:false},
+  {name:"科特迪瓦",code:"CI",dial:"+225",sms:true,wa:true},
+  {name:"多哥",code:"TG",dial:"+228",sms:true,wa:false},
+  {name:"贝宁",code:"BJ",dial:"+229",sms:true,wa:false},
+  {name:"加蓬",code:"GA",dial:"+241",sms:true,wa:false},
+  {name:"赤道几内亚",code:"GQ",dial:"+240",sms:true,wa:false},
+  {name:"圣多美和普林西比",code:"ST",dial:"+239",sms:true,wa:false},
+  {name:"安哥拉",code:"AO",dial:"+244",sms:true,wa:false},
+  {name:"赞比亚",code:"ZM",dial:"+260",sms:true,wa:true},
+  {name:"津巴布韦",code:"ZW",dial:"+263",sms:true,wa:true},
+  {name:"莫桑比克",code:"MZ",dial:"+258",sms:true,wa:true},
+  {name:"马拉维",code:"MW",dial:"+265",sms:true,wa:true},
+  {name:"马达加斯加",code:"MG",dial:"+261",sms:true,wa:false},
+  {name:"科摩罗",code:"KM",dial:"+269",sms:true,wa:false},
+  {name:"毛里求斯",code:"MU",dial:"+230",sms:true,wa:true},
+  {name:"留尼汪",code:"RE",dial:"+262",sms:true,wa:true},
+  {name:"塞舌尔",code:"SC",dial:"+248",sms:true,wa:true},
+  {name:"博茨瓦纳",code:"BW",dial:"+267",sms:true,wa:true},
+  {name:"纳米比亚",code:"NA",dial:"+264",sms:true,wa:true},
+  {name:"莱索托",code:"LS",dial:"+266",sms:true,wa:false},
+  {name:"斯威士兰",code:"SZ",dial:"+268",sms:true,wa:true},
+  {name:"佛得角",code:"CV",dial:"+238",sms:true,wa:true},
+  {name:"圣多美和普林西比",code:"ST",dial:"+239",sms:true,wa:false},
+  {name:"毛里塔尼亚",code:"MR",dial:"+222",sms:true,wa:false},
+  {name:"西撒哈拉",code:"EH",dial:"+212",sms:false,wa:false},
+  {name:"阿森松岛",code:"AC",dial:"+247",sms:false,wa:false},
+  // ── 北美洲 ──
+  {name:"美国",code:"US",dial:"+1",sms:true,wa:true},
+  {name:"加拿大",code:"CA",dial:"+1",sms:true,wa:true},
+  {name:"墨西哥",code:"MX",dial:"+52",sms:true,wa:true},
+  {name:"古巴",code:"CU",dial:"+53",sms:false,wa:false},
+  {name:"海地",code:"HT",dial:"+509",sms:true,wa:false},
+  {name:"多米尼加共和国",code:"DO",dial:"+1",sms:true,wa:true},
+  {name:"波多黎各",code:"PR",dial:"+1",sms:true,wa:true},
+  {name:"牙买加",code:"JM",dial:"+1",sms:true,wa:true},
+  {name:"巴哈马",code:"BS",dial:"+1",sms:true,wa:true},
+  {name:"特立尼达和多巴哥",code:"TT",dial:"+1",sms:true,wa:true},
+  {name:"巴巴多斯",code:"BB",dial:"+1",sms:true,wa:true},
+  {name:"格林纳达",code:"GD",dial:"+1",sms:true,wa:false},
+  {name:"圣基茨和尼维斯",code:"KN",dial:"+1",sms:true,wa:false},
+  {name:"圣卢西亚",code:"LC",dial:"+1",sms:true,wa:false},
+  {name:"圣文森特和格林纳丁斯",code:"VC",dial:"+1",sms:true,wa:false},
+  {name:"安提瓜和巴布达",code:"AG",dial:"+1",sms:true,wa:false},
+  {name:"多米尼克",code:"DM",dial:"+1",sms:true,wa:false},
+  {name:"安圭拉",code:"AI",dial:"+1",sms:true,wa:false},
+  {name:"英属维尔京群岛",code:"VG",dial:"+1",sms:true,wa:false},
+  {name:"开曼群岛",code:"KY",dial:"+1",sms:true,wa:false},
+  {name:"百慕大",code:"BM",dial:"+1",sms:true,wa:true},
+  {name:"格陵兰",code:"GL",dial:"+299",sms:true,wa:false},
+  {name:"危地马拉",code:"GT",dial:"+502",sms:true,wa:true},
+  {name:"洪都拉斯",code:"HN",dial:"+504",sms:true,wa:true},
+  {name:"萨尔瓦多",code:"SV",dial:"+503",sms:true,wa:true},
+  {name:"尼加拉瓜",code:"NI",dial:"+505",sms:true,wa:true},
+  {name:"哥斯达黎加",code:"CR",dial:"+506",sms:true,wa:true},
+  {name:"巴拿马",code:"PA",dial:"+507",sms:true,wa:true},
+  {name:"伯利兹",code:"BZ",dial:"+501",sms:true,wa:false},
+  {name:"阿鲁巴",code:"AW",dial:"+297",sms:true,wa:false},
+  {name:"库拉索",code:"CW",dial:"+599",sms:true,wa:false},
+  // ── 南美洲 ──
+  {name:"巴西",code:"BR",dial:"+55",sms:true,wa:true},
+  {name:"阿根廷",code:"AR",dial:"+54",sms:true,wa:true},
+  {name:"智利",code:"CL",dial:"+56",sms:true,wa:true},
+  {name:"哥伦比亚",code:"CO",dial:"+57",sms:true,wa:true},
+  {name:"委内瑞拉",code:"VE",dial:"+58",sms:true,wa:true},
+  {name:"秘鲁",code:"PE",dial:"+51",sms:true,wa:true},
+  {name:"厄瓜多尔",code:"EC",dial:"+593",sms:true,wa:true},
+  {name:"玻利维亚",code:"BO",dial:"+591",sms:true,wa:true},
+  {name:"巴拉圭",code:"PY",dial:"+595",sms:true,wa:true},
+  {name:"乌拉圭",code:"UY",dial:"+598",sms:true,wa:true},
+  {name:"圭亚那",code:"GY",dial:"+592",sms:true,wa:false},
+  {name:"苏里南",code:"SR",dial:"+597",sms:true,wa:true},
+  {name:"法属圭亚那",code:"GF",dial:"+594",sms:true,wa:true},
+  {name:"福克兰群岛",code:"FK",dial:"+500",sms:false,wa:false},
+  // ── 大洋洲 ──
+  {name:"澳大利亚",code:"AU",dial:"+61",sms:true,wa:true},
+  {name:"新西兰",code:"NZ",dial:"+64",sms:true,wa:true},
+  {name:"巴布亚新几内亚",code:"PG",dial:"+675",sms:true,wa:false},
+  {name:"斐济",code:"FJ",dial:"+679",sms:true,wa:true},
+  {name:"所罗门群岛",code:"SB",dial:"+677",sms:true,wa:false},
+  {name:"瓦努阿图",code:"VU",dial:"+678",sms:true,wa:false},
+  {name:"萨摩亚",code:"WS",dial:"+685",sms:true,wa:false},
+  {name:"汤加",code:"TO",dial:"+676",sms:true,wa:false},
+  {name:"基里巴斯",code:"KI",dial:"+686",sms:false,wa:false},
+  {name:"密克罗尼西亚",code:"FM",dial:"+691",sms:true,wa:false},
+  {name:"帕劳",code:"PW",dial:"+680",sms:true,wa:false},
+  {name:"马绍尔群岛",code:"MH",dial:"+692",sms:true,wa:false},
+  {name:"瑙鲁",code:"NR",dial:"+674",sms:true,wa:false},
+  {name:"图瓦卢",code:"TV",dial:"+688",sms:false,wa:false},
+  {name:"库克群岛",code:"CK",dial:"+682",sms:true,wa:false},
+  {name:"纽埃",code:"NU",dial:"+683",sms:false,wa:false},
+  {name:"新喀里多尼亚",code:"NC",dial:"+687",sms:true,wa:true},
+  {name:"法属波利尼西亚",code:"PF",dial:"+689",sms:true,wa:true},
+  {name:"关岛",code:"GU",dial:"+1",sms:true,wa:true},
+  {name:"北马里亚纳群岛",code:"MP",dial:"+1",sms:true,wa:false},
+  {name:"美属萨摩亚",code:"AS",dial:"+1",sms:true,wa:false},
+];
+
+
+// ─── 状态（可被 toggle 修改）────────────────────────────
+const SMS_PLATFORMS = [
+  {
+    key: 'sms-verification-number',
+    label: 'sms-verfication-number',
+    url: 'https://sms-verification-number.com/cn/?ref=1708633011'
+  }
+];
+const DEFAULT_SMS_PLATFORM_KEY = SMS_PLATFORMS[0].key;
+const STORAGE_KEY = 'verifymap-countries-data';
+const STORAGE_PLATFORM_KEY = 'verifymap-current-platform';
+const INITIAL_DATA_URL = './countries-support.txt';
+let smsNumberSortDesc = false;
+const defaultState = countries.map(c => normalizeCountry(c, 0));
+const state = loadInitialState();
+let filtered = [...state];
+
+function getPlatformKeys() {
+  return SMS_PLATFORMS.map(platform => platform.key);
+}
+
+function createDefaultSmsPlatformData(overrides = {}) {
+  return {
+    status: 'none',
+    price: '',
+    receiveRate: 'medium',
+    ...overrides
+  };
+}
+
+function normalizeSmsPlatformData(item = {}) {
+  const status = item.status === 'has' ? 'has' : 'none';
+  const price = status === 'has'
+    ? String(item.price ?? '$0.01').trim() || '$0.01'
+    : '';
+  const receiveRate = ['high', 'medium', 'low'].includes(item.receiveRate)
+    ? item.receiveRate
+    : 'medium';
+
+  return createDefaultSmsPlatformData({
+    status,
+    price,
+    receiveRate
+  });
+}
+
+function normalizeSmsPlatforms(item = {}) {
+  const fromCurrent = item.smsVerificationPlatforms && typeof item.smsVerificationPlatforms === 'object'
+    ? item.smsVerificationPlatforms
+    : {};
+  const fromLegacy = item.smsVerificationNumber && typeof item.smsVerificationNumber === 'object'
+    ? { [DEFAULT_SMS_PLATFORM_KEY]: item.smsVerificationNumber }
+    : {};
+  const merged = { ...fromLegacy, ...fromCurrent };
+
+  return getPlatformKeys().reduce((result, key) => {
+    result[key] = normalizeSmsPlatformData(merged[key]);
+    return result;
+  }, {});
+}
+
+function getCurrentPlatformKey() {
+  const select = document.getElementById('smsPlatformSelect');
+  return select?.value || localStorage.getItem(STORAGE_PLATFORM_KEY) || DEFAULT_SMS_PLATFORM_KEY;
+}
+
+function getCurrentPlatformMeta() {
+  return SMS_PLATFORMS.find(platform => platform.key === getCurrentPlatformKey()) || SMS_PLATFORMS[0];
+}
+
+function getCurrentPlatformData(item) {
+  return item.smsVerificationPlatforms?.[getCurrentPlatformKey()] || createDefaultSmsPlatformData();
+}
+
+function statusRank(status) {
+  return status === 'has' ? 1 : 0;
+}
+
+function priceRank(price) {
+  const value = Number(String(price || '').replace(/[^0-9.]/g, ''));
+  return Number.isFinite(value) ? value : 0;
+}
+
+function loadInitialState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState.map(item => ({ ...item }));
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      throw new Error('localStorage data is not array');
+    }
+
+    return parsed.map(normalizeCountry);
+  } catch (error) {
+    console.warn('load saved countries failed:', error);
+    return defaultState.map(item => ({ ...item }));
+  }
+}
+
+function hasStoredState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) && parsed.length > 0;
+  } catch (error) {
+    console.warn('check saved countries failed:', error);
+    return false;
+  }
+}
+
+function persistState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function replaceState(nextItems) {
+  state.splice(0, state.length, ...nextItems.map(item => normalizeCountry(item, 0)));
+  persistState();
+}
+
+async function loadRemoteInitialState() {
+  const response = await fetch(INITIAL_DATA_URL, { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
+  }
+
+  const text = (await response.text()).trim();
+  if (!text) {
+    throw new Error('初始化数据为空');
+  }
+
+  const parsed = JSON.parse(text);
+  if (!Array.isArray(parsed)) {
+    throw new Error('初始化 TXT 内容必须是 JSON 数组');
+  }
+
+  return parsed.map(normalizeCountry);
+}
+
+function normalizeCountry(item, index) {
+  if (!item || typeof item !== 'object') {
+    throw new Error(`第 ${index + 1} 条不是有效对象`);
+  }
+
+  const name = String(item.name ?? '').trim();
+  const code = String(item.code ?? '').trim().toUpperCase();
+  const dial = String(item.dial ?? '').trim();
+
+  if (!name || !code || !dial) {
+    throw new Error(`第 ${index + 1} 条缺少 name/code/dial 必填字段`);
+  }
+
+  return {
+    name,
+    code,
+    dial,
+    sms: Boolean(item.sms),
+    wa: Boolean(item.wa),
+    checked: Boolean(item.checked),
+    smsVerificationPlatforms: normalizeSmsPlatforms(item)
+  };
+}
+
+// ─── 过滤 ────────────────────────────────────────────────
+function applyFilter() {
+  localStorage.setItem(STORAGE_PLATFORM_KEY, getCurrentPlatformKey());
+  const q               = document.getElementById('search').value.toLowerCase();
+  const sms             = document.getElementById('smsFilter').value;
+  const wa              = document.getElementById('waFilter').value;
+  const checked         = document.getElementById('checkedFilter').value;
+  const smsNumberFilter = document.getElementById('smsNumberFilter').value;
+
+  filtered = state.filter(c => {
+    const platformData = getCurrentPlatformData(c);
+    if (q && !c.name.toLowerCase().includes(q) && !c.dial.includes(q)) return false;
+    if (sms === 'yes' && !c.sms) return false;
+    if (sms === 'no'  &&  c.sms) return false;
+    if (wa  === 'yes' && !c.wa)  return false;
+    if (wa  === 'no'  &&  c.wa)  return false;
+    if (checked === 'yes' && !c.checked) return false;
+    if (checked === 'no'  &&  c.checked) return false;
+    if (smsNumberFilter === 'has' && platformData.status !== 'has') return false;
+    if (smsNumberFilter === 'none' && platformData.status !== 'none') return false;
+    return true;
+  });
+
+  if (smsNumberSortDesc) {
+    filtered.sort((a, b) => {
+      const platformA = getCurrentPlatformData(a);
+      const platformB = getCurrentPlatformData(b);
+
+      if (statusRank(platformA.status) !== statusRank(platformB.status)) {
+        return statusRank(platformB.status) - statusRank(platformA.status);
+      }
+
+      if (priceRank(platformA.price) !== priceRank(platformB.price)) {
+        return priceRank(platformB.price) - priceRank(platformA.price);
+      }
+
+      return a.name.localeCompare(b.name, 'zh-CN');
+    });
+  }
+
+  syncPlatformUi();
+  render();
+}
+
+// ─── Toggle ──────────────────────────────────────────────
+function toggleField(code, field) {
+  const item = state.find(c => c.code === code);
+  if (!item) return;
+  item[field] = !item[field];
+  const fieldLabels = {
+    sms: ['短信验证码', '✅ 支持', '❌ 不支持'],
+    wa: ['WhatsApp验证码', '✅ 支持', '❌ 不支持'],
+    checked: ['检查状态', '已检查', '未检查']
+  };
+  const [label, onText, offText] = fieldLabels[field] || [field, '已开启', '已关闭'];
+  persistState();
+  toast(`${item.name} · ${label} → ${item[field] ? onText : offText}`);
+  applyFilter();
+  updateStats();
+}
+
+// ─── 渲染 ────────────────────────────────────────────────
+function toggleSmsNumberSort() {
+  smsNumberSortDesc = !smsNumberSortDesc;
+  syncPlatformUi();
+  applyFilter();
+}
+
+function syncPlatformUi() {
+  const currentPlatform = getCurrentPlatformMeta();
+  const sortBtn = document.getElementById('smsNumberSortBtn');
+  const link = document.getElementById('smsPlatformLink');
+
+  if (sortBtn) {
+    sortBtn.innerHTML = `<i class="fas fa-sort-amount-down"></i> 当前列倒序：${smsNumberSortDesc ? '开' : '关'}`;
+  }
+
+  if (link) {
+    link.href = currentPlatform.url;
+    link.textContent = `${currentPlatform.label} 维护`;
+  }
+}
+
+function initPlatformControls() {
+  const select = document.getElementById('smsPlatformSelect');
+  if (!select) return;
+
+  select.innerHTML = SMS_PLATFORMS.map(platform => `
+    <option value="${platform.key}">${platform.label}</option>
+  `).join('');
+
+  const savedPlatform = localStorage.getItem(STORAGE_PLATFORM_KEY);
+  const currentPlatform = SMS_PLATFORMS.some(platform => platform.key === savedPlatform)
+    ? savedPlatform
+    : DEFAULT_SMS_PLATFORM_KEY;
+
+  select.value = currentPlatform;
+  localStorage.setItem(STORAGE_PLATFORM_KEY, currentPlatform);
+  syncPlatformUi();
+}
+
+function toggleHtml(code, field, val) {
+  const id = `toggle-${code}-${field}`;
+  const labels = field === 'checked'
+    ? ['已检查', '未检查']
+    : ['支持', '不支持'];
+  return `
+    <label class="toggle" title="点击切换">
+      <input type="checkbox" id="${id}" ${val ? 'checked' : ''} onchange="toggleField('${code}','${field}')">
+      <div class="toggle-track"></div>
+    </label>
+    <span class="toggle-label ${val ? 'label-on' : 'label-off'}" id="lbl-${code}-${field}">
+      ${val ? labels[0] : labels[1]}
+    </span>`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function receiveRateText(rate) {
+  return {
+    high: '极高',
+    medium: '中',
+    low: '低'
+  }[rate] || '中';
+}
+
+function getSmsVerificationSummary(data) {
+  if (data.status !== 'has') return '无号';
+  return `有号-价格：(${data.price || '$0.01'})-接受率：${receiveRateText(data.receiveRate)}`;
+}
+
+function updateSmsPlatformField(code, field, value) {
+  const item = state.find(c => c.code === code);
+  if (!item) return;
+
+  const platformKey = getCurrentPlatformKey();
+  const current = item.smsVerificationPlatforms?.[platformKey] || createDefaultSmsPlatformData();
+  const next = { ...current };
+
+  if (field === 'status') {
+    next.status = value === 'has' ? 'has' : 'none';
+    if (next.status === 'has' && !next.price) {
+      next.price = '$0.01';
+    }
+    if (next.status === 'none') {
+      next.price = '';
+      next.receiveRate = 'medium';
+    }
+  }
+
+  if (field === 'price') {
+    next.price = String(value ?? '').trim();
+  }
+
+  if (field === 'receiveRate') {
+    next.receiveRate = ['high', 'medium', 'low'].includes(value) ? value : 'medium';
+  }
+
+  item.smsVerificationPlatforms = {
+    ...item.smsVerificationPlatforms,
+    [platformKey]: normalizeSmsPlatformData(next)
+  };
+
+  persistState();
+  applyFilter();
+  toast(`${item.name} · ${getCurrentPlatformMeta().label} 已更新`);
+}
+
+function smsVerificationCellHtml(code, platformData) {
+  const disabled = platformData.status !== 'has';
+  return `
+    <div class="platform-cell">
+      <div class="platform-summary ${disabled ? 'is-empty' : ''}">
+        ${getSmsVerificationSummary(platformData)}
+      </div>
+      <div class="platform-editor ${disabled ? 'is-disabled' : ''}">
+        <select class="form-select" onchange="updateSmsPlatformField('${code}', 'status', this.value)">
+          <option value="has" ${platformData.status === 'has' ? 'selected' : ''}>有号</option>
+          <option value="none" ${platformData.status === 'none' ? 'selected' : ''}>无号</option>
+        </select>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="$0.01"
+          value="${escapeHtml(platformData.price)}"
+          ${disabled ? 'disabled' : ''}
+          onchange="updateSmsPlatformField('${code}', 'price', this.value)">
+        <select
+          class="form-select"
+          ${disabled ? 'disabled' : ''}
+          onchange="updateSmsPlatformField('${code}', 'receiveRate', this.value)">
+          <option value="high" ${platformData.receiveRate === 'high' ? 'selected' : ''}>高</option>
+          <option value="medium" ${platformData.receiveRate === 'medium' ? 'selected' : ''}>中</option>
+          <option value="low" ${platformData.receiveRate === 'low' ? 'selected' : ''}>低</option>
+        </select>
+      </div>
+    </div>`;
+}
+
+function render() {
+  const area = document.getElementById('tableArea');
+  document.getElementById('countBadge').textContent = filtered.length + ' 个国家';
+  const currentPlatform = getCurrentPlatformMeta();
+
+  if (filtered.length === 0) {
+    area.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-search"></i></div>
+        <div style="font-size:0.85rem;">未找到匹配的国家</div>
+      </div>`;
+    return;
+  }
+
+  const rows = filtered.map((c, i) => `
+    <tr style="animation-delay:${i * 0.02}s">
+      <td class="row-num">${String(i+1).padStart(3,'0')}</td>
+      <td>
+        <span style="font-size:1.1rem;margin-right:8px;">${getFlagEmoji(c.code)}</span>
+        <span class="country-name">${c.name}</span>
+      </td>
+      <td class="dial-code">${c.dial}</td>
+      <td>
+        <div class="toggle-wrap">
+          ${toggleHtml(c.code, 'sms', c.sms)}
+        </div>
+      </td>
+      <td>
+        <div class="toggle-wrap">
+          ${toggleHtml(c.code, 'wa', c.wa)}
+        </div>
+      </td>
+      <td>
+        <div class="toggle-wrap">
+          ${toggleHtml(c.code, 'checked', c.checked)}
+        </div>
+      </td>
+      <td>
+        ${smsVerificationCellHtml(c.code, getCurrentPlatformData(c))}
+      </td>
+    </tr>`).join('');
+
+  area.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th style="width:48px;">#</th>
+          <th style="width:200px;">国家</th>
+          <th style="width:80px;">区号</th>
+          <th style="width:140px;text-align:center;">手机验证码</th>
+          <th style="width:160px;text-align:center;">WhatsApp验证码</th>
+          <th style="width:140px;text-align:center;">检查</th>
+          <th style="width:320px;">${currentPlatform.label}</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  updateStats();
+}
+
+function updateStats() {
+  document.getElementById('statTotal').textContent = state.length;
+  document.getElementById('statSms').textContent   = state.filter(c => c.sms).length;
+  document.getElementById('statWa').textContent    = state.filter(c => c.wa).length;
+  document.getElementById('statBoth').textContent  = state.filter(c => c.sms && c.wa).length;
+}
+
+function serializeCountry(item) {
+  return {
+    ...item,
+    smsVerificationNumber: item.smsVerificationPlatforms?.[DEFAULT_SMS_PLATFORM_KEY] || createDefaultSmsPlatformData()
+  };
+}
+
+function exportTxt() {
+  const content = JSON.stringify(state.map(serializeCountry), null, 2);
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const link = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+
+  link.href = URL.createObjectURL(blob);
+  link.download = `countries-support-${stamp}.txt`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+  toast('当前数据已导出为 TXT');
+}
+
+function triggerImportTxt() {
+  const input = document.getElementById('txtFileInput');
+  input.value = '';
+  input.click();
+}
+
+function importTxt(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = String(e.target.result || '').trim();
+      if (!text) {
+        throw new Error('文件内容为空');
+      }
+
+      const parsed = JSON.parse(text);
+      if (!Array.isArray(parsed)) {
+        throw new Error('TXT 内容必须是 JSON 数组');
+      }
+
+      const nextState = parsed.map(normalizeCountry);
+      replaceState(nextState);
+      applyFilter();
+      updateStats();
+      toast(`已导入 ${state.length} 条数据，并覆盖默认数据`);
+    } catch (error) {
+      toast(`导入失败：${error.message}`);
+    } finally {
+      event.target.value = '';
+    }
+  };
+
+  reader.onerror = () => {
+    toast('导入失败：文件读取异常');
+    event.target.value = '';
+  };
+
+  reader.readAsText(file, 'utf-8');
+}
+
+async function resetToInitialData() {
+  try {
+    const nextState = await loadRemoteInitialState();
+    replaceState(nextState);
+    filtered = [...state];
+    applyFilter();
+    updateStats();
+    toast(`已恢复 ${state.length} 条初始化数据`);
+  } catch (error) {
+    console.warn('reset countries failed:', error);
+    toast(`恢复失败：${error.message}`);
+  }
+}
+
+// ─── 国旗 emoji ──────────────────────────────────────────
+function getFlagEmoji(code) {
+  if (!code || code.length !== 2) return '🌐';
+  return code.toUpperCase().replace(/./g, ch =>
+    String.fromCodePoint(0x1F1E6 - 65 + ch.charCodeAt(0))
+  );
+}
+
+// ─── Toast ───────────────────────────────────────────────
+function toast(msg) {
+  const container = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast-msg';
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 2500);
+}
+
+// ─── 初始化 ──────────────────────────────────────────────
+async function initializeApp() {
+  initPlatformControls();
+
+  if (!hasStoredState()) {
+    try {
+      const remoteState = await loadRemoteInitialState();
+      replaceState(remoteState);
+      filtered = [...state];
+      toast(`已自动加载 ${state.length} 条初始化数据`);
+    } catch (error) {
+      console.warn('load remote countries failed:', error);
+      persistState();
+    }
+  }
+
+  applyFilter();
+}
+
+initializeApp();
+</script>
+</body>
+</html>

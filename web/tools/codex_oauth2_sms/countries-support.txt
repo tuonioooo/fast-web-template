@@ -1,0 +1,4402 @@
+[
+  {
+    "name": "中国",
+    "code": "CN",
+    "dial": "+86",
+    "sms": false,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "中国香港",
+    "code": "HK",
+    "dial": "+852",
+    "sms": false,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "中国台湾",
+    "code": "TW",
+    "dial": "+886",
+    "sms": false,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "中国澳门",
+    "code": "MO",
+    "dial": "+853",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "日本",
+    "code": "JP",
+    "dial": "+81",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "韩国",
+    "code": "KR",
+    "dial": "+82",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "朝鲜",
+    "code": "KP",
+    "dial": "+850",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "蒙古",
+    "code": "MN",
+    "dial": "+976",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "印度",
+    "code": "IN",
+    "dial": "+91",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴基斯坦",
+    "code": "PK",
+    "dial": "+92",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "孟加拉国",
+    "code": "BD",
+    "dial": "+880",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "斯里兰卡",
+    "code": "LK",
+    "dial": "+94",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "尼泊尔",
+    "code": "NP",
+    "dial": "+977",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "不丹",
+    "code": "BT",
+    "dial": "+975",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马尔代夫",
+    "code": "MV",
+    "dial": "+960",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿富汗",
+    "code": "AF",
+    "dial": "+93",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "新加坡",
+    "code": "SG",
+    "dial": "+65",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马来西亚",
+    "code": "MY",
+    "dial": "+60",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "泰国",
+    "code": "TH",
+    "dial": "+66",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "越南",
+    "code": "VN",
+    "dial": "+84",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "has",
+        "price": "$0.03",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "has",
+      "price": "$0.03",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "菲律宾",
+    "code": "PH",
+    "dial": "+63",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "印度尼西亚",
+    "code": "ID",
+    "dial": "+62",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "has",
+        "price": "$0.03",
+        "receiveRate": "low"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "has",
+      "price": "$0.03",
+      "receiveRate": "low"
+    }
+  },
+  {
+    "name": "缅甸",
+    "code": "MM",
+    "dial": "+95",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "柬埔寨",
+    "code": "KH",
+    "dial": "+855",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "老挝",
+    "code": "LA",
+    "dial": "+856",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "东帝汶",
+    "code": "TL",
+    "dial": "+670",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "文莱",
+    "code": "BN",
+    "dial": "+673",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "哈萨克斯坦",
+    "code": "KZ",
+    "dial": "+7",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "乌兹别克斯坦",
+    "code": "UZ",
+    "dial": "+998",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "土库曼斯坦",
+    "code": "TM",
+    "dial": "+993",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塔吉克斯坦",
+    "code": "TJ",
+    "dial": "+992",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "吉尔吉斯斯坦",
+    "code": "KG",
+    "dial": "+996",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿塞拜疆",
+    "code": "AZ",
+    "dial": "+994",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "亚美尼亚",
+    "code": "AM",
+    "dial": "+374",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "格鲁吉亚",
+    "code": "GE",
+    "dial": "+995",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "沙特阿拉伯",
+    "code": "SA",
+    "dial": "+966",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿拉伯联合酋长国",
+    "code": "AE",
+    "dial": "+971",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "卡塔尔",
+    "code": "QA",
+    "dial": "+974",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "科威特",
+    "code": "KW",
+    "dial": "+965",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴林",
+    "code": "BH",
+    "dial": "+973",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿曼",
+    "code": "OM",
+    "dial": "+968",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "也门",
+    "code": "YE",
+    "dial": "+967",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "伊拉克",
+    "code": "IQ",
+    "dial": "+964",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "伊朗",
+    "code": "IR",
+    "dial": "+98",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "叙利亚",
+    "code": "SY",
+    "dial": "+963",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "黎巴嫩",
+    "code": "LB",
+    "dial": "+961",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "约旦",
+    "code": "JO",
+    "dial": "+962",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "以色列",
+    "code": "IL",
+    "dial": "+972",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴勒斯坦",
+    "code": "PS",
+    "dial": "+970",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "土耳其",
+    "code": "TR",
+    "dial": "+90",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "英国",
+    "code": "GB",
+    "dial": "+44",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "德国",
+    "code": "DE",
+    "dial": "+49",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "法国",
+    "code": "FR",
+    "dial": "+33",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "has",
+        "price": "$0.01",
+        "receiveRate": "high"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "has",
+      "price": "$0.01",
+      "receiveRate": "high"
+    }
+  },
+  {
+    "name": "意大利",
+    "code": "IT",
+    "dial": "+39",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "西班牙",
+    "code": "ES",
+    "dial": "+34",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "葡萄牙",
+    "code": "PT",
+    "dial": "+351",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "荷兰",
+    "code": "NL",
+    "dial": "+31",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "比利时",
+    "code": "BE",
+    "dial": "+32",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "卢森堡",
+    "code": "LU",
+    "dial": "+352",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "瑞士",
+    "code": "CH",
+    "dial": "+41",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "奥地利",
+    "code": "AT",
+    "dial": "+43",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "瑞典",
+    "code": "SE",
+    "dial": "+46",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "挪威",
+    "code": "NO",
+    "dial": "+47",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "丹麦",
+    "code": "DK",
+    "dial": "+45",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "芬兰",
+    "code": "FI",
+    "dial": "+358",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "冰岛",
+    "code": "IS",
+    "dial": "+354",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "爱尔兰",
+    "code": "IE",
+    "dial": "+353",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "波兰",
+    "code": "PL",
+    "dial": "+48",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "捷克",
+    "code": "CZ",
+    "dial": "+420",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "斯洛伐克",
+    "code": "SK",
+    "dial": "+421",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "匈牙利",
+    "code": "HU",
+    "dial": "+36",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "罗马尼亚",
+    "code": "RO",
+    "dial": "+40",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "保加利亚",
+    "code": "BG",
+    "dial": "+359",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "希腊",
+    "code": "GR",
+    "dial": "+30",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "克罗地亚",
+    "code": "HR",
+    "dial": "+385",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "斯洛文尼亚",
+    "code": "SI",
+    "dial": "+386",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塞尔维亚",
+    "code": "RS",
+    "dial": "+381",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "波斯尼亚和黑塞哥维那",
+    "code": "BA",
+    "dial": "+387",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "北马其顿",
+    "code": "MK",
+    "dial": "+389",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿尔巴尼亚",
+    "code": "AL",
+    "dial": "+355",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "黑山",
+    "code": "ME",
+    "dial": "+382",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "科索沃",
+    "code": "XK",
+    "dial": "+383",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "俄罗斯",
+    "code": "RU",
+    "dial": "+7",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "乌克兰",
+    "code": "UA",
+    "dial": "+380",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "白俄罗斯",
+    "code": "BY",
+    "dial": "+375",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "摩尔多瓦",
+    "code": "MD",
+    "dial": "+373",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "爱沙尼亚",
+    "code": "EE",
+    "dial": "+372",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "拉脱维亚",
+    "code": "LV",
+    "dial": "+371",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "立陶宛",
+    "code": "LT",
+    "dial": "+370",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "安道尔",
+    "code": "AD",
+    "dial": "+376",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "摩纳哥",
+    "code": "MC",
+    "dial": "+377",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣马力诺",
+    "code": "SM",
+    "dial": "+378",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "梵蒂冈",
+    "code": "VA",
+    "dial": "+39",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "列支敦士登",
+    "code": "LI",
+    "dial": "+423",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马耳他",
+    "code": "MT",
+    "dial": "+356",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塞浦路斯",
+    "code": "CY",
+    "dial": "+357",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "南非",
+    "code": "ZA",
+    "dial": "+27",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "尼日利亚",
+    "code": "NG",
+    "dial": "+234",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "埃及",
+    "code": "EG",
+    "dial": "+20",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "埃塞俄比亚",
+    "code": "ET",
+    "dial": "+251",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "肯尼亚",
+    "code": "KE",
+    "dial": "+254",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "加纳",
+    "code": "GH",
+    "dial": "+233",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "坦桑尼亚",
+    "code": "TZ",
+    "dial": "+255",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "乌干达",
+    "code": "UG",
+    "dial": "+256",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "摩洛哥",
+    "code": "MA",
+    "dial": "+212",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿尔及利亚",
+    "code": "DZ",
+    "dial": "+213",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "has",
+        "price": "$0.43",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "has",
+      "price": "$0.43",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "突尼斯",
+    "code": "TN",
+    "dial": "+216",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "利比亚",
+    "code": "LY",
+    "dial": "+218",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "苏丹",
+    "code": "SD",
+    "dial": "+249",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "南苏丹",
+    "code": "SS",
+    "dial": "+211",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "索马里",
+    "code": "SO",
+    "dial": "+252",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "厄立特里亚",
+    "code": "ER",
+    "dial": "+291",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "吉布提",
+    "code": "DJ",
+    "dial": "+253",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "卢旺达",
+    "code": "RW",
+    "dial": "+250",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "布隆迪",
+    "code": "BI",
+    "dial": "+257",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "刚果民主共和国",
+    "code": "CD",
+    "dial": "+243",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "刚果共和国",
+    "code": "CG",
+    "dial": "+242",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "喀麦隆",
+    "code": "CM",
+    "dial": "+237",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "中非共和国",
+    "code": "CF",
+    "dial": "+236",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "乍得",
+    "code": "TD",
+    "dial": "+235",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "尼日尔",
+    "code": "NE",
+    "dial": "+227",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马里",
+    "code": "ML",
+    "dial": "+223",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "布基纳法索",
+    "code": "BF",
+    "dial": "+226",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塞内加尔",
+    "code": "SN",
+    "dial": "+221",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "冈比亚",
+    "code": "GM",
+    "dial": "+220",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "几内亚比绍",
+    "code": "GW",
+    "dial": "+245",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "几内亚",
+    "code": "GN",
+    "dial": "+224",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塞拉利昂",
+    "code": "SL",
+    "dial": "+232",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "利比里亚",
+    "code": "LR",
+    "dial": "+231",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "科特迪瓦",
+    "code": "CI",
+    "dial": "+225",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "多哥",
+    "code": "TG",
+    "dial": "+228",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "贝宁",
+    "code": "BJ",
+    "dial": "+229",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "加蓬",
+    "code": "GA",
+    "dial": "+241",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "赤道几内亚",
+    "code": "GQ",
+    "dial": "+240",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣多美和普林西比",
+    "code": "ST",
+    "dial": "+239",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "安哥拉",
+    "code": "AO",
+    "dial": "+244",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "赞比亚",
+    "code": "ZM",
+    "dial": "+260",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "津巴布韦",
+    "code": "ZW",
+    "dial": "+263",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "莫桑比克",
+    "code": "MZ",
+    "dial": "+258",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马拉维",
+    "code": "MW",
+    "dial": "+265",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马达加斯加",
+    "code": "MG",
+    "dial": "+261",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "科摩罗",
+    "code": "KM",
+    "dial": "+269",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "毛里求斯",
+    "code": "MU",
+    "dial": "+230",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "留尼汪",
+    "code": "RE",
+    "dial": "+262",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "塞舌尔",
+    "code": "SC",
+    "dial": "+248",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "博茨瓦纳",
+    "code": "BW",
+    "dial": "+267",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "纳米比亚",
+    "code": "NA",
+    "dial": "+264",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "莱索托",
+    "code": "LS",
+    "dial": "+266",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "斯威士兰",
+    "code": "SZ",
+    "dial": "+268",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "佛得角",
+    "code": "CV",
+    "dial": "+238",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣多美和普林西比",
+    "code": "ST",
+    "dial": "+239",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "毛里塔尼亚",
+    "code": "MR",
+    "dial": "+222",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "西撒哈拉",
+    "code": "EH",
+    "dial": "+212",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿森松岛",
+    "code": "AC",
+    "dial": "+247",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "美国",
+    "code": "US",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "加拿大",
+    "code": "CA",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "墨西哥",
+    "code": "MX",
+    "dial": "+52",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "古巴",
+    "code": "CU",
+    "dial": "+53",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "海地",
+    "code": "HT",
+    "dial": "+509",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "多米尼加共和国",
+    "code": "DO",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "波多黎各",
+    "code": "PR",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "牙买加",
+    "code": "JM",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴哈马",
+    "code": "BS",
+    "dial": "+1",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "特立尼达和多巴哥",
+    "code": "TT",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴巴多斯",
+    "code": "BB",
+    "dial": "+1",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "格林纳达",
+    "code": "GD",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣基茨和尼维斯",
+    "code": "KN",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣卢西亚",
+    "code": "LC",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圣文森特和格林纳丁斯",
+    "code": "VC",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "安提瓜和巴布达",
+    "code": "AG",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "多米尼克",
+    "code": "DM",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "安圭拉",
+    "code": "AI",
+    "dial": "+1",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "英属维尔京群岛",
+    "code": "VG",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "开曼群岛",
+    "code": "KY",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "百慕大",
+    "code": "BM",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "格陵兰",
+    "code": "GL",
+    "dial": "+299",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "危地马拉",
+    "code": "GT",
+    "dial": "+502",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "洪都拉斯",
+    "code": "HN",
+    "dial": "+504",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "萨尔瓦多",
+    "code": "SV",
+    "dial": "+503",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "尼加拉瓜",
+    "code": "NI",
+    "dial": "+505",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "哥斯达黎加",
+    "code": "CR",
+    "dial": "+506",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴拿马",
+    "code": "PA",
+    "dial": "+507",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "伯利兹",
+    "code": "BZ",
+    "dial": "+501",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿鲁巴",
+    "code": "AW",
+    "dial": "+297",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "库拉索",
+    "code": "CW",
+    "dial": "+599",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴西",
+    "code": "BR",
+    "dial": "+55",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "阿根廷",
+    "code": "AR",
+    "dial": "+54",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "智利",
+    "code": "CL",
+    "dial": "+56",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "哥伦比亚",
+    "code": "CO",
+    "dial": "+57",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "委内瑞拉",
+    "code": "VE",
+    "dial": "+58",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "秘鲁",
+    "code": "PE",
+    "dial": "+51",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "厄瓜多尔",
+    "code": "EC",
+    "dial": "+593",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "玻利维亚",
+    "code": "BO",
+    "dial": "+591",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴拉圭",
+    "code": "PY",
+    "dial": "+595",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "乌拉圭",
+    "code": "UY",
+    "dial": "+598",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "圭亚那",
+    "code": "GY",
+    "dial": "+592",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "苏里南",
+    "code": "SR",
+    "dial": "+597",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "法属圭亚那",
+    "code": "GF",
+    "dial": "+594",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "福克兰群岛",
+    "code": "FK",
+    "dial": "+500",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "澳大利亚",
+    "code": "AU",
+    "dial": "+61",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "新西兰",
+    "code": "NZ",
+    "dial": "+64",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "巴布亚新几内亚",
+    "code": "PG",
+    "dial": "+675",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "斐济",
+    "code": "FJ",
+    "dial": "+679",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "所罗门群岛",
+    "code": "SB",
+    "dial": "+677",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "瓦努阿图",
+    "code": "VU",
+    "dial": "+678",
+    "sms": true,
+    "wa": false,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "萨摩亚",
+    "code": "WS",
+    "dial": "+685",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "汤加",
+    "code": "TO",
+    "dial": "+676",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "基里巴斯",
+    "code": "KI",
+    "dial": "+686",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "密克罗尼西亚",
+    "code": "FM",
+    "dial": "+691",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "帕劳",
+    "code": "PW",
+    "dial": "+680",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "马绍尔群岛",
+    "code": "MH",
+    "dial": "+692",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "瑙鲁",
+    "code": "NR",
+    "dial": "+674",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "图瓦卢",
+    "code": "TV",
+    "dial": "+688",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "库克群岛",
+    "code": "CK",
+    "dial": "+682",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "纽埃",
+    "code": "NU",
+    "dial": "+683",
+    "sms": false,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "新喀里多尼亚",
+    "code": "NC",
+    "dial": "+687",
+    "sms": false,
+    "wa": true,
+    "checked": true,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "法属波利尼西亚",
+    "code": "PF",
+    "dial": "+689",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "关岛",
+    "code": "GU",
+    "dial": "+1",
+    "sms": true,
+    "wa": true,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "北马里亚纳群岛",
+    "code": "MP",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  },
+  {
+    "name": "美属萨摩亚",
+    "code": "AS",
+    "dial": "+1",
+    "sms": true,
+    "wa": false,
+    "checked": false,
+    "smsVerificationPlatforms": {
+      "sms-verification-number": {
+        "status": "none",
+        "price": "",
+        "receiveRate": "medium"
+      }
+    },
+    "smsVerificationNumber": {
+      "status": "none",
+      "price": "",
+      "receiveRate": "medium"
+    }
+  }
+]

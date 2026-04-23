@@ -1,0 +1,897 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>邮箱账号生成器</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #151820;
+      --surface2: #1c2030;
+      --border: #252a3a;
+      --accent: #00e5ff;
+      --accent2: #7c6fff;
+      --success: #00e096;
+      --warning: #ffb547;
+      --danger: #ff5370;
+      --text: #e2e8f0;
+      --muted: #64748b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header */
+    .top-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .logo span { color: var(--text); }
+
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      display: inline-block;
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 1px;
+      background: var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-item {
+      flex: 1;
+      background: var(--surface);
+      padding: 16px 24px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* Controls */
+    .controls-panel {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ctrl-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .form-select, .form-control {
+      background: var(--surface2) !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text) !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+
+    .form-select:focus, .form-control:focus {
+      box-shadow: 0 0 0 2px rgba(0,229,255,0.2) !important;
+      border-color: var(--accent) !important;
+    }
+
+    .btn-generate {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: #000;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,229,255,0.3);
+    }
+
+    .btn-export {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .btn-export:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-clear {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .btn-clear:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      padding: 24px 32px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+    }
+
+    thead th {
+      background: var(--surface2);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child { border-radius: 0 8px 0 0; }
+
+    tbody tr {
+      transition: background 0.15s;
+      animation: rowIn 0.3s ease both;
+    }
+
+    @keyframes rowIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    tbody tr:hover td { background: var(--surface2); }
+
+    tbody td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      background: var(--surface);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .email-cell { color: var(--accent); }
+    .pw-cell { color: var(--accent2); }
+
+    .suffix-badge {
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .suffix-outlook { background: rgba(0,120,212,0.2); color: #4da6ff; }
+    .suffix-hotmail { background: rgba(255,100,50,0.2); color: #ff8a65; }
+    .suffix-live    { background: rgba(0,200,100,0.2); color: #66bb6a; }
+    .suffix-custom  { background: rgba(255,181,71,0.2); color: var(--warning); }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: color 0.15s;
+      font-size: 0.75rem;
+    }
+
+    .copy-btn:hover { color: var(--accent); }
+    .copy-btn.copied { color: var(--success); }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 32px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+
+    .empty-text {
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+    }
+
+    .toast-msg {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      animation: toastIn 0.3s ease;
+      border-left: 3px solid var(--success);
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+    .sep-select option { background: #1c2030; }
+
+    .custom-suffix-input {
+      display: none;
+      width: 200px;
+    }
+
+    .custom-suffix-input.visible {
+      display: inline-block;
+    }
+
+    /* 确认弹窗 */
+    .confirm-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .confirm-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--danger);
+      border-radius: 10px;
+      padding: 28px 32px;
+      min-width: 320px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: slideUp 0.2s ease;
+    }
+    @keyframes slideUp { from { transform:translateY(16px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+
+    .confirm-icon {
+      font-size: 1.6rem;
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+    .confirm-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .confirm-msg {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 24px;
+    }
+    .confirm-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-confirm-cancel {
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.8rem; padding: 7px 18px;
+      border-radius: 6px; cursor: pointer; font-family: 'Syne', sans-serif;
+      transition: all 0.15s;
+    }
+    .btn-confirm-cancel:hover { border-color: var(--muted); color: var(--text); }
+    .btn-confirm-ok {
+      background: var(--danger); border: none;
+      color: #fff; font-size: 0.8rem; font-weight: 700;
+      padding: 7px 18px; border-radius: 6px; cursor: pointer;
+      font-family: 'Syne', sans-serif; transition: all 0.15s;
+    }
+    .btn-confirm-ok:hover { background: #ff3355; }
+
+    /* 状态开关 */
+    .toggle-wrap {
+      display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    }
+    .toggle-track {
+      width: 32px; height: 18px; border-radius: 9px;
+      background: var(--border); position: relative;
+      transition: background 0.2s; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .toggle-track.on { background: var(--success); }
+    .toggle-thumb {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: #fff; position: absolute; top: 2px; left: 2px;
+      transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+    .toggle-track.on .toggle-thumb { transform: translateX(14px); }
+
+    .status-badge {
+      font-size: 0.65rem; padding: 2px 8px; border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-done    { background: rgba(0,224,150,0.15); color: var(--success); border: 1px solid rgba(0,224,150,0.3); }
+    .status-pending { background: rgba(100,116,139,0.15); color: var(--muted);   border: 1px solid rgba(100,116,139,0.2); }
+  </style>
+</head>
+<body>
+<!-- 确认弹窗 -->
+<div id="confirmOverlay" class="confirm-overlay" style="display:none;">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <div class="confirm-title">确认操作</div>
+    <div class="confirm-msg" id="confirmMsg">确认清空全部数据？</div>
+    <div class="confirm-actions">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">取消</button>
+      <button class="btn-confirm-ok" onclick="confirmOk()">确认清空</button>
+    </div>
+  </div>
+</div>
+
+<div class="page-wrapper">
+
+  <!-- Header -->
+  <div class="top-bar">
+    <div class="logo">邮箱账号<span>生成器</span></div>
+    <div style="font-size:0.78rem; color:var(--muted);">
+      <span class="status-dot"></span>在线 · Outlook / Hotmail / Live
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value" id="totalCount">0</div>
+      <div class="stat-label">已生成</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="outlookCount">0</div>
+      <div class="stat-label">Outlook</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="hotmailCount">0</div>
+      <div class="stat-label">Hotmail</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="liveCount">0</div>
+      <div class="stat-label">Live</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value" id="doneCount" style="color:var(--success)">0</div>
+      <div class="stat-label">已处理</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-panel">
+    <div class="ctrl-group">
+      <span class="ctrl-label">数量</span>
+      <input type="number" id="genCount" class="form-control" value="5" min="1" max="100" style="width:70px;">
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">密码长度</span>
+      <input type="number" id="passwordLength" class="form-control" value="12" min="4" max="64" style="width:80px;">
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">后缀</span>
+      <select id="suffixSelect" class="form-select" style="width:160px;">
+        <option value="@outlook.com">@outlook.com</option>
+        <option value="@hotmail.com">@hotmail.com</option>
+        <option value="@live.com">@live.com</option>
+        <option value="random">随机</option>
+        <option value="custom">自定义</option>
+      </select>
+      <input type="text" id="customSuffix" class="form-control custom-suffix-input" placeholder="@example.com" spellcheck="false">
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">分隔符</span>
+      <select id="sepSelect" class="form-select sep-select" style="width:90px;">
+        <option value="|">| 竖线</option>
+        <option value="/">/ 斜杠</option>
+        <option value=",">, 逗号</option>
+        <option value="	">Tab</option>
+      </select>
+    </div>
+    <button class="btn-generate" onclick="generateAccounts()">
+      <i class="fas fa-bolt me-1"></i>生成
+    </button>
+    <button class="btn-export" onclick="exportTxt()">
+      <i class="fas fa-download me-1"></i>导出 TXT
+    </button>
+    <button class="btn-clear" onclick="clearAll()">
+      <i class="fas fa-trash me-1"></i>清空
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrapper">
+    <div id="tableArea">
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-user-plus"></i></div>
+        <div class="empty-text">点击“生成”按钮创建账号信息</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // 数据
+  let accounts = [];
+
+  const SUFFIXES = ['@qq.com','@outlook.com', '@hotmail.com', '@live.com'];
+  const STORAGE_KEY = 'account-generator-data-v1';
+  const LOWER = 'abcdefghijklmnopqrstuvwxyz';
+  const DIGITS = '0123456789';
+  const SPECIAL = '!@#$%^&*';
+  const ALL_CHARS = LOWER + LOWER.toUpperCase() + DIGITS + SPECIAL;
+
+  const FIRST_NAMES = ['James','John','Robert','Michael','William','David','Richard','Joseph','Thomas','Charles','Mary','Patricia','Jennifer','Linda','Barbara','Elizabeth','Susan','Jessica','Sarah','Karen'];
+  const LAST_NAMES  = ['Smith','Johnson','Williams','Brown','Jones','Garcia','Miller','Davis','Wilson','Anderson','Taylor','Thomas','Moore','Jackson','White','Harris','Martin','Thompson','Young','Hall'];
+
+  // 生成函数
+  function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function randChoice(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function normalizeSuffix(value) {
+    let suffix = String(value || '').trim().toLowerCase();
+    if (!suffix) return '';
+    if (!suffix.startsWith('@')) suffix = `@${suffix}`;
+    if (suffix === '@' || suffix.includes(' ') || !suffix.includes('.')) return '';
+    return suffix;
+  }
+
+  function getSelectedSuffix() {
+    const selected = document.getElementById('suffixSelect').value;
+    if (selected !== 'custom') return selected;
+
+    const customSuffix = normalizeSuffix(document.getElementById('customSuffix').value);
+    if (!customSuffix) {
+      toast('请输入有效的自定义后缀，例如 @example.com');
+      return null;
+    }
+    document.getElementById('customSuffix').value = customSuffix;
+    return customSuffix;
+  }
+
+  function persistState() {
+    const state = {
+      accounts,
+      controls: {
+        genCount: document.getElementById('genCount').value,
+        passwordLength: document.getElementById('passwordLength').value,
+        sep: document.getElementById('sepSelect').value,
+        suffix: document.getElementById('suffixSelect').value,
+        customSuffix: document.getElementById('customSuffix').value
+      }
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function toggleCustomSuffixInput() {
+    const select = document.getElementById('suffixSelect');
+    const input = document.getElementById('customSuffix');
+    input.classList.toggle('visible', select.value === 'custom');
+  }
+
+  function restoreState() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      toggleCustomSuffixInput();
+      renderTable();
+      return;
+    }
+
+    try {
+      const state = JSON.parse(raw);
+      if (Array.isArray(state.accounts)) {
+        accounts = state.accounts.map(account => ({
+          ...account,
+          suffix: normalizeSuffix(account.suffix) || account.suffix,
+          done: Boolean(account.done)
+        }));
+      }
+
+      const controls = state.controls || {};
+      document.getElementById('genCount').value = controls.genCount || '5';
+      document.getElementById('passwordLength').value = controls.passwordLength || '12';
+      document.getElementById('sepSelect').value = controls.sep || '|';
+      document.getElementById('suffixSelect').value = controls.suffix || '@outlook.com';
+      document.getElementById('customSuffix').value = normalizeSuffix(controls.customSuffix) || controls.customSuffix || '';
+    } catch (error) {
+      console.error('Failed to restore state:', error);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    toggleCustomSuffixInput();
+    renderTable();
+  }
+
+  function generatePassword(length) {
+    length = length || randInt(11, 15);
+    while (true) {
+      let pw = Array.from({length}, () => randChoice(ALL_CHARS)).join('');
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw) && /[0-9]/.test(pw) && /[!@#$%^&*]/.test(pw)) {
+        return pw;
+      }
+    }
+  }
+
+  function generateEmailPrefix(length) {
+    length = length || randInt(12, 14);
+    let result = randChoice(LOWER);
+    for (let i = 1; i < length; i++) {
+      result += Math.random() < 0.07 ? randChoice(DIGITS) : randChoice(LOWER);
+    }
+    return result;
+  }
+
+  function getPasswordLength() {
+    return Math.min(Math.max(parseInt(document.getElementById('passwordLength').value, 10) || 12, 4), 64);
+  }
+
+  function generateAccount(suffix, passwordLength) {
+    if (suffix === 'random') suffix = randChoice(SUFFIXES);
+    const prefix = generateEmailPrefix(randInt(12, 14));
+    return {
+      email:     prefix + suffix,
+      password:  generatePassword(passwordLength),
+      firstname: randChoice(FIRST_NAMES),
+      lastname:  randChoice(LAST_NAMES),
+      year:      String(randInt(1980, 2005)),
+      month:     String(randInt(1, 12)),
+      day:       String(randInt(1, 28)),
+      suffix:    suffix,
+      done:      false
+    };
+  }
+
+  // 渲染
+  function suffixBadge(suffix) {
+    const cls = suffix === '@outlook.com' ? 'suffix-outlook'
+              : suffix === '@hotmail.com' ? 'suffix-hotmail'
+              : suffix === '@live.com' ? 'suffix-live'
+              : 'suffix-custom';
+    return `<span class="suffix-badge ${cls}">${suffix}</span>`;
+  }
+
+  function renderTable() {
+    const area = document.getElementById('tableArea');
+    if (accounts.length === 0) {
+      area.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon"><i class="fas fa-user-plus"></i></div>
+          <div class="empty-text">点击“生成”按钮创建账号信息</div>
+        </div>`;
+      updateStats();
+      return;
+    }
+
+    const rows = accounts.map((a, i) => `
+      <tr style="animation-delay:${i * 0.04}s" id="row-${i}">
+        <td style="color:var(--muted);font-size:0.65rem;">${String(i+1).padStart(3,'0')}</td>
+        <td class="email-cell">
+          ${a.email.split('@')[0]}${suffixBadge(a.suffix)}
+          <button class="copy-btn" onclick="copyText('${a.email}', this)" title="复制邮箱">
+            <i class="fas fa-copy"></i>
+          </button>
+        </td>
+        <td class="pw-cell">
+          ${a.password}
+          <button class="copy-btn" onclick="copyText('${a.password}', this)" title="复制密码">
+            <i class="fas fa-copy"></i>
+          </button>
+        </td>
+        <td>${a.firstname}</td>
+        <td>${a.lastname}</td>
+        <td>${a.year}</td>
+        <td>${a.month}</td>
+        <td>${a.day}</td>
+        <td>
+          <label class="toggle-wrap" onclick="toggleDone(${i})">
+            <span class="status-badge ${a.done ? 'status-done' : 'status-pending'}" id="badge-${i}">
+              ${a.done ? '已处理' : '待处理'}
+            </span>
+          </label>
+        </td>
+        <td style="display:flex;gap:6px;align-items:center;">
+          <button class="copy-btn" onclick="copyRow(${i}, this)" title="复制整行">
+            <i class="fas fa-copy"></i>
+          </button>
+          <button class="copy-btn" style="color:var(--danger)" onclick="deleteRow(${i})" title="删除">
+            <i class="fas fa-times"></i>
+          </button>
+        </td>
+      </tr>`).join('');
+
+    area.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>邮箱</th>
+            <th>密码</th>
+            <th>名</th>
+            <th>姓</th>
+            <th>年</th>
+            <th>月</th>
+            <th>日</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+
+    persistState();
+    updateStats();
+  }
+
+  function updateStats() {
+    document.getElementById('totalCount').textContent   = accounts.length;
+    document.getElementById('outlookCount').textContent = accounts.filter(a => a.suffix === '@outlook.com').length;
+    document.getElementById('hotmailCount').textContent = accounts.filter(a => a.suffix === '@hotmail.com').length;
+    document.getElementById('liveCount').textContent    = accounts.filter(a => a.suffix === '@live.com').length;
+    document.getElementById('doneCount').textContent    = accounts.filter(a => a.done).length;
+  }
+
+  // 操作
+  function generateAccounts() {
+    const count  = Math.min(parseInt(document.getElementById('genCount').value, 10) || 5, 100);
+    const passwordLength = getPasswordLength();
+    document.getElementById('passwordLength').value = passwordLength;
+    const suffix = getSelectedSuffix();
+    if (!suffix) return;
+    for (let i = 0; i < count; i++) {
+      accounts.push(generateAccount(suffix, passwordLength));
+    }
+    persistState();
+    renderTable();
+    toast(`已生成 ${count} 条账号，密码长度 ${passwordLength}`);
+  }
+
+  function deleteRow(index) {
+    accounts.splice(index, 1);
+    persistState();
+    renderTable();
+  }
+
+  // 状态开关
+  function toggleDone(index) {
+    accounts[index].done = !accounts[index].done;
+    // 不重新渲染整行，直接更新 DOM
+    const isDone = accounts[index].done;
+    const track  = document.getElementById(`toggle-${index}`);
+    const badge  = document.getElementById(`badge-${index}`);
+    if (track) { isDone ? track.classList.add('on') : track.classList.remove('on'); }
+    if (badge) {
+      badge.textContent = isDone ? '已处理' : '待处理';
+      badge.className = `status-badge ${isDone ? 'status-done' : 'status-pending'}`;
+    }
+    persistState();
+    updateStats();
+  }
+
+  // 确认弹窗
+  let _confirmCallback = null;
+
+  function showConfirm(msg, callback) {
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmOverlay').style.display = 'flex';
+    _confirmCallback = callback;
+  }
+
+  function closeConfirm() {
+    document.getElementById('confirmOverlay').style.display = 'none';
+    _confirmCallback = null;
+  }
+
+  function confirmOk() {
+    const callback = _confirmCallback;
+    closeConfirm();
+    if (callback) callback();
+  }
+
+  function clearAll() {
+    if (accounts.length === 0) return;
+    showConfirm(`确认清空全部 ${accounts.length} 条数据？此操作不可撤销。`, () => {
+      accounts = [];
+      persistState();
+      renderTable();
+      toast('已清空');
+    });
+  }
+
+  function exportTxt() {
+    if (accounts.length === 0) { toast('暂无数据'); return; }
+    const sep = document.getElementById('sepSelect').value;
+    const header = ['email','password','firstname','lastname','year','month','day'].join(sep);
+    const lines  = accounts.map(a =>
+      [a.email, a.password, a.firstname, a.lastname, a.year, a.month, a.day].join(sep)
+    );
+    const content = [header, ...lines].join('\n');
+    const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = `accounts_${Date.now()}.txt`;
+    a.click(); URL.revokeObjectURL(url);
+    toast(`已导出 ${accounts.length} 条`);
+  }
+
+  function copyRow(index, btn) {
+    const sep = document.getElementById('sepSelect').value;
+    const a = accounts[index];
+    const line = [a.email, a.password, a.firstname, a.lastname, a.year, a.month, a.day].join(sep);
+    navigator.clipboard.writeText(line).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<i class="fas fa-copy"></i>';
+      }, 1500);
+      toast('已复制整行');
+    });
+  }
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<i class="fas fa-copy"></i>';
+      }, 1500);
+    });
+  }
+
+  // Toast
+  function toast(msg) {
+    const container = document.getElementById('toastContainer');
+    const el = document.createElement('div');
+    el.className = 'toast-msg';
+    el.textContent = msg;
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  }
+
+  document.getElementById('suffixSelect').addEventListener('change', () => {
+    toggleCustomSuffixInput();
+    persistState();
+  });
+
+  document.getElementById('customSuffix').addEventListener('input', persistState);
+  document.getElementById('genCount').addEventListener('input', persistState);
+  document.getElementById('passwordLength').addEventListener('input', persistState);
+  document.getElementById('sepSelect').addEventListener('change', persistState);
+
+  restoreState();
+</script>
+</body>
+</html>
