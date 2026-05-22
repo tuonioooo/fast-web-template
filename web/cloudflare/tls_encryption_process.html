@@ -1,0 +1,754 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --accent: #00E5B4;
+  --accent2: #4F8EFF;
+  --warn: #FF6B35;
+  --bg0: #0D0F14;
+  --bg1: #141720;
+  --bg2: #1C2030;
+  --bg3: #242840;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(0,229,180,0.3);
+  --text: #E8EAF0;
+  --muted: #6B7080;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body, .tls-root {
+  background: var(--bg0);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+.tls-root { padding: 0 0 40px; }
+
+.hero {
+  background: linear-gradient(160deg, #0D0F14 0%, #141722 60%, #0a1520 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 32px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,229,180,0.04) 0%, transparent 70%);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,229,180,0.08);
+  border: 1px solid rgba(0,229,180,0.2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: var(--sans);
+  font-size: 26px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.hero-sub {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+}
+.status-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+.dot.blue { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+
+.phases-nav {
+  display: flex;
+  gap: 0;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg1);
+}
+.phase-tab {
+  padding: 14px 20px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+.phase-tab:hover { color: var(--text); }
+.phase-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.phase-content { display: none; padding: 28px 32px; }
+.phase-content.active { display: block; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.msg-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.msg-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 0;
+  align-items: stretch;
+  min-height: 70px;
+}
+
+.msg-bubble {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 4px;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.msg-bubble:hover { border-color: rgba(255,255,255,0.14); }
+.msg-bubble.client-side { border-left: 2px solid rgba(0,229,180,0.5); }
+.msg-bubble.server-side { border-left: 2px solid rgba(79,142,255,0.5); }
+.msg-bubble.server-right { border-right: 2px solid rgba(79,142,255,0.5); border-left: none; }
+
+.bubble-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.bubble-title.c { color: var(--accent); }
+.bubble-title.s { color: var(--accent2); }
+.bubble-item {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.bubble-item i { color: var(--accent); font-size: 10px; margin-top: 3px; flex-shrink: 0; }
+.bubble-item i.blue { color: var(--accent2); }
+
+.arrow-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+.arrow-line {
+  position: relative;
+  width: 70px;
+  height: 2px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.arrow-line.right::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  border: 4px solid transparent;
+  border-left: 6px solid var(--accent);
+}
+.arrow-line.left::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  border: 4px solid transparent;
+  border-right: 6px solid var(--accent2);
+}
+.arrow-line.right { background: rgba(0,229,180,0.3); }
+.arrow-line.left { background: rgba(79,142,255,0.3); }
+.arrow-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.actors-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  margin-bottom: 16px;
+  gap: 0;
+}
+.actor-chip {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.actor-icon {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.actor-icon.c { background: rgba(0,229,180,0.12); }
+.actor-icon.s { background: rgba(79,142,255,0.12); }
+.actor-name { font-size: 13px; font-weight: 500; }
+.actor-name.c { color: var(--accent); }
+.actor-name.s { color: var(--accent2); }
+.actor-sub { font-size: 11px; color: var(--muted); }
+
+.info-box {
+  background: var(--bg1);
+  border: 1px solid var(--border-accent);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.info-box strong { color: var(--accent); font-weight: 500; }
+
+.formula-box {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  line-height: 1.8;
+}
+.formula-comment { color: var(--muted); }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-top: 16px; }
+
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(255,255,255,0.12); }
+.card-head {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-head.blue { color: var(--accent2); }
+.card-head.warn { color: var(--warn); }
+.card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.card-row:last-child { border-bottom: none; }
+.card-key { color: var(--muted); }
+.card-val { color: var(--text); font-family: var(--mono); font-size: 11px; text-align: right; }
+
+.feature-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.feat-icon { font-size: 22px; }
+.feat-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.feat-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+.timeline-list { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
+.tl-item {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+.tl-item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 36px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--border);
+}
+.tl-dot {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 1px solid var(--border-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 12px;
+}
+.tl-body { padding: 12px 0 20px; }
+.tl-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.tl-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+.data-flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+}
+.dfs-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.dfs-row:last-child { border-bottom: none; }
+.dfs-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.dfs-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.dfs-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.dfs-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.dfs-tag.green { color: var(--accent); border-color: rgba(0,229,180,0.25); background: rgba(0,229,180,0.06); }
+.dfs-tag.blue { color: var(--accent2); border-color: rgba(79,142,255,0.25); background: rgba(79,142,255,0.06); }
+.dfs-tag.warn { color: var(--warn); border-color: rgba(255,107,53,0.25); background: rgba(255,107,53,0.06); }
+</style>
+
+<div class="tls-root">
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">
+          <span class="dot"></span>
+          TLS 1.3 / RFC 8446
+        </div>
+        <h1>Transport Layer Security</h1>
+        <p class="hero-sub">端到端加密协议 — 握手、密钥交换与安全传输完整流程</p>
+      </div>
+      <div class="status-panel">
+        <div class="status-item"><span class="dot"></span> AES-256-GCM</div>
+        <div class="status-item"><span class="dot blue"></span> ECDHE 密钥交换</div>
+        <div class="status-item"><span style="width:6px;height:6px;border-radius:50%;background:var(--warn);box-shadow:0 0 6px var(--warn)"></span> SHA-384 完整性</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phases-nav">
+    <div class="phase-tab active" onclick="switchTab(0)">01 握手协商</div>
+    <div class="phase-tab" onclick="switchTab(1)">02 密钥交换</div>
+    <div class="phase-tab" onclick="switchTab(2)">03 验证完成</div>
+    <div class="phase-tab" onclick="switchTab(3)">04 数据加密</div>
+    <div class="phase-tab" onclick="switchTab(4)">05 安全特性</div>
+    <div class="phase-tab" onclick="switchTab(5)">06 完整时序</div>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="phase-content active" id="tab-0">
+    <div class="section-label">Handshake · 协商加密算法</div>
+    <div class="actors-row">
+      <div class="actor-chip">
+        <div class="actor-icon c">👤</div>
+        <div>
+          <div class="actor-name c">Client</div>
+          <div class="actor-sub">发起连接请求</div>
+        </div>
+      </div>
+      <div></div>
+      <div class="actor-chip">
+        <div class="actor-icon s">🖥</div>
+        <div>
+          <div class="actor-name s">Server</div>
+          <div class="actor-sub">响应并验证身份</div>
+        </div>
+      </div>
+    </div>
+    <div class="msg-flow">
+      <div class="msg-row">
+        <div class="msg-bubble client-side">
+          <div class="bubble-title c">ClientHello  →</div>
+          <div class="bubble-item"><i>▸</i>支持的 TLS 版本列表</div>
+          <div class="bubble-item"><i>▸</i>支持的加密套件 (Cipher Suites)</div>
+          <div class="bubble-item"><i>▸</i>Client Random (32 bytes 随机数)</div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line right"></div>
+          <div class="arrow-label">发送</div>
+        </div>
+        <div class="msg-bubble server-side">
+          <div class="bubble-title s">接收 ClientHello</div>
+          <div class="bubble-item"><i class="blue">▸</i>选择最高兼容 TLS 版本</div>
+          <div class="bubble-item"><i class="blue">▸</i>选出优先加密套件</div>
+          <div class="bubble-item"><i class="blue">▸</i>记录 Client Random</div>
+        </div>
+      </div>
+      <div class="msg-row">
+        <div class="msg-bubble client-side">
+          <div class="bubble-title c">接收 ServerHello</div>
+          <div class="bubble-item"><i>▸</i>验证证书链 (CA 根证书)</div>
+          <div class="bubble-item"><i>▸</i>提取服务器公钥</div>
+          <div class="bubble-item"><i>▸</i>记录 Server Random</div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line left"></div>
+          <div class="arrow-label">响应</div>
+        </div>
+        <div class="msg-bubble server-right">
+          <div class="bubble-title s">←  ServerHello + Certificate</div>
+          <div class="bubble-item"><i class="blue">▸</i>确认 TLS 版本与加密套件</div>
+          <div class="bubble-item"><i class="blue">▸</i>发送 X.509 证书 (含公钥)</div>
+          <div class="bubble-item"><i class="blue">▸</i>Server Random + ServerHelloDone</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box">
+      <strong>关键机制：</strong>客户端通过 CA 根证书验证服务器身份，防止中间人伪造。握手阶段使用非对称加密（RSA / ECDHE），确保密钥安全分发，而不暴露私钥。
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="phase-content" id="tab-1">
+    <div class="section-label">Key Exchange · 生成会话密钥</div>
+    <div class="msg-flow">
+      <div class="msg-row">
+        <div class="msg-bubble client-side">
+          <div class="bubble-title c">生成预主密钥</div>
+          <div class="bubble-item"><i>▸</i>生成 Pre-Master Secret (48 bytes)</div>
+          <div class="bubble-item"><i>▸</i>用服务器<strong style="color:var(--accent)">公钥</strong>加密</div>
+          <div class="bubble-item"><i>▸</i>发送 ClientKeyExchange</div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line right"></div>
+          <div class="arrow-label">加密传输</div>
+        </div>
+        <div class="msg-bubble server-side">
+          <div class="bubble-title s">解密获取密钥</div>
+          <div class="bubble-item"><i class="blue">▸</i>用<strong style="color:var(--accent2)">私钥</strong>解密密文</div>
+          <div class="bubble-item"><i class="blue">▸</i>获得 Pre-Master Secret</div>
+          <div class="bubble-item"><i class="blue">▸</i>双方均持有相同数据</div>
+        </div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <span class="formula-comment">// PRF 派生主密钥</span><br>
+      Master_Secret = PRF(<br>
+      &nbsp;&nbsp;Pre_Master_Secret,<br>
+      &nbsp;&nbsp;<span style="color:var(--text)">"master secret"</span>,<br>
+      &nbsp;&nbsp;Client_Random <span style="color:var(--muted)">||</span> Server_Random<br>
+      )<br><br>
+      <span class="formula-comment">// 从主密钥派生会话密钥</span><br>
+      key_block = PRF(Master_Secret, "key expansion", ...)<br>
+      <span style="color:var(--muted)">→ client_write_key, server_write_key</span><br>
+      <span style="color:var(--muted)">→ client_MAC_key,   server_MAC_key</span>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head">非对称加密 — 握手阶段</div>
+        <div class="card-row"><span class="card-key">算法</span><span class="card-val">RSA / ECDHE</span></div>
+        <div class="card-row"><span class="card-key">用途</span><span class="card-val">安全交换预主密钥</span></div>
+        <div class="card-row"><span class="card-key">特点</span><span class="card-val">公钥加密·私钥解密</span></div>
+        <div class="card-row"><span class="card-key">优势</span><span class="card-val">解决密钥分发问题</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head blue">对称加密 — 数据传输</div>
+        <div class="card-row"><span class="card-key">算法</span><span class="card-val">AES-256-GCM</span></div>
+        <div class="card-row"><span class="card-key">用途</span><span class="card-val">加密应用层数据</span></div>
+        <div class="card-row"><span class="card-key">特点</span><span class="card-val">同密钥加解密</span></div>
+        <div class="card-row"><span class="card-key">优势</span><span class="card-val">速度快·安全性高</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="phase-content" id="tab-2">
+    <div class="section-label">Verification · 确认密钥一致</div>
+    <div class="msg-flow">
+      <div class="msg-row">
+        <div class="msg-bubble client-side">
+          <div class="bubble-title c">发送 Finished</div>
+          <div class="bubble-item"><i>▸</i>发送 ChangeCipherSpec</div>
+          <div class="bubble-item"><i>▸</i>用新密钥加密握手摘要</div>
+          <div class="bubble-item"><i>▸</i>发送 Finished 消息</div>
+        </div>
+        <div class="arrow-col">
+          <div class="arrow-line right"></div>
+          <div class="arrow-label">验证</div>
+        </div>
+        <div class="msg-bubble server-side">
+          <div class="bubble-title s">校验并响应</div>
+          <div class="bubble-item"><i class="blue">▸</i>解密并验证 Finished</div>
+          <div class="bubble-item"><i class="blue">▸</i>发送 ChangeCipherSpec</div>
+          <div class="bubble-item"><i class="blue">▸</i>发送自己的 Finished</div>
+        </div>
+      </div>
+    </div>
+    <div class="info-box" style="border-color:rgba(0,229,180,0.4);background:rgba(0,229,180,0.04)">
+      <strong>✓ 握手完成：</strong>双方通过交换 Finished 消息互相验证密钥一致性。此后所有 HTTP 请求与响应均使用协商好的对称密钥进行 AEAD 加密（认证加密）。
+    </div>
+    <div class="grid2" style="margin-top:20px">
+      <div class="card">
+        <div class="card-head warn">哈希函数 — 完整性校验</div>
+        <div class="card-row"><span class="card-key">算法</span><span class="card-val">SHA-256 / SHA-384</span></div>
+        <div class="card-row"><span class="card-key">用途</span><span class="card-val">计算 MAC / HMAC</span></div>
+        <div class="card-row"><span class="card-key">特点</span><span class="card-val">单向·不可逆</span></div>
+        <div class="card-row"><span class="card-key">防御</span><span class="card-val">检测数据篡改</span></div>
+      </div>
+      <div class="card">
+        <div class="card-head">数字签名 — 身份验证</div>
+        <div class="card-row"><span class="card-key">算法</span><span class="card-val">RSA-PSS / ECDSA</span></div>
+        <div class="card-row"><span class="card-key">用途</span><span class="card-val">验证证书真伪</span></div>
+        <div class="card-row"><span class="card-key">特点</span><span class="card-val">CA 对公钥签名</span></div>
+        <div class="card-row"><span class="card-key">防御</span><span class="card-val">防止中间人攻击</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="phase-content" id="tab-3">
+    <div class="section-label">Data Transfer · 加密传输流水线</div>
+    <div class="data-flow-steps">
+      <div class="dfs-row">
+        <div class="dfs-num">1</div>
+        <div>
+          <div class="dfs-label">原始明文数据</div>
+          <div class="dfs-sub">应用层发出的 HTTP 请求 / 响应</div>
+        </div>
+        <div class="dfs-tag warn">PLAINTEXT</div>
+      </div>
+      <div class="dfs-row">
+        <div class="dfs-num">2</div>
+        <div>
+          <div class="dfs-label">计算 MAC / HMAC</div>
+          <div class="dfs-sub">使用 MAC 密钥计算消息完整性校验码，防篡改</div>
+        </div>
+        <div class="dfs-tag warn">SHA-384</div>
+      </div>
+      <div class="dfs-row">
+        <div class="dfs-num">3</div>
+        <div>
+          <div class="dfs-label">合并数据与校验码</div>
+          <div class="dfs-sub">Data ‖ MAC 拼接，作为加密输入</div>
+        </div>
+        <div class="dfs-tag warn">CONCAT</div>
+      </div>
+      <div class="dfs-row">
+        <div class="dfs-num">4</div>
+        <div>
+          <div class="dfs-label">AES-256-GCM 对称加密</div>
+          <div class="dfs-sub">使用会话密钥加密，AEAD 同时提供认证与机密性</div>
+        </div>
+        <div class="dfs-tag blue">AES-256</div>
+      </div>
+      <div class="dfs-row">
+        <div class="dfs-num">5</div>
+        <div>
+          <div class="dfs-label">添加 TLS 记录头</div>
+          <div class="dfs-sub">Content-Type + Version + Length，组装 TLS Record</div>
+        </div>
+        <div class="dfs-tag blue">TLS RECORD</div>
+      </div>
+      <div class="dfs-row">
+        <div class="dfs-num">6</div>
+        <div>
+          <div class="dfs-label">通过网络发送密文</div>
+          <div class="dfs-sub">第三方即使截获也无法解读内容</div>
+        </div>
+        <div class="dfs-tag green">ENCRYPTED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4 -->
+  <div class="phase-content" id="tab-4">
+    <div class="section-label">Security Properties · TLS 核心安全属性</div>
+    <div class="grid4">
+      <div class="feature-card">
+        <div class="feat-icon">🔐</div>
+        <div class="feat-name">机密性</div>
+        <div class="feat-desc">对称加密确保数据内容不可被第三方读取，即使截获也无法解密</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🛡</div>
+        <div class="feat-name">完整性</div>
+        <div class="feat-desc">MAC / HMAC 校验防止传输中数据被静默篡改或字节丢失</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">✓</div>
+        <div class="feat-name">身份认证</div>
+        <div class="feat-desc">X.509 数字证书与 CA 签名链验证服务器真实身份，防止域名仿冒</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🔄</div>
+        <div class="feat-name">前向保密</div>
+        <div class="feat-desc">ECDHE 使每个会话密钥完全独立，私钥泄露不影响历史会话的安全</div>
+      </div>
+    </div>
+    <div style="margin-top:20px">
+      <div class="section-label">常见攻击防御矩阵</div>
+      <div class="grid2">
+        <div class="card">
+          <div class="card-head">防御覆盖</div>
+          <div class="card-row"><span class="card-key">中间人攻击 (MITM)</span><span class="card-val dfs-tag green">✓ 证书验证</span></div>
+          <div class="card-row"><span class="card-key">重放攻击</span><span class="card-val dfs-tag green">✓ 随机数+序列号</span></div>
+          <div class="card-row"><span class="card-key">数据篡改</span><span class="card-val dfs-tag green">✓ MAC 校验</span></div>
+          <div class="card-row"><span class="card-key">降级攻击</span><span class="card-val dfs-tag green">✓ Finished 摘要</span></div>
+        </div>
+        <div class="card">
+          <div class="card-head blue">TLS 版本对比</div>
+          <div class="card-row"><span class="card-key">TLS 1.0 / 1.1</span><span class="card-val" style="color:var(--warn)">已废弃</span></div>
+          <div class="card-row"><span class="card-key">TLS 1.2</span><span class="card-val" style="color:var(--muted)">广泛使用</span></div>
+          <div class="card-row"><span class="card-key">TLS 1.3</span><span class="card-val" style="color:var(--accent)">推荐·1-RTT</span></div>
+          <div class="card-row"><span class="card-key">0-RTT (TLS 1.3)</span><span class="card-val" style="color:var(--accent)">Session 恢复</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 5 -->
+  <div class="phase-content" id="tab-5">
+    <div class="section-label">Complete Handshake Timeline · 完整握手时序</div>
+    <div class="timeline-list">
+      <div class="tl-item">
+        <div class="tl-dot">01</div>
+        <div class="tl-body">
+          <div class="tl-title">ClientHello</div>
+          <div class="tl-desc">客户端发送支持的 TLS 版本、加密套件列表、Client Random 随机数，发起握手</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">02</div>
+        <div class="tl-body">
+          <div class="tl-title">ServerHello + Certificate</div>
+          <div class="tl-desc">服务器选定加密套件，返回 X.509 证书（含公钥）与 Server Random，发送 ServerHelloDone</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">03</div>
+        <div class="tl-body">
+          <div class="tl-title">Certificate Verify（客户端）</div>
+          <div class="tl-desc">客户端通过 CA 根证书链验证服务器证书的有效性和签名，确认服务器身份</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">04</div>
+        <div class="tl-body">
+          <div class="tl-title">ClientKeyExchange</div>
+          <div class="tl-desc">客户端生成 Pre-Master Secret，用服务器公钥加密后发送，服务器用私钥解密获取</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">05</div>
+        <div class="tl-body">
+          <div class="tl-title">Master Secret 派生</div>
+          <div class="tl-desc">双方各自用 PRF 函数从 Pre-Master Secret + 两个随机数派生出主密钥及全套会话密钥</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">06</div>
+        <div class="tl-body">
+          <div class="tl-title">ChangeCipherSpec + Finished</div>
+          <div class="tl-desc">双方各自发送 ChangeCipherSpec，再用新会话密钥加密发送 Finished 验证消息，双向确认密钥一致</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="border-color:rgba(0,229,180,0.8);color:var(--accent);background:rgba(0,229,180,0.08)">✓</div>
+        <div class="tl-body">
+          <div class="tl-title" style="color:var(--accent)">握手完成 — 安全信道建立</div>
+          <div class="tl-desc">后续所有 HTTPS 数据均通过 AES-256-GCM 加密传输，MAC 保护完整性，前向保密防止历史流量被破解</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(idx) {
+  document.querySelectorAll('.phase-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+  document.querySelectorAll('.phase-content').forEach((c,i) => c.classList.toggle('active', i===idx));
+}
+</script>

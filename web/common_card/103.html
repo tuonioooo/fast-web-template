@@ -1,0 +1,346 @@
+import React, { useState, useRef } from 'react';
+import { Eye, Edit3, Code, Download, Copy, Check } from 'lucide-react';
+
+export default function ProgramDesignEditor() {
+  const previewRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+  const [config, setConfig] = useState({
+    title: '源码搭建 拒绝抄袭',
+    mainText: '程序设计',
+    subtitle: '一条龙—对—服务',
+    features: '实体公司 / 省钱省事 / 安全独立',
+    languages: 'ASP Matlab C++ Java PHP Python NET Linux C语言 Android 算法',
+    services: '数据库 数值分析 人脸识别 网站开发'
+  });
+
+  const handleChange = (field, value) => {
+    setConfig(prev => ({ ...prev, [field]: value }));
+  };
+
+  const downloadImage = async () => {
+    if (!previewRef.current) return;
+
+    try {
+      // 动态导入 html2canvas
+      const html2canvas = (await import('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js')).default;
+      
+      const canvas = await html2canvas(previewRef.current, {
+        backgroundColor: null,
+        scale: 2, // 提高清晰度
+        logging: false,
+        useCORS: true
+      });
+
+      // 转换为图片并下载
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `程序设计-${Date.now()}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      });
+    } catch (error) {
+      console.error('下载失败:', error);
+      alert('图片下载失败，请重试');
+    }
+  };
+
+  const generatePrompt = () => {
+    return `请创建一个程序设计服务宣传图，具体要求如下：
+
+【整体风格】
+- 深蓝色星空科技背景，带有渐变效果（从深蓝到青蓝）
+- 添加闪烁的星星点缀和光束效果，营造科技感
+- 使用现代化的设计风格，圆角卡片布局
+
+【顶部区域】
+- 显示黄色边框徽章，内容："${config.title}"
+- 徽章背景半透明，带有毛玻璃效果
+
+【主标题区域】
+- 超大号标题文字："${config.mainText}"
+- 使用青蓝色渐变文字效果
+- 添加发光阴影效果，使文字更立体
+
+【副标题区域】
+- 显示："${config.subtitle}"
+- 白色加粗文字，使用"—"符号分隔，其中"—"用黄色高亮
+
+【特色说明】
+- 显示："${config.features}"
+- 浅灰色文字，使用"/"分隔不同特色
+
+【底部红色横幅】
+- 鲜艳的红色渐变背景（从深红到亮红）
+- 分两行显示：
+  第一行："${config.languages}"
+  第二行："${config.services}"
+- 白色加粗文字，增加对比度
+
+【技术要求】
+- 图片尺寸建议：1200x800px
+- 高清输出，适合社交媒体分享
+- 所有文字清晰可读，层次分明
+- 整体色调协调，视觉冲击力强`;
+  };
+
+  const copyPrompt = () => {
+    const prompt = generatePrompt();
+    navigator.clipboard.writeText(prompt).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="flex h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* Left Panel - Preview */}
+      <div className="w-1/2 p-8 flex items-center justify-center border-r border-gray-700">
+        <div className="w-full max-w-2xl">
+          <div ref={previewRef} className="relative rounded-2xl overflow-hidden shadow-2xl">
+            {/* Preview Card */}
+            <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-12">
+              {/* Starry Background Effect */}
+              <div className="absolute inset-0 opacity-30">
+                {[...Array(50)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute bg-white rounded-full"
+                    style={{
+                      width: Math.random() * 3 + 1 + 'px',
+                      height: Math.random() * 3 + 1 + 'px',
+                      top: Math.random() * 100 + '%',
+                      left: Math.random() * 100 + '%',
+                      animation: `twinkle ${Math.random() * 3 + 2}s infinite`
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Light Beam Effect */}
+              <div className="absolute top-0 right-1/4 w-1 h-full bg-gradient-to-b from-white via-cyan-300 to-transparent opacity-50 blur-sm" />
+
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Top Badge */}
+                <div className="flex justify-center mb-8">
+                  <div className="inline-block px-8 py-3 rounded-full border-2 border-yellow-400 bg-blue-900/50 backdrop-blur-sm">
+                    <p className="text-yellow-300 font-bold text-lg tracking-wider">
+                      {config.title}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Main Title */}
+                <div className="text-center mb-8">
+                  <h1 className="text-7xl font-black bg-gradient-to-r from-cyan-300 via-blue-300 to-cyan-400 bg-clip-text text-transparent mb-4 tracking-wider shadow-lg" style={{
+                    textShadow: '0 0 40px rgba(6, 182, 212, 0.5)'
+                  }}>
+                    {config.mainText}
+                  </h1>
+                </div>
+
+                {/* Subtitle */}
+                <div className="text-center mb-8">
+                  <p className="text-3xl font-bold text-white tracking-widest">
+                    {config.subtitle.split('—').map((part, idx) => (
+                      <span key={idx}>
+                        {idx > 0 && <span className="text-yellow-400">—</span>}
+                        {part}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div className="text-center mb-8">
+                  <p className="text-xl text-gray-200 tracking-wide">
+                    {config.features}
+                  </p>
+                </div>
+
+                {/* Red Banner */}
+                <div className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 -mx-12 px-12 py-6 shadow-xl">
+                  <div className="text-center space-y-3">
+                    <p className="text-white font-bold text-2xl tracking-wider">
+                      {config.languages}
+                    </p>
+                    <p className="text-white font-bold text-2xl tracking-wider">
+                      {config.services}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center mt-6 space-x-4">
+            <div className="flex items-center text-gray-400">
+              <Eye className="w-5 h-5 mr-2" />
+              <span className="text-sm">实时预览</span>
+            </div>
+            <button
+              onClick={downloadImage}
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 transform hover:scale-105"
+            >
+              <Download className="w-5 h-5 mr-2" />
+              下载图片
+            </button>
+            <button
+              onClick={copyPrompt}
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-lg font-semibold shadow-lg hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+            >
+              {copied ? <Check className="w-5 h-5 mr-2" /> : <Copy className="w-5 h-5 mr-2" />}
+              {copied ? '已复制' : '复制提示词'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Panel - Editor */}
+      <div className="w-1/2 p-8 overflow-y-auto">
+        <div className="max-w-xl mx-auto">
+          <div className="flex items-center mb-8">
+            <Edit3 className="w-8 h-8 text-cyan-400 mr-3" />
+            <h2 className="text-3xl font-bold text-white">内容编辑器</h2>
+          </div>
+
+          <div className="space-y-6">
+            {/* Title Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500 transition-all">
+              <label className="block text-cyan-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                顶部标语
+              </label>
+              <input
+                type="text"
+                value={config.title}
+                onChange={(e) => handleChange('title', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all"
+                placeholder="输入顶部标语"
+              />
+            </div>
+
+            {/* Main Text Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500 transition-all">
+              <label className="block text-cyan-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                主标题
+              </label>
+              <input
+                type="text"
+                value={config.mainText}
+                onChange={(e) => handleChange('mainText', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all text-xl font-bold"
+                placeholder="输入主标题"
+              />
+            </div>
+
+            {/* Subtitle Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500 transition-all">
+              <label className="block text-cyan-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                副标题
+              </label>
+              <input
+                type="text"
+                value={config.subtitle}
+                onChange={(e) => handleChange('subtitle', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all"
+                placeholder="输入副标题"
+              />
+              <p className="text-gray-500 text-xs mt-2">提示：使用 — 分隔不同部分</p>
+            </div>
+
+            {/* Features Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-cyan-500 transition-all">
+              <label className="block text-cyan-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                特色说明
+              </label>
+              <input
+                type="text"
+                value={config.features}
+                onChange={(e) => handleChange('features', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all"
+                placeholder="输入特色说明"
+              />
+              <p className="text-gray-500 text-xs mt-2">提示：使用 / 分隔不同特色</p>
+            </div>
+
+            {/* Languages Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-red-500 transition-all">
+              <label className="block text-red-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                编程语言（红色区域第一行）
+              </label>
+              <textarea
+                value={config.languages}
+                onChange={(e) => handleChange('languages', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400/50 transition-all resize-none"
+                rows="2"
+                placeholder="输入支持的编程语言"
+              />
+            </div>
+
+            {/* Services Input */}
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-red-500 transition-all">
+              <label className="block text-red-400 font-semibold mb-3 flex items-center">
+                <Code className="w-4 h-4 mr-2" />
+                服务项目（红色区域第二行）
+              </label>
+              <textarea
+                value={config.services}
+                onChange={(e) => handleChange('services', e.target.value)}
+                className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg border border-gray-600 focus:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400/50 transition-all resize-none"
+                rows="2"
+                placeholder="输入提供的服务项目"
+              />
+            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-cyan-900/20 rounded-lg border border-cyan-700">
+            <p className="text-cyan-300 text-sm">
+              💡 提示：所有修改会实时反映在左侧预览中
+            </p>
+          </div>
+
+          {/* Prompt Preview */}
+          <div className="mt-6 bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold flex items-center">
+                <Code className="w-5 h-5 mr-2 text-purple-400" />
+                生成的提示词预览
+              </h3>
+              <button
+                onClick={copyPrompt}
+                className="text-sm px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-all flex items-center"
+              >
+                {copied ? <Check className="w-4 h-4 mr-1" /> : <Copy className="w-4 h-4 mr-1" />}
+                {copied ? '已复制' : '复制'}
+              </button>
+            </div>
+            <div className="bg-gray-900 rounded-lg p-4 max-h-96 overflow-y-auto">
+              <pre className="text-gray-300 text-sm whitespace-pre-wrap font-mono leading-relaxed">
+                {generatePrompt()}
+              </pre>
+            </div>
+            <p className="text-gray-500 text-xs mt-3">
+              ✨ 此提示词可用于 AI 绘图工具（如 Midjourney、Stable Diffusion 等）生成类似效果的图片
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+    </div>
+  );
+}
