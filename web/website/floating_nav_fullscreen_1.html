@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="左侧悬浮导航与四屏纵向切换，支持折叠菜单、键盘、滚轮与触屏操作的独立静态模板。">
+    <title>左侧悬浮导航满屏滚动特效</title>
+    <!--
+        交互参考：用户提供的“左侧悬浮导航满屏滚动特效”本地示例。
+        该示例标注的来源：www.bootstrapmb.com/item/12037
+        原脚本提到的作者示例：https://codepen.io/howbizarre/pen/Halqb
+        此文件重新编写 HTML、CSS、JavaScript 和内联 SVG，仅沿用交互思路。
+        未复制原示例的 CSS/JS、jQuery、外链图标或纹理；不声明原示例的再分发许可。
+    -->
+    <style>
+        :root { color-scheme: light; font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; width: 100%; height: 100%; }
+        body { overflow: hidden; color: white; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+        button { font: inherit; }
+        button:focus-visible, a:focus-visible { outline: 3px solid #122033; outline-offset: 4px; }
+        button:disabled { cursor: default; opacity: .35; }
+        [hidden] { display: none !important; }
+        .symbols { position: absolute; width: 0; height: 0; overflow: hidden; }
+        .icon { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+        .viewport { height: 100%; overflow: hidden; touch-action: pan-x pinch-zoom; }
+        .screens { height: 100%; transition: transform 640ms cubic-bezier(.75, 0, .2, 1); }
+        .screen { position: relative; height: 100%; min-height: 100%; overflow: auto; display: grid; place-items: safe center; padding: 88px 100px 90px 164px; isolation: isolate; }
+        .screen:focus-visible { outline: 3px solid currentColor; outline-offset: -7px; }
+        .screen::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .14; background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 14px 14px; pointer-events: none; }
+        .screen--home { background: radial-gradient(ellipse at 62% 42%, #17749b, #086596 68%, #075283); }
+        .screen--read { background: radial-gradient(ellipse at 62% 42%, #347859, #28624b 68%, #205543); }
+        .screen--view { background: radial-gradient(ellipse at 62% 42%, #ae443c, #9c3933 68%, #852d2c); }
+        .screen--mail { color: #4e3613; background: radial-gradient(ellipse at 62% 42%, #ffe2a2, #e5ac48 70%, #c58b29); }
+        .screen__body { width: min(100%, 680px); text-align: center; }
+        .screen__number { display: block; margin-bottom: 24px; font: 600 12px/1.5 ui-monospace, monospace; letter-spacing: .24em; text-transform: uppercase; }
+        .screen__illustration { width: clamp(116px, 21vw, 250px); height: clamp(116px, 21vw, 250px); stroke-width: .8; opacity: .94; filter: drop-shadow(0 10px 15px #16304c20); }
+        .screen__title { margin: 23px 0 14px; font-size: clamp(28px, 4.3vw, 58px); font-weight: 600; line-height: 1.18; letter-spacing: -.035em; }
+        .screen__text { max-width: 38em; margin: 0 auto; font-size: clamp(13px, 1.45vw, 16px); line-height: 1.9; }
+        .screen__tag { display: inline-block; margin-top: 25px; padding: 7px 14px; border: 1px solid currentColor; border-radius: 30px; font-size: 11px; letter-spacing: .12em; }
+        .navigation { position: fixed; z-index: 10; top: 40px; left: 40px; width: 60px; color: #344452; filter: drop-shadow(0 6px 16px #10263d24); }
+        .navigation__toggle, .navigation__item, .navigation__step { position: relative; display: grid; place-items: center; width: 60px; height: 60px; padding: 0; border: 0; border-bottom: 1px solid #41556322; text-decoration: none; color: inherit; background: #ffffffba; cursor: pointer; transition: background 180ms ease; }
+        .navigation__toggle { border-radius: 9px 9px 0 0; }
+        .navigation__items { display: flex; flex-direction: column; }
+        .navigation__item:last-child, .navigation__step:last-child { border-bottom: 0; border-radius: 0 0 9px 9px; }
+        .navigation__item:hover, .navigation__toggle:hover, .navigation__step:not(:disabled):hover { background: #fffffff2; }
+        .navigation__item[aria-current="page"] { background: #fff; }
+        .navigation__item[aria-current="page"]::after { content: ""; position: absolute; left: 100%; top: 22px; border: 8px solid transparent; border-left-color: white; }
+        .navigation__item span { position: absolute; left: 76px; padding: 6px 10px; border-radius: 5px; color: #25384a; background: white; font-size: 12px; white-space: nowrap; opacity: 0; transform: translateX(-4px); transition: opacity 150ms, transform 150ms; pointer-events: none; }
+        .navigation__item:hover span, .navigation__item:focus-visible span { opacity: 1; transform: none; }
+        .navigation__toggle[aria-expanded="false"] .icon { transform: rotate(90deg); }
+        .navigation__toggle .icon { transition: transform 200ms; }
+        .page-info { position: fixed; z-index: 3; right: 34px; top: 35px; display: flex; gap: 14px; align-items: center; font: 12px/1.2 ui-monospace, monospace; }
+        .page-info__line { width: 54px; height: 1px; background: currentColor; opacity: .5; }
+        .footer { position: fixed; z-index: 3; bottom: 28px; left: 40px; right: 34px; display: flex; justify-content: space-between; align-items: center; gap: 18px; font-size: 11px; letter-spacing: .04em; }
+        .footer__hint { opacity: .8; }
+        .footer__brand { font: 11px/1.5 ui-monospace, monospace; letter-spacing: .12em; opacity: .7; }
+        body[data-page="3"] .page-info, body[data-page="3"] .footer { color: #4e3613; }
+        noscript { position: fixed; z-index: 12; bottom: 16px; left: 16px; background: white; color: #25384a; padding: 12px; }
+        @media (max-width: 640px), (max-height: 360px) {
+            .navigation { top: max(18px, env(safe-area-inset-top)); left: 18px; width: auto; display: flex; }
+            .navigation__items, .navigation__steps { display: flex; flex-direction: row; }
+            .navigation__toggle, .navigation__item, .navigation__step { width: 49px; height: 49px; border-bottom: 0; border-right: 1px solid #41556322; }
+            .navigation__toggle { border-radius: 8px 0 0 8px; }
+            .navigation__item:last-child, .navigation__step:last-child { border-radius: 0 8px 8px 0; border-right: 0; }
+            .navigation__item[aria-current="page"]::after { left: 17px; top: 100%; border-left-color: transparent; border-top-color: white; }
+            .navigation__item span { display: none; }
+            .screen { padding: 114px 25px 105px; }
+            .screen__number { margin-bottom: 22px; }
+            .screen__illustration { width: min(42vw, 190px); height: min(42vw, 190px); }
+            .screen__title { margin-top: 24px; font-size: clamp(26px, 7.2vw, 40px); }
+            .screen__tag { margin-top: 19px; }
+            .page-info { top: auto; bottom: 65px; right: 23px; }
+            .page-info__line { width: 36px; }
+            .footer { bottom: max(23px, env(safe-area-inset-bottom)); left: 23px; right: 23px; }
+            .footer__brand { font-size: 9px; letter-spacing: .05em; }
+        }
+        @media (max-height: 540px) {
+            .screen { padding-top: 85px; padding-bottom: 60px; }
+            .screen__illustration { width: 82px; height: 82px; }
+            .screen__number { margin-bottom: 7px; }
+            .screen__title { margin: 10px 0; font-size: 28px; }
+            .screen__tag { display: none; }
+            .navigation { top: 15px; left: 15px; }
+            .footer { bottom: 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+        }
+    </style>
+</head>
+<body data-page="0">
+    <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <symbol id="icon-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5.5 9v12h5v-7h3v7h5V9"/></symbol>
+            <symbol id="icon-book" viewBox="0 0 24 24"><path d="M12 5v16M3 4.5c3-1 6-.5 9 1.5 3-2 6-2.5 9-1.5v15c-3-1-6-.5-9 1.5-3-2-6-2.5-9-1.5zM6 8l3 .8M15 8.8l3-.8M6 12l3 .8M15 12.8l3-.8"/></symbol>
+            <symbol id="icon-window" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="1.5"/><path d="M2.5 9h19M6 6.5h.1M9 6.5h.1M12 6.5h.1M10 13l-3 2 3 2M14 13l3 2-3 2"/></symbol>
+            <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="1.5"/><path d="m3 6 9 7 9-7M3 18l6-6M21 18l-6-6"/></symbol>
+            <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h14"/></symbol>
+            <symbol id="icon-up" viewBox="0 0 24 24"><path d="m6 14 6-6 6 6"/></symbol>
+            <symbol id="icon-down" viewBox="0 0 24 24"><path d="m6 10 6 6 6-6"/></symbol>
+        </defs>
+    </svg>
+    <nav class="navigation" aria-label="页面导航">
+        <button class="navigation__toggle" type="button" aria-label="折叠导航" aria-expanded="true" aria-controls="page-links page-steps">
+            <svg class="icon" aria-hidden="true"><use href="#icon-menu"/></svg>
+        </button>
+        <div class="navigation__items" id="page-links">
+            <a class="navigation__item" href="#home" aria-label="第 1 屏：首页" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#icon-home"/></svg><span>首页</span></a>
+            <a class="navigation__item" href="#reading" aria-label="第 2 屏：阅读"><svg class="icon" aria-hidden="true"><use href="#icon-book"/></svg><span>阅读</span></a>
+            <a class="navigation__item" href="#explore" aria-label="第 3 屏：探索"><svg class="icon" aria-hidden="true"><use href="#icon-window"/></svg><span>探索</span></a>
+            <a class="navigation__item" href="#contact" aria-label="第 4 屏：联系"><svg class="icon" aria-hidden="true"><use href="#icon-mail"/></svg><span>联系</span></a>
+        </div>
+        <div class="navigation__steps" id="page-steps" hidden>
+            <button class="navigation__step" id="previous" type="button" aria-label="上一屏" disabled><svg class="icon" aria-hidden="true"><use href="#icon-up"/></svg></button>
+            <button class="navigation__step" id="next" type="button" aria-label="下一屏"><svg class="icon" aria-hidden="true"><use href="#icon-down"/></svg></button>
+        </div>
+    </nav>
+    <div class="page-info" aria-hidden="true"><span id="page-number">01</span><span class="page-info__line"></span><span>04</span></div>
+    <main class="viewport" aria-label="满屏滚动展示">
+        <div class="screens">
+            <section class="screen screen--home" id="home" aria-labelledby="title-home">
+                <div class="screen__body"><span class="screen__number">01 / A PLACE TO BEGIN</span><svg class="icon screen__illustration" aria-hidden="true"><use href="#icon-home"/></svg><h1 class="screen__title" id="title-home">每一屏，新的开始。</h1><p class="screen__text">让导航轻轻浮在一旁，让内容成为视线的中心。<br>点击图标，或向下滚动，进入下一屏。</p><span class="screen__tag">FLOATING NAVIGATION</span></div>
+            </section>
+            <section class="screen screen--read" id="reading" aria-labelledby="title-reading" aria-hidden="true" inert>
+                <div class="screen__body"><span class="screen__number">02 / ROOM FOR IDEAS</span><svg class="icon screen__illustration" aria-hidden="true"><use href="#icon-book"/></svg><h2 class="screen__title" id="title-reading">给灵感，留一点空间。</h2><p class="screen__text">四段内容，一条清晰的阅读路径。<br>折叠菜单后，用上下箭头继续浏览。</p><span class="screen__tag">READ AT YOUR OWN PACE</span></div>
+            </section>
+            <section class="screen screen--view" id="explore" aria-labelledby="title-explore" aria-hidden="true" inert>
+                <div class="screen__body"><span class="screen__number">03 / A DIFFERENT VIEW</span><svg class="icon screen__illustration" aria-hidden="true"><use href="#icon-window"/></svg><h2 class="screen__title" id="title-explore">换个视角，继续探索。</h2><p class="screen__text">用一次平滑的纵向切换，连接不同的章节。<br>键盘方向键、滚轮和触屏都能找到下一页。</p><span class="screen__tag">ONE SCREEN, ONE MOMENT</span></div>
+            </section>
+            <section class="screen screen--mail" id="contact" aria-labelledby="title-contact" aria-hidden="true" inert>
+                <div class="screen__body"><span class="screen__number">04 / KEEP IN TOUCH</span><svg class="icon screen__illustration" aria-hidden="true"><use href="#icon-mail"/></svg><h2 class="screen__title" id="title-contact">让想法，在这里相遇。</h2><p class="screen__text">这是一张可以替换成联系信息的展示页。<br>按 Home 返回起点，重新发现每一次过渡。</p><span class="screen__tag">THE NEXT CHAPTER IS YOURS</span></div>
+            </section>
+        </div>
+    </main>
+    <div class="footer"><span class="footer__hint">滚轮 / ↑ ↓ / 轻扫切换</span><span class="footer__brand">FAST WEB TEMPLATE</span></div>
+    <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" id="announcement">第 1 屏，共 4 屏：首页</p>
+    <noscript>此演示的切换操作需要启用 JavaScript。</noscript>
+    <script>
+        (() => {
+            'use strict';
+            const viewport = document.querySelector('.viewport');
+            const screens = document.querySelector('.screens');
+            const sections = [...document.querySelectorAll('.screen')];
+            const links = [...document.querySelectorAll('.navigation__item')];
+            const toggle = document.querySelector('.navigation__toggle');
+            const fullNavigation = document.getElementById('page-links');
+            const stepNavigation = document.getElementById('page-steps');
+            const previous = document.getElementById('previous');
+            const next = document.getElementById('next');
+            const announcement = document.getElementById('announcement');
+            const names = ['首页', '阅读', '探索', '联系'];
+            const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+            let current = 0;
+            let wheelTotal = 0;
+            let lastWheel = 0;
+            let lockedUntil = 0;
+            let touchStart = null;
+
+            function syncTouchScrolling() {
+                const panel = sections[current];
+                viewport.style.touchAction = panel.scrollHeight > panel.clientHeight + 2 ? 'pan-y pinch-zoom' : 'pan-x pinch-zoom';
+            }
+
+            function show(index, updateHistory = true) {
+                const target = Math.max(0, Math.min(index, sections.length - 1));
+                const changed = target !== current;
+                const focused = document.activeElement;
+                const focusWasInPanel = sections[current].contains(focused);
+                current = target;
+                // One screen is the viewport's height; resize keeps the current page aligned.
+                screens.style.transform = `translateY(-${current * 100}%)`;
+                document.body.dataset.page = String(current);
+                sections.forEach((section, i) => {
+                    section.inert = i !== current;
+                    section.setAttribute('aria-hidden', String(i !== current));
+                    if (i === current) links[i].setAttribute('aria-current', 'page');
+                    else links[i].removeAttribute('aria-current');
+                });
+                previous.disabled = current === 0;
+                next.disabled = current === sections.length - 1;
+                // Keep keyboard focus usable when a boundary disables the clicked button.
+                if (focused === previous && previous.disabled) next.focus({ preventScroll: true });
+                if (focused === next && next.disabled) previous.focus({ preventScroll: true });
+                if (changed && focusWasInPanel) sections[current].focus({ preventScroll: true });
+                document.getElementById('page-number').textContent = String(current + 1).padStart(2, '0');
+                announcement.textContent = `第 ${current + 1} 屏，共 4 屏：${names[current]}`;
+                if (changed) lockedUntil = performance.now() + (reducedMotion.matches ? 120 : 700);
+                if (updateHistory && location.hash !== `#${sections[current].id}`) {
+                    history.pushState(null, '', `#${sections[current].id}`);
+                }
+                syncTouchScrolling();
+            }
+
+            function readHash() {
+                const index = sections.findIndex(section => `#${section.id}` === location.hash);
+                show(index >= 0 ? index : 0, false);
+                // Anchor navigation must not move the clipped wrapper in addition to transform.
+                viewport.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            }
+
+            links.forEach((link, index) => link.addEventListener('click', event => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                event.preventDefault();
+                show(index);
+            }));
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                toggle.setAttribute('aria-label', expanded ? '展开导航' : '折叠导航');
+                fullNavigation.hidden = expanded;
+                stepNavigation.hidden = !expanded;
+            });
+            previous.addEventListener('click', () => show(current - 1));
+            next.addEventListener('click', () => show(current + 1));
+            document.addEventListener('keydown', event => {
+                if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+                const panel = sections[current];
+                const direction = ['ArrowDown', 'PageDown'].includes(event.key) ? 1 : ['ArrowUp', 'PageUp'].includes(event.key) ? -1 : 0;
+                const contentCanScroll = direction > 0 ? panel.scrollTop + panel.clientHeight < panel.scrollHeight - 2 : panel.scrollTop > 2;
+                if (direction && contentCanScroll && !event.target.closest('.navigation')) {
+                    event.preventDefault();
+                    panel.scrollBy({ top: direction * (event.key.startsWith('Page') ? panel.clientHeight * .8 : 50), behavior: 'instant' });
+                    return;
+                }
+                let target;
+                if (event.key === 'ArrowDown' || event.key === 'PageDown') target = current + 1;
+                if (event.key === 'ArrowUp' || event.key === 'PageUp') target = current - 1;
+                if (event.key === 'Home') target = 0;
+                if (event.key === 'End') target = sections.length - 1;
+                if (target !== undefined) { event.preventDefault(); show(target); }
+            });
+            viewport.addEventListener('wheel', event => {
+                if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+                const panel = sections[current];
+                const down = event.deltaY > 0;
+                // Let overflow content remain readable when text is enlarged or the viewport is short.
+                if ((down && panel.scrollTop + panel.clientHeight < panel.scrollHeight - 2) || (!down && panel.scrollTop > 2)) return;
+                event.preventDefault();
+                const now = performance.now();
+                if (now - lastWheel > 180 || Math.sign(wheelTotal) !== Math.sign(event.deltaY)) wheelTotal = 0;
+                lastWheel = now;
+                if (now < lockedUntil) { wheelTotal = 0; return; }
+                wheelTotal += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.clientHeight : 1);
+                if (Math.abs(wheelTotal) >= 48) { show(current + Math.sign(wheelTotal)); wheelTotal = 0; }
+            }, { passive: false });
+            viewport.addEventListener('touchstart', event => {
+                touchStart = event.touches.length === 1 ? { x: event.touches[0].clientX, y: event.touches[0].clientY, scroll: sections[current].scrollTop } : null;
+            }, { passive: true });
+            viewport.addEventListener('touchend', event => {
+                if (!touchStart || !event.changedTouches.length) return;
+                const deltaY = touchStart.y - event.changedTouches[0].clientY;
+                const deltaX = touchStart.x - event.changedTouches[0].clientX;
+                const panel = sections[current];
+                const canScroll = deltaY > 0 ? touchStart.scroll + panel.clientHeight < panel.scrollHeight - 2 : touchStart.scroll > 2;
+                if (!canScroll && Math.abs(deltaY) > 55 && Math.abs(deltaY) > Math.abs(deltaX) * 1.25) show(current + Math.sign(deltaY));
+                touchStart = null;
+            }, { passive: true });
+            viewport.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+            addEventListener('popstate', readHash);
+            addEventListener('hashchange', readHash);
+            addEventListener('resize', () => { viewport.scrollTop = 0; syncTouchScrolling(); });
+            sections.forEach(section => { section.tabIndex = 0; });
+            if ('ResizeObserver' in window) new ResizeObserver(syncTouchScrolling).observe(viewport);
+            readHash();
+        })();
+    </script>
+</body>
+</html>
