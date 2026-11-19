@@ -1,1106 +1,818 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Web Template - 模板合集</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@600;800&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --bg: #050508;
-            --surface: rgba(255, 255, 255, 0.03);
-            --surface-hover: rgba(255, 255, 255, 0.05);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.2);
-            --accent-1: #7c6aff;
-            --accent-2: #ff6a9c;
-            --accent-3: #00f0ff;
-            --text-primary: #f5f5fa;
-            --text-secondary: #a0a0b5;
-            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-            --font-heading: 'Syne', sans-serif;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="浏览 Fast Web Template 的前端页面模板，按分类和关键词查找，点击打开演示。">
+  <title>Fast Web Template · 模板画廊</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --background: #0c0b14;
+      --surface: #15141f;
+      --surface-hover: #1a1926;
+      --border: #302e41;
+      --text: #f2f1f8;
+      --muted: #b0aec4;
+      --accent: #b4a8ff;
+      --accent-ink: #141025;
+      font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    *, *::before, *::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.55;
+    }
 
-        /* Ambient Background */
-        .ambient-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
-        }
+    .page {
+      width: min(1200px, calc(100% - 32px));
+      margin-inline: auto;
+    }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.4;
-            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    .site-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px 24px;
+      padding-block-start: 20px;
+    }
 
-        .orb-1 {
-            top: -10%;
-            left: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, var(--accent-1), transparent 60%);
-        }
+    .brand {
+      color: var(--text);
+      font-size: 1.2rem;
+      font-weight: 750;
+      letter-spacing: -.025em;
+    }
 
-        .orb-2 {
-            bottom: -20%;
-            right: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, var(--accent-2), transparent 60%);
-            animation-delay: -5s;
-            animation-duration: 25s;
-        }
+    .site-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 44px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: .875rem;
+    }
 
-        .orb-3 {
-            top: 40%;
-            left: 30%;
-            width: 40vw;
-            height: 40vw;
-            background: radial-gradient(circle, var(--accent-3), transparent 60%);
-            opacity: 0.15;
-            animation-delay: -10s;
-            animation-duration: 30s;
-        }
+    .site-search label { flex: none; cursor: text; }
 
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
+    .site-search input {
+      flex: 1;
+      min-width: 0;
+      min-height: 42px;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+    }
 
-            100% {
-                transform: translate(10%, 10%) scale(1.2);
-            }
-        }
+    .site-search input::placeholder { color: var(--muted); opacity: .84; }
+    .site-search:focus-within { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-        /* Container */
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 40px 24px 80px;
-            position: relative;
-            z-index: 1;
-        }
+    .intro { margin-block: 24px 20px; }
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            margin-top: 60px;
-            margin-bottom: 80px;
-            animation: fadeInDown 1s ease-out forwards;
-        }
+    .intro h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 7.4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.045em;
+      line-height: 1.15;
+      text-wrap: balance;
+    }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 16px;
-            background: rgba(124, 106, 255, 0.1);
-            border: 1px solid rgba(124, 106, 255, 0.3);
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: #b0a4ff;
-            margin-bottom: 24px;
-        }
+    .intro p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: .9375rem;
+    }
 
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 20px;
-        }
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
 
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
+    .chip,
+    .reset-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      padding-inline: 11px;
+      color: var(--text);
+      background: transparent;
+      border: 1px solid #423e58;
+      border-radius: 999px;
+      font: inherit;
+      font-size: .8125rem;
+      cursor: pointer;
+      transition: background-color .16s ease, border-color .16s ease;
+    }
 
-        .hero p {
-            font-size: clamp(1.1rem, 2vw, 1.25rem);
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+    .chip-count {
+      padding-inline-start: 6px;
+      border-inline-start: 1px solid currentColor;
+      font-size: .75rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
 
-        /* Search Box */
-        .search-container {
-            position: relative;
-            max-width: 640px;
-            margin: 0 auto 80px;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
+    .chip:hover, .reset-button:hover { background: var(--surface-hover); border-color: var(--accent); }
+    .chip[aria-pressed="true"] { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
 
-        .search-box {
-            position: relative;
-            z-index: 2;
-        }
+    :where(a, button):focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
 
-        .search-box input {
-            width: 100%;
-            padding: 20px 24px 20px 60px;
-            font-family: var(--font-main);
-            font-size: 1.1rem;
-            color: var(--text-primary);
-            background: var(--surface);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            outline: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
+    .result-count {
+      margin: -6px 0 12px;
+      color: var(--muted);
+      font-size: .875rem;
+    }
 
-        .search-box input::placeholder {
-            color: #6a6a8a;
-        }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
 
-        .search-box input:focus {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(124, 106, 255, 0.6);
-            box-shadow: 0 0 0 4px rgba(124, 106, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
+    .gallery {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
 
-        .search-icon {
-            position: absolute;
-            left: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            opacity: 0.5;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+    .template-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      color: inherit;
+      text-decoration: none;
+      transition: background-color .16s ease, border-color .16s ease;
+    }
 
-        .search-box input:focus+.search-icon {
-            opacity: 1;
-        }
+    .template-card:hover, .template-card:focus-visible {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
 
-        /* Categories */
-        .category {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    .card-shine {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 1px 0 #f2f1f812;
+      pointer-events: none;
+    }
 
-        .category.in-view {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .card-preview {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      background: var(--background);
+    }
 
-        .category-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: white;
-        }
+    .card-preview img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        .category-title span.emoji {
-            font-size: 1.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 12px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
+    .card-inner {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      padding: 0 4px 2px;
+    }
 
-        /* Grid & Cards */
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-        }
+    .template-card:not(:has(.card-preview)) .card-inner { padding-block-start: 4px; }
 
-        .template-card {
-            position: relative;
-            background: var(--surface);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px 24px;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-            color: inherit;
-            overflow: hidden;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: border-color 0.3s, box-shadow 0.3s, opacity 0.4s, transform 0.4s;
-            will-change: transform;
-        }
+    .card-tag {
+      margin: 0;
+      color: var(--accent);
+      font-size: .75rem;
+    }
 
-        .template-card:hover {
-            border-color: var(--border-hover);
-            background: var(--surface-hover);
-            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 106, 255, 0.1);
-        }
+    .template-card h2 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 720;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
 
-        .card-inner {
-            transform: translateZ(40px);
-            transition: transform 0.3s ease-out;
-            pointer-events: none;
-        }
+    .card-description {
+      margin: 0;
+      color: var(--muted);
+      font-size: .875rem;
+      overflow-wrap: anywhere;
+    }
 
-        .template-card:hover .card-inner {
-            transform: translateZ(60px);
-        }
+    .card-footer {
+      padding-top: 6px;
+      margin-top: auto;
+      color: var(--accent);
+      font-size: .8125rem;
+      font-weight: 650;
+    }
 
-        .template-card h3 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
+    .template-card:hover .view-btn { text-decoration: underline; text-underline-offset: 3px; }
 
-        .template-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 28px;
-            height: 3em;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+    .empty-state {
+      padding: 36px 16px;
+      border: 1px dashed #423e58;
+      border-radius: 16px;
+      text-align: center;
+    }
 
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    .empty-state h2 { margin: 0; font-size: 1.125rem; }
+    .empty-state p { margin: 6px 0 16px; color: var(--muted); }
+    .reset-button { padding-inline: 16px; }
 
-        .view-btn {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-            padding: 8px 16px;
-            border-radius: 100px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
+    .site-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px 20px;
+      margin-top: 32px;
+      padding-block: 20px 28px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .875rem;
+    }
 
-        .view-btn svg {
-            width: 14px;
-            height: 14px;
-            transition: transform 0.3s;
-        }
+    .site-footer a { color: var(--accent); text-underline-offset: 3px; }
 
-        .template-card:hover .view-btn {
-            background: linear-gradient(135deg, var(--accent-1), #9b6aff);
-            box-shadow: 0 4px 15px rgba(124, 106, 255, 0.4);
-        }
+    @media (min-width: 560px) {
+      .page { width: min(1200px, calc(100% - 64px)); }
+      .site-header { padding-top: 24px; }
+      .site-search { width: min(320px, 50%); padding-inline: 16px; }
+      .intro { margin-block: 34px 30px; }
+      .intro p { margin-top: 12px; font-size: 1rem; }
+      .filters { margin-bottom: 30px; }
+      .chip { padding-inline: 16px; font-size: .875rem; }
+      .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    }
 
-        .template-card:hover .view-btn svg {
-            transform: translateX(4px);
-        }
+    @media (min-width: 820px) {
+      .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
 
-        /* 3D Shine Effect */
-        .card-shine {
-            position: absolute;
-            inset: 0;
-            border-radius: 20px;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent 60%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            mix-blend-mode: overlay;
-        }
+    @media (min-width: 1100px) {
+      .gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
 
-        .template-card:hover .card-shine {
-            opacity: 1;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.8;
-            opacity: 0.7;
-        }
-
-        footer a {
-            color: var(--text-primary);
-            text-decoration: none;
-            position: relative;
-            font-weight: 500;
-        }
-
-        footer a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--text-primary);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-
-        footer a:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .category-title {
-                font-size: 1.6rem;
-            }
-
-            .template-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    @media (prefers-reduced-motion: reduce) {
+      .template-card, .chip, .reset-button { transition: none; }
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Background -->
-    <div class="ambient-bg">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+  <div class="page">
+    <header class="site-header">
+      <div class="brand">Fast Web Template</div>
+      <form class="site-search" id="template-search" role="search" hidden>
+        <label for="searchInput">搜索模板</label>
+        <input type="search" id="searchInput" placeholder="名称、关键词…" autocomplete="off" aria-controls="gallery">
+      </form>
+    </header>
 
-    <div class="container">
-        <!-- Hero Section -->
-        <header class="hero">
-            <div class="badge">✦ HIGH-END TEMPLATES</div>
-            <h1>Fast Web Template<br><span>精选优质前端页面合集</span></h1>
-            <p>探索我们精心打磨的静态界面模板，为你的下一个 Web、App 或互动演示项目获取灵感与开箱即用的代码。</p>
-        </header>
+    <main>
+      <div class="intro">
+        <h1>精选前端页面模板</h1>
+        <p><span id="template-total" hidden></span>从静态卡片到交互动效，点开即可演示。</p>
+      </div>
 
-        <!-- Search -->
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="搜索组件、应用、动画模板...">
-                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-            </div>
-        </div>
+      <div class="filters" id="filters" role="group" aria-label="模板分类" hidden>
+        <button class="chip" type="button" data-filter="all" aria-pressed="true" aria-controls="gallery">全部 <span class="chip-count"></span></button>
+        <button class="chip" type="button" data-filter="cards" aria-pressed="false" aria-controls="gallery">卡片 <span class="chip-count"></span></button>
+        <button class="chip" type="button" data-filter="data" aria-pressed="false" aria-controls="gallery">数据与后台 <span class="chip-count"></span></button>
+        <button class="chip" type="button" data-filter="covers" aria-pressed="false" aria-controls="gallery">视频封面 <span class="chip-count"></span></button>
+        <button class="chip" type="button" data-filter="sites" aria-pressed="false" aria-controls="gallery">网站与动效 <span class="chip-count"></span></button>
+        <button class="chip" type="button" data-filter="tools" aria-pressed="false" aria-controls="gallery">工具与应用 <span class="chip-count"></span></button>
+      </div>
+      <p class="result-count visually-hidden" id="result-count" role="status"></p>
 
-        <!-- Categories -->
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">📊</span>后台管理模板</h2>
-            <div class="template-grid">
-                <a href="./web/admin_dashboard/meta_admin_dashboard.html" target="_blank" class="template-card"
-                    data-name="meta风格后台管理面板">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Meta 风格后台管理</h3>
-                        <p>现代化的后台管理界面，采用 Meta 简约拟物风格，适合数据看板与企业级内部工具</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+      <section class="gallery" id="gallery" aria-label="模板画廊">
+        <a class="template-card" href="./web/admin_dashboard/meta_admin_dashboard.html" target="_blank" rel="noopener noreferrer"
+          data-category="data" data-name="meta风格后台管理面板" aria-labelledby="template-1">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/meta-dashboard.webp" alt="" width="560" height="315" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">数据与后台</p>
+            <h2 id="template-1">Meta 风格后台管理</h2>
+            <p class="card-description">现代化的后台管理界面，采用 Meta 简约拟物风格，适合数据看板与企业级内部工具</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">🎨</span>艺术卡片模板</h2>
-            <div class="template-grid">
-                <a href="./web/art_card/沟通艺术卡片.html" target="_blank" class="template-card" data-name="沟通艺术卡片">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>沟通艺术卡片</h3>
-                        <p>深度沟通主题的艺术排版卡片，适合社交媒体引流及知识分享场景</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/art_card/艺术卡片字体_103.html" target="_blank" class="template-card"
-                    data-name="艺术卡片字体103 柔和色调">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>柔和语境卡片</h3>
-                        <p>采用低饱和度柔和色调排版的艺术文字卡片，传达治愈与温馨</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/art_card/艺术卡片字体_104.html" target="_blank" class="template-card"
-                    data-name="艺术卡片字体104 现代风格">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>现代先锋卡片</h3>
-                        <p>大字重现代简约主义风格，高对比度设计，呈现强烈的视觉冲击</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/art_card/艺术字体卡片_105.html" target="_blank" class="template-card"
-                    data-name="艺术字体卡片105 3d效果">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>3D 艺术字卡片</h3>
-                        <p>运用拟物与阴影构成的 3D 浮雕效果艺术字体展现形式</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/art_card/艺术字体卡片_105.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="艺术字体卡片105 3d效果" aria-labelledby="template-2">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/art-3d.webp" alt="" width="560" height="315" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-2">3D 艺术字卡片</h2>
+            <p class="card-description">运用拟物与阴影构成的 3D 浮雕效果艺术字体展现形式</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">👶</span>母婴卡片模板</h2>
-            <div class="template-grid">
-                <a href="./web/xhs_card/xhs01.html" target="_blank" class="template-card" data-name="温馨母婴知识卡片 小红书">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>母婴科普图集</h3>
-                        <p>专为小红书等平台优化的长图文排版，马卡龙配色搭配亲和力元素</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/xhs_card/xhs01.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="温馨母婴知识卡片 小红书" aria-labelledby="template-3">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/parenting-card.webp" alt="" width="560" height="315" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-3">母婴科普图集</h2>
+            <p class="card-description">专为小红书等平台优化的长图文排版，马卡龙配色搭配亲和力元素</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">📇</span>通用卡片模板</h2>
-            <div class="template-grid">
-                <a href="./web/common_card/101.html" target="_blank" class="template-card" data-name="左右分割卡片">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>左右错落图文</h3>
-                        <p>优雅的留白与比例平衡，适用于人物介绍或产品特写片段展示</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/common_card/102.html" target="_blank" class="template-card" data-name="上下分割卡片">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>上下半景卡片</h3>
-                        <p>大画幅顶部配图与底部沉浸式文字区域，经典的内容阅读承载方式</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/rank/2025彩礼前十排行-83bd859755.html" target="_blank" rel="noopener noreferrer"
+          data-category="data" data-name="彩礼排行榜 数据" aria-labelledby="template-4">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/dowry-ranking.webp" alt="" width="560" height="315" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">数据与后台</p>
+            <h2 id="template-4">时事排行榜</h2>
+            <p class="card-description">以精美的横向条形图结合数字滚动效果，可视化呈现对比数据</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">📈</span>数据排行模板</h2>
-            <div class="template-grid">
-                <a href="./web/rank/2025彩礼前十排行-83bd859755.html" target="_blank" class="template-card"
-                    data-name="彩礼排行榜 数据">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>时事排行榜</h3>
-                        <p>以精美的横向条形图结合数字滚动效果，可视化呈现对比数据</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/rank/hunli.html" target="_blank" class="template-card" data-name="婚礼数据展示">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>统计大屏模块</h3>
-                        <p>大数字搭配环形图与图例，适用于各种运营报告或统计页面展示</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/video_cover/video_cover_generator.html" target="_blank" rel="noopener noreferrer"
+          data-category="covers" data-name="视频封面生成器 工具" aria-labelledby="template-5">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/cover-generator.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">视频封面</p>
+            <h2 id="template-5">封面工厂工具</h2>
+            <p class="card-description">在线导入背景图与调整标题，一键保存精美的视频封面图片</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">🧊</span>3D 交互模板</h2>
-            <div class="template-grid">
-                <a href="./web/3d/3d-101.html" target="_blank" class="template-card" data-name="3d卡片动画生成器 交互">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>3D 动画实验室</h3>
-                        <p>一个实时编辑卡片 3D 透视、翻转入场属性并生成对应 CSS 代码的高级交互界面</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/website/book-page-turn-original/index.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="经典版 原版布局 站内预览 3D 书本翻页动画 3d 书本 翻页 动画 book page turn" aria-labelledby="template-6">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/book-classic.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-6">3D 书本翻页动画 · 经典版</h2>
+            <p class="card-description">点击封面开书，拖动页角翻页。</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">🎬</span>视频封面模板</h2>
-            <div class="template-grid">
-                <a href="./web/video_cover/video_cover_generator.html" target="_blank" class="template-card"
-                    data-name="视频封面生成器 工具">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>封面工厂工具</h3>
-                        <p>在线导入背景图与调整标题，一键保存精美的视频封面图片</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/video_cover/video_cover_1.html" target="_blank" class="template-card"
-                    data-name="视频封面模板1 质感">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Vlog 质感封面</h3>
-                        <p>适合生活类、摄影类 Vlog 使用的文字留白封面样式</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/video_cover/video_cover_2.html" target="_blank" class="template-card"
-                    data-name="视频封面模板2 酷炫">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>知识区酷炫封面</h3>
-                        <p>极具辨识度与点击欲望的字体排布，主打信息密度的传达</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/video_cover/video_cover.html" target="_blank" class="template-card"
-                    data-name="基础视频封面 通用">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>经典基础封面</h3>
-                        <p>居中对齐、高斯模糊衬底，最稳妥不易出错的通用构图方式</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/cloudflare/tls_encryption_process.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="TLS 加密流程 可视化" aria-labelledby="template-7">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/tls-handshake.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-7">TLS 加密流程可视化</h2>
+            <p class="card-description">展示 TLS/TLS 连接握手、证书校验与密钥协商的流程图与文字说明，便于理解加密通信。</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">🌐</span>基础网站与博客</h2>
-            <div class="template-grid">
-                <a href="./web/video_cover/web1.html" target="_blank" class="template-card"
-                    data-name="基础网站模板1 landing page">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Landing Page A</h3>
-                        <p>一款转化率导向的产品着陆页，带有清晰的英雄区与特性介绍</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/video_cover/website.html" target="_blank" class="template-card" data-name="基础网站模板2">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Landing Page B</h3>
-                        <p>现代企业的标准官网框架，支持全屏滚动展示</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/website/floating_nav_fullscreen_1.html" target="_blank" rel="noopener noreferrer" class="template-card"
-                    data-name="左侧悬浮导航满屏滚动特效 悬浮导航 全屏滚动 满屏 滑动 交互 动画">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>左侧悬浮导航满屏滚动特效</h3>
-                        <p>可折叠悬浮导航与四屏纵向切换，支持键盘、滚轮和触屏操作</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/website/book-page-turn-original/index.html" target="_blank" rel="noopener noreferrer" class="template-card"
-                    data-name="经典版 原版布局 站内预览 3D 书本翻页动画 3d 书本 翻页 动画 book page turn">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>3D 书本翻页动画 · 经典版</h3>
-                        <p>点击封面开书，拖动页角翻页。</p>
-                        <div class="card-footer">
-                            <span class="view-btn">站内预览 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://codepen.io/gokulramesh94/pen/rNeMyop" target="_blank" rel="noopener noreferrer" class="template-card"
-                    data-name="查看原版 CodePen 3D 书本翻页动画 3d 书本 翻页 动画 book page turn">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>3D 书本翻页动画 · 原版</h3>
-                        <p>gokulramesh94 的 CodePen 原版。点击封面开书，拖动页角翻页。</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看原版 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/website/book_page_turn_1.html" target="_blank" rel="noopener noreferrer" class="template-card"
-                    data-name="3D 书本翻页动画 3d 书本 翻页 动画 book page turn">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>3D 书本翻页动画</h3>
-                        <p>点击封面开书，支持前后翻页和键盘操作</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/website/blog_1.html" target="_blank" class="template-card" data-name="个人博客模板 blog">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>极简写作空间</h3>
-                        <p>回归阅读本质的 Markdown 风格博客主页，排版优雅清爽</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./app/掌控习惯_106.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="掌控习惯应用 APP" aria-labelledby="template-8">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/habit-app.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-8">掌控习惯 WebApp</h2>
+            <p class="card-description">参考著名习惯养成理论设计的移动端 Web App 交互原型</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">🛠️</span>工具与应用</h2>
-            <div class="template-grid">
-                <a href="./app/掌控习惯_106.html" target="_blank" class="template-card" data-name="掌控习惯应用 APP">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>掌控习惯 WebApp</h3>
-                        <p>参考著名习惯养成理论设计的移动端 Web App 交互原型</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/tools/email_generator/email_generator.html" target="_blank" class="template-card"
-                    data-name="邮箱账号生成器 工具 应用">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>邮箱账号生成器</h3>
-                        <p>批量生成邮箱账号与规则组合的实用工具页，适合测试数据与账号准备场景</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/tools/codex_oauth2_sms/codex_oauth2_sms.html" target="_blank" class="template-card"
-                    data-name="国家验证码支持情况 工具 应用 短信">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>codex的oauth2短信验证码支持情况</h3>
-                        <p>用于查询不同国家或地区短信验证码支持范围的可视化工具页面</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/cloudflare/1.html" target="_blank" class="template-card" data-name="cloudflare模板">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Cloudflare Worker 落地页</h3>
-                        <p>轻量级的边缘计算节点无服务器应用模板展示</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/cloudflare/tls_encryption_process.html" target="_blank" class="template-card" data-name="TLS 加密流程 可视化">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>TLS 加密流程可视化</h3>
-                        <p>展示 TLS/TLS 连接握手、证书校验与密钥协商的流程图与文字说明，便于理解加密通信。</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/proxy/protcol2sub.html" target="_blank" class="template-card" data-name="协议转订阅 代理">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>网络配置转换工具</h3>
-                        <p>单页应用实现的网络协议文本解析及配置生成器</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/proxy/v2ray.html" target="_blank" class="template-card" data-name="v2ray代理 节点">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>节点分享画板</h3>
-                        <p>采用精美表格及二维码渲染的网络节点分发共享页面</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/website/floating_nav_fullscreen_1.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="左侧悬浮导航满屏滚动特效 悬浮导航 全屏滚动 满屏 滑动 交互 动画" aria-labelledby="template-9">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/floating-nav.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-9">左侧悬浮导航满屏滚动特效</h2>
+            <p class="card-description">可折叠悬浮导航与四屏纵向切换，支持键盘、滚轮和触屏操作</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <div class="category">
-            <h2 class="category-title"><span class="emoji">📦</span>专业集成套件</h2>
-            <div class="template-grid">
-                <a href="./web/wuliu/1.html" target="_blank" class="template-card" data-name="物流信息展示 追踪">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>物流节点时间轴</h3>
-                        <p>通过动态的时间线追踪节点物流进度，样式清晰直观</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/gateway/nginx-gateway-example/dist/index.html" target="_blank" class="template-card"
-                    data-name="nginx动态示例 网关">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>Nginx 流量监测</h3>
-                        <p>网关请求日志、错误监控可视化的控制台参考</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/gateway/gateway-architecture-visualizer/dist/index.html" target="_blank"
-                    class="template-card" data-name="网关架构可视化器 拓扑">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>微服务拓扑画布</h3>
-                        <p>展现网关到各后端服务的动态架构联动关系演示系统</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-                <a href="./web/svg-view/dist/index.html" target="_blank" class="template-card" data-name="svg可视化工具 编辑">
-                    <div class="card-shine"></div>
-                    <div class="card-inner">
-                        <h3>SVG 实时引擎</h3>
-                        <p>代码编辑与图形渲染无缝联动的专业级 SVG 看板器</p>
-                        <div class="card-footer">
-                            <span class="view-btn">查看演示 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg></span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <a class="template-card" href="./web/website/book_page_turn_1.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="3D 书本翻页动画 3d 书本 翻页 动画 book page turn" aria-labelledby="template-10">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/book-redesign.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-10">3D 书本翻页动画 · 改版</h2>
+            <p class="card-description">点击封面开书，支持前后翻页和键盘操作</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        <footer>
-            <p>基于 HTML/CSS/JS 开发的纯粹前沿静态资源</p>
-            <p style="margin-top: 8px;">Explore source on <a href="https://github.com/tuonioooo/fast-web-template"
-                    target="_blank">GitHub</a> · Made with ❤️ using Fast Web Template</p>
-        </footer>
-    </div>
+        <a class="template-card" href="./web/art_card/艺术卡片字体_103.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="艺术卡片字体103 柔和色调" aria-labelledby="template-11">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/art-soft.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-11">柔和语境卡片</h2>
+            <p class="card-description">采用低饱和度柔和色调排版的艺术文字卡片，传达治愈与温馨</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-    <script>
-        // --- 1. 3D Hover Effect for Cards ---
-        const cards = document.querySelectorAll('.template-card');
+        <a class="template-card" href="./web/3d/3d-101.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="3d卡片动画生成器 交互" aria-labelledby="template-12">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-preview">
+            <img src="./assets/template-previews/card-3d-builder.webp" alt="" width="560" height="315" loading="lazy" decoding="async">
+          </div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-12">3D 动画实验室</h2>
+            <p class="card-description">一个实时编辑卡片 3D 透视、翻转入场属性并生成对应 CSS 代码的高级交互界面</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        cards.forEach(card => {
-            const shine = card.querySelector('.card-shine');
+        <a class="template-card" href="./web/art_card/沟通艺术卡片.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="沟通艺术卡片" aria-labelledby="template-13">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-13">沟通艺术卡片</h2>
+            <p class="card-description">深度沟通主题的艺术排版卡片，适合社交媒体引流及知识分享场景</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+        <a class="template-card" href="./web/art_card/艺术卡片字体_104.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="艺术卡片字体104 现代风格" aria-labelledby="template-14">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-14">现代先锋卡片</h2>
+            <p class="card-description">大字重现代简约主义风格，高对比度设计，呈现强烈的视觉冲击</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-                // Calculate rotation (max 8 degrees)
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -8;
-                const rotateY = ((x - centerX) / centerX) * 8;
+        <a class="template-card" href="./web/common_card/101.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="左右分割卡片" aria-labelledby="template-15">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-15">左右错落图文</h2>
+            <p class="card-description">优雅的留白与比例平衡，适用于人物介绍或产品特写片段展示</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        <a class="template-card" href="./web/common_card/102.html" target="_blank" rel="noopener noreferrer"
+          data-category="cards" data-name="上下分割卡片" aria-labelledby="template-16">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">卡片</p>
+            <h2 id="template-16">上下半景卡片</h2>
+            <p class="card-description">大画幅顶部配图与底部沉浸式文字区域，经典的内容阅读承载方式</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-                // Update shine background position
-                if (shine) {
-                    shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, transparent 60%)`;
-                }
-            });
+        <a class="template-card" href="./web/rank/hunli.html" target="_blank" rel="noopener noreferrer"
+          data-category="data" data-name="婚礼数据展示" aria-labelledby="template-17">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">数据与后台</p>
+            <h2 id="template-17">统计大屏模块</h2>
+            <p class="card-description">大数字搭配环形图与图例，适用于各种运营报告或统计页面展示</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                if (shine) {
-                    shine.style.background = `radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 60%)`;
-                }
-            });
-        });
+        <a class="template-card" href="./web/video_cover/video_cover_1.html" target="_blank" rel="noopener noreferrer"
+          data-category="covers" data-name="视频封面模板1 质感" aria-labelledby="template-18">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">视频封面</p>
+            <h2 id="template-18">Vlog 质感封面</h2>
+            <p class="card-description">适合生活类、摄影类 Vlog 使用的文字留白封面样式</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        // --- 2. Scroll Reveal Animation using IntersectionObserver ---
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        <a class="template-card" href="./web/video_cover/video_cover_2.html" target="_blank" rel="noopener noreferrer"
+          data-category="covers" data-name="视频封面模板2 酷炫" aria-labelledby="template-19">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">视频封面</p>
+            <h2 id="template-19">知识区酷炫封面</h2>
+            <p class="card-description">极具辨识度与点击欲望的字体排布，主打信息密度的传达</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+        <a class="template-card" href="./web/video_cover/video_cover.html" target="_blank" rel="noopener noreferrer"
+          data-category="covers" data-name="基础视频封面 通用" aria-labelledby="template-20">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">视频封面</p>
+            <h2 id="template-20">经典基础封面</h2>
+            <p class="card-description">居中对齐、高斯模糊衬底，最稳妥不易出错的通用构图方式</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        document.querySelectorAll('.category').forEach(category => {
-            observer.observe(category);
-        });
+        <a class="template-card" href="./web/video_cover/web1.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="基础网站模板1 landing page" aria-labelledby="template-21">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-21">Landing Page A</h2>
+            <p class="card-description">一款转化率导向的产品着陆页，带有清晰的英雄区与特性介绍</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        // --- 3. Search and Filter Logic ---
-        const searchInput = document.getElementById('searchInput');
-        const categories = document.querySelectorAll('.category');
+        <a class="template-card" href="./web/video_cover/website.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="基础网站模板2" aria-labelledby="template-22">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-22">Landing Page B</h2>
+            <p class="card-description">现代企业的标准官网框架，支持全屏滚动展示</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-        searchInput.addEventListener('input', function (e) {
-            const searchTerm = e.target.value.toLowerCase();
+        <a class="template-card" href="https://codepen.io/gokulramesh94/pen/rNeMyop" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="查看原版 CodePen 3D 书本翻页动画 3d 书本 翻页 动画 book page turn" aria-labelledby="template-23">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效 · 外部来源</p>
+            <h2 id="template-23">3D 书本翻页动画 · CodePen 原版</h2>
+            <p class="card-description">gokulramesh94 的 CodePen 原版。点击封面开书，拖动页角翻页。</p>
+            <div class="card-footer"><span class="view-btn">打开 CodePen <span aria-hidden="true">↗</span></span></div>
+          </div>
+        </a>
 
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name') || '';
-                const text = card.textContent.toLowerCase();
+        <a class="template-card" href="./web/website/blog_1.html" target="_blank" rel="noopener noreferrer"
+          data-category="sites" data-name="个人博客模板 blog" aria-labelledby="template-24">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">网站与动效</p>
+            <h2 id="template-24">极简写作空间</h2>
+            <p class="card-description">回归阅读本质的 Markdown 风格博客主页，排版优雅清爽</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-                if (name.includes(searchTerm) || text.includes(searchTerm)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+        <a class="template-card" href="./web/tools/email_generator/email_generator.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="邮箱账号生成器 工具 应用" aria-labelledby="template-25">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-25">邮箱账号生成器</h2>
+            <p class="card-description">批量生成邮箱账号与规则组合的实用工具页，适合测试数据与账号准备场景</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
 
-            // Hide empty categories and re-trigger animation if visible
-            categories.forEach(category => {
-                const visibleCards = category.querySelectorAll('.template-card:not(.hidden)');
-                if (visibleCards.length === 0 && searchTerm !== '') {
-                    category.style.display = 'none';
-                } else {
-                    category.style.display = 'block';
-                    // Re-add in-view if they matched
-                    if (!category.classList.contains('in-view')) {
-                        category.classList.add('in-view');
-                    }
-                }
-            });
-        });
-    </script>
+        <a class="template-card" href="./web/tools/codex_oauth2_sms/codex_oauth2_sms.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="国家验证码支持情况 工具 应用 短信" aria-labelledby="template-26">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-26">codex的oauth2短信验证码支持情况</h2>
+            <p class="card-description">用于查询不同国家或地区短信验证码支持范围的可视化工具页面</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/cloudflare/1.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="cloudflare模板" aria-labelledby="template-27">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-27">Cloudflare Worker 落地页</h2>
+            <p class="card-description">轻量级的边缘计算节点无服务器应用模板展示</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/proxy/protcol2sub.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="协议转订阅 代理" aria-labelledby="template-28">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-28">网络配置转换工具</h2>
+            <p class="card-description">单页应用实现的网络协议文本解析及配置生成器</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/proxy/v2ray.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="v2ray代理 节点" aria-labelledby="template-29">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-29">节点分享画板</h2>
+            <p class="card-description">采用精美表格及二维码渲染的网络节点分发共享页面</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/wuliu/1.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="物流信息展示 追踪" aria-labelledby="template-30">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-30">物流节点时间轴</h2>
+            <p class="card-description">通过动态的时间线追踪节点物流进度，样式清晰直观</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/gateway/nginx-gateway-example/dist/index.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="nginx动态示例 网关" aria-labelledby="template-31">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-31">Nginx 流量监测</h2>
+            <p class="card-description">网关请求日志、错误监控可视化的控制台参考</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/gateway/gateway-architecture-visualizer/dist/index.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="网关架构可视化器 拓扑" aria-labelledby="template-32">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-32">微服务拓扑画布</h2>
+            <p class="card-description">展现网关到各后端服务的动态架构联动关系演示系统</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+
+        <a class="template-card" href="./web/svg-view/dist/index.html" target="_blank" rel="noopener noreferrer"
+          data-category="tools" data-name="svg可视化工具 编辑" aria-labelledby="template-33">
+          <div class="card-shine" aria-hidden="true"></div>
+          <div class="card-inner">
+            <p class="card-tag">工具与应用</p>
+            <h2 id="template-33">SVG 实时引擎</h2>
+            <p class="card-description">代码编辑与图形渲染无缝联动的专业级 SVG 看板器</p>
+            <div class="card-footer"><span class="view-btn">查看演示 <span aria-hidden="true">→</span></span></div>
+          </div>
+        </a>
+      </section>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <h2>没有找到匹配的模板</h2>
+        <p>换个关键词，或查看其他分类。</p>
+        <button class="reset-button" id="reset-filters" type="button">清除筛选</button>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <span>Fast Web Template</span>
+      <a href="https://github.com/tuonioooo/fast-web-template" target="_blank" rel="noopener noreferrer">在 GitHub 查看源码 ↗</a>
+    </footer>
+  </div>
+
+  <script>
+    const searchForm = document.getElementById('template-search');
+    const search = document.getElementById('searchInput');
+    const filters = document.getElementById('filters');
+    const chips = [...filters.querySelectorAll('[data-filter]')];
+    const total = document.getElementById('template-total');
+    const resultCount = document.getElementById('result-count');
+    const gallery = document.getElementById('gallery');
+    const emptyState = document.getElementById('empty-state');
+    const normalize = (text) => text.normalize('NFKC').toLowerCase().trim();
+
+    const cards = [...gallery.querySelectorAll('.template-card')].map((link) => {
+      const text = ['.card-tag', 'h2', '.card-description']
+        .map((selector) => link.querySelector(selector).textContent);
+      return {
+        link,
+        category: link.dataset.category,
+        searchText: normalize([link.dataset.name, ...text].join(' '))
+      };
+    });
+
+    const counts = new Map([['all', cards.length]]);
+    for (const { category } of cards) {
+      counts.set(category, (counts.get(category) ?? 0) + 1);
+    }
+    for (const chip of chips) {
+      chip.querySelector('.chip-count').textContent = counts.get(chip.dataset.filter) ?? 0;
+    }
+
+    let selectedCategory = 'all';
+
+    function updateGallery() {
+      const terms = normalize(search.value).split(/\s+/).filter(Boolean);
+      let visibleCount = 0;
+      for (const { link, category, searchText } of cards) {
+        const matchesCategory = selectedCategory === 'all' || category === selectedCategory;
+        const matchesSearch = terms.every((term) => searchText.includes(term));
+        link.hidden = !(matchesCategory && matchesSearch);
+        if (!link.hidden) visibleCount += 1;
+      }
+
+      for (const chip of chips) {
+        chip.setAttribute('aria-pressed', String(chip.dataset.filter === selectedCategory));
+      }
+
+      gallery.hidden = visibleCount === 0;
+      emptyState.hidden = visibleCount > 0;
+      resultCount.textContent = '显示 ' + visibleCount + ' 个模板';
+      resultCount.classList.toggle('visually-hidden', selectedCategory === 'all' && terms.length === 0);
+    }
+
+    for (const chip of chips) {
+      chip.addEventListener('click', () => {
+        selectedCategory = chip.dataset.filter;
+        updateGallery();
+      });
+    }
+
+    searchForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      updateGallery();
+    });
+    search.addEventListener('input', updateGallery);
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      selectedCategory = 'all';
+      search.value = '';
+      updateGallery();
+      search.focus();
+    });
+
+    total.textContent = cards.length + ' 个模板 · ';
+    total.hidden = false;
+    searchForm.hidden = false;
+    filters.hidden = false;
+    updateGallery();
+  </script>
 </body>
-
 </html>
