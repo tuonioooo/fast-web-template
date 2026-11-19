@@ -81,6 +81,7 @@ web模版合集，包含各种卡片、网站、小程序、app等静态模版�
 | 网站模板 | [web1.html](./web/video_cover/web1.html) | 基础网站模板1 |
 | 网站模板 | [website.html](./web/video_cover/website.html) | 基础网站模板2 |
 | 交互特效 | [floating_nav_fullscreen_1.html](./web/website/floating_nav_fullscreen_1.html) | 左侧悬浮导航满屏滚动特效：可折叠悬浮导航与四屏纵向切换，支持键盘、滚轮和触屏操作 |
+| 交互特效 | [book_page_turn_classic.html](./web/website/book_page_turn_classic.html) | 3D 书本翻页动画经典版：保留原版布局，点封面开书，拖动页角翻页 |
 | 交互特效 | [book_page_turn_1.html](./web/website/book_page_turn_1.html) | 3D 书本翻页动画：点击封面开书，支持前后翻页和键盘操作 |
 | 博客模板 | [blog_1.html](./web/website/blog_1.html) | 个人博客模板1 |
 | 应用模板 | [掌控习惯_106.html](./app/掌控习惯_106.html) | 掌控习惯应用页面 |
